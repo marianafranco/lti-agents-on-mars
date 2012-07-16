@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
+
+<organisational-specification 
+
+    id="agents_on_mars"
+    os-version="0.1"
+  
+    xmlns='http://moise.sourceforge.net/os'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://moise.sourceforge.net/os
+                        http://moise.sourceforge.net/xml/os.xsd' >
+    
+    <structural-specification>
+        <role-definitions>
+            <role id="marcian" />
+            <role id="explorer"> <extends role="marcian"/> </role>
+            <role id="inspector"> <extends role="marcian"/> </role>
+            <role id="repairer"> <extends role="marcian"/> </role>
+            <role id="saboteur"> <extends role="marcian"/> </role>
+            <role id="sentinel"> <extends role="marcian"/> </role>
+        </role-definitions>
+
+        <group-specification id="team" >
+            <roles>
+            	<role id="marcian" min="0" max="20" />
+                <role id="explorer" min="0" max="20" />
+                <role id="inspector" min="0" max="20" />
+                <role id="repairer" min="0" max="20" />
+                <role id="saboteur" min="0" max="20" />
+                <role id="sentinel" min="0" max="20" />
+            </roles>
+            <links>
+                <link from="marcian" to="marcian" type="communication"
+                      scope="intra-group" extends-subgroups="true" bi-dir="true"/>
+            </links>
+        </group-specification>
+    </structural-specification>
+
+
+    <functional-specification>
+        <scheme id="marsSch">
+            <goal id="win" ds="Win the Multiagent contest">
+                <plan operator="parallel" >
+                	 <goal id="explorer_goal"	ds="Analyse the water well of new vertexs"/>
+                	 <goal id="inspector_goal"	ds="Analyse the water well of new vertexs"/>
+                	 <goal id="repairer_goal"	ds="Analyse the water well of new vertexs"/>
+                	 <goal id="saboteur_goal"	ds="Analyse the water well of new vertexs"/>
+                	 <goal id="sentinel_goal"	ds="Analyse the water well of new vertexs"/>
+                	 
+<!--                      <goal id="probe"	ds="Analyse the water well of new vertexs"/> -->
+<!--                      <goal id="repair" 	ds="Repair damaged teammates"/> -->
+<!--                      <goal id="attack"	ds="Attack opponents"/> -->
+<!--                      <goal id="defend"	ds="Defend the conquered vertexs"/> -->
+<!--                      <goal id="inspect"	ds="Inspect opponents"/> -->
+                </plan>
+            </goal>
+
+            <mission id="mExplorer" min="0" max="20">
+                <goal id="explorer_goal"/>               
+            </mission>
+
+			<mission id="mRepairer" min="0" max="20">
+                <goal id="repairer_goal"/>               
+            </mission>
+
+            <mission id="mSaboteur" min="0" max="20">
+                <goal id="saboteur_goal"/>               
+            </mission>
+
+			<mission id="mSentinel" min="0" max="20">
+                <goal id="sentinel_goal"/>               
+            </mission>
+
+			<mission id="mInspector" min="0" max="20">
+                <goal id="inspector_goal"/>               
+            </mission>
+        </scheme>
+    </functional-specification>
+
+
+    <normative-specification>
+        <norm id = "n1"	  type="obligation" 
+                          role="explorer" mission="mExplorer" />
+
+        <norm id = "n2"   type="obligation" 
+                          role="inspector" mission="mInspector" />
+
+        <norm id = "n3"   type="obligation" 
+                          role="repairer" mission="mRepairer" />
+
+        <norm id = "n4"   type="obligation" 
+                          role="saboteur" mission="mSaboteur" />
+
+        <norm id = "n5"   type="obligation"
+                          role="sentinel" mission="mSentinel" />
+
+    </normative-specification>
+
+</organisational-specification>
+

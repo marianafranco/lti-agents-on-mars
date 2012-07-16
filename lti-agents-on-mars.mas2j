@@ -1,0 +1,29 @@
+/*
+  LTI Agents on mars - Project for the  Multi-Agent Programming Contest 2012.
+  
+  Authors: Mariana Ramos Franco
+*/
+
+MAS lti_agents_on_mars {
+   infrastructure: Centralised
+
+   environment: env.MarsEnv("infrastructure","protocol(rmi)","service(rmi,'localhost:21000')")	// the environment is cartago
+
+   agents:
+		marcian		#20
+					agentArchClass arch.MarcianArch		// agents have a customised architecture
+					beliefBaseClass jason.bb.IndexedBB("deadline(_)", "lastAction(_)", "lastActionParam(_)",
+					"lastActionResult(_)", "lastStepScore(_)", "money(_)", "role(_)", "score(_)", "step(_)",
+					"timestamp(_)", "visibleEdge(key,key)", "visibleEntity(key,_,_,_)",
+					"visibleVertex(key,_)", "zoneScore(_)", "zonesScore(_)", "probedVertex(key,_)",
+					"surveyedEdge(key,key,_)", "energy(_)", "position(_)", "coworkerPosition(key,_)",
+					"coworkerRole(key,_)", "target(_)", "health(_)", "need_help(key)", "help_target(key,_)",
+					"maxEnergyDisabled(_)", "maxEnergy(_)", "maxHealth(_)",
+					"inspectedEntity(key,_,_,_,_,_,_,_,_,_)");
+
+   classpath: "lib/moise.jar";		// moise: where the artifacts are included
+   			  "lib/c4jason.jar";	// jason-cartago integration
+   			  "lib/cartago.jar";	// cartago: platform for artifacts
+
+   aslSourcePath: "src/asl";
+}
