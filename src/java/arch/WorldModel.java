@@ -39,8 +39,7 @@ public class WorldModel {
 		List<Literal> newPercepts = new ArrayList<Literal>();
 		for (Literal percept : percepts) {
 			String functor = percept.getFunctor();
-			switch (functor) {
-			case Percept.visibleVertex:
+			if (functor.equals(Percept.visibleVertex)) {
 				if (graph.getVertices().size() < graph.getMaxNumOfVertices()) {
 					String vertexName = percept.getTerm(0).toString();
 					int id = Integer.parseInt(vertexName.replace("vertex", ""));
@@ -50,8 +49,7 @@ public class WorldModel {
 						newPercepts.add(percept);
 					}
 				}
-				break;
-			case Percept.probedVertex:
+			} else if (functor.equals(Percept.probedVertex)) {
 				String vertexName = percept.getTerm(0).toString();
 				int id = Integer.parseInt(vertexName.replace("vertex", ""));
 				int vValue = (int) ((NumberTerm) percept.getTerm(1)).solve();
@@ -59,8 +57,7 @@ public class WorldModel {
 					graph.addVertexValue(id, vValue);
 					newPercepts.add(percept);
 				}
-				break;
-			case Percept.visibleEdge:
+			} else if (functor.equals(Percept.visibleEdge)) {
 				if (graph.getEdges().size() < graph.getMaxNumOfEdges()) {
 					String vertex1 = percept.getTerm(0).toString();
 					String vertex2 = percept.getTerm(1).toString();
@@ -71,8 +68,7 @@ public class WorldModel {
 						newPercepts.add(percept);
 					}
 				}
-				break;
-			case Percept.surveyedEdge:
+			} else if (functor.equals(Percept.surveyedEdge)) {
 				String vertex1 = percept.getTerm(0).toString();
 				String vertex2 = percept.getTerm(1).toString();
 				int v1 = Integer.parseInt(vertex1.replace("vertex", ""));
@@ -82,16 +78,13 @@ public class WorldModel {
 					graph.addEdgeValue(v1, v2, eValue);
 					newPercepts.add(percept);
 				}
-				break;
-			case Percept.vertices:
+			} else if (functor.equals(Percept.vertices)) {
 				int vertices = (int) ((NumberTerm) percept.getTerm(0)).solve();
 				graph.setMaxNumOfVertices(vertices);
-				break;
-			case Percept.edges:
+			} else if (functor.equals(Percept.edges)) {
 				int edges = (int) ((NumberTerm) percept.getTerm(0)).solve();
 				graph.setMaxNumOfEdges(edges);
-				break;
-			case Percept.visibleEntity:
+			} else if (functor.equals(Percept.visibleEntity)) {
 				String name = percept.getTerm(0).toString();
 				String vertex = percept.getTerm(1).toString();
 				int v = Integer.parseInt(vertex.replace("vertex", ""));
@@ -102,8 +95,7 @@ public class WorldModel {
 					addOpponent(name, v, team, status);
 					newPercepts.add(percept);
 				}
-				break;
-			case Percept.coworkerPosition:
+			} else if (functor.equals(Percept.coworkerPosition)) {
 				String aName = percept.getTerm(0).toString();
 				String position = percept.getTerm(1).toString();
 				position = position.replace("vertex", "");
@@ -112,8 +104,7 @@ public class WorldModel {
 					addCoworker(aName, pos);
 					newPercepts.add(percept);
 				}
-				break;
-			case Percept.coworkerRole:
+			} else if (functor.equals(Percept.coworkerRole)) {
 				String agName = percept.getTerm(0).toString();
 				String role = percept.getTerm(1).toString();
 				role = role.replaceAll("\"", "");
@@ -121,8 +112,7 @@ public class WorldModel {
 				e.setRole(role);
 				coworkers.put(agName, e);
 				newPercepts.add(percept);
-				break;
-			case Percept.position:
+			} else if (functor.equals(Percept.position)) {
 				String myPosition = percept.getTerm(0).toString();
 				myPosition = myPosition.replace("vertex", "");
 				int myPos = Integer.parseInt(myPosition);
@@ -136,8 +126,7 @@ public class WorldModel {
 					myVertex.addVisited();
 					newPercepts.add(percept);
 				}
-				break;
-			case Percept.saboteur:
+			} else if (functor.equals(Percept.saboteur)) {
 				String saboteurName = percept.getTerm(0).toString();
 				saboteurName = saboteurName.replaceAll("\"", "");
 				String saboteurPosition = percept.getTerm(1).toString();
@@ -155,8 +144,7 @@ public class WorldModel {
 					graph.addVertex(saboteurVtx);
 				}
 				saboteur.setVertex(saboteurVtx);
-				break;
-			case Percept.inspectedEntity:
+			} else if (functor.equals(Percept.inspectedEntity)) {
 				String entityName = percept.getTerm(0).toString();
 				String entityTeam = percept.getTerm(1).toString();
 				entityTeam = entityTeam.replaceAll("\"", "");
@@ -194,8 +182,7 @@ public class WorldModel {
 				entity.update(entityEnergy, maxEnergy, entityHealth, maxHealth,
 						entityStrenght, entityVisibility);
 				newPercepts.add(percept);
-				break;
-			default:
+			} else {
 				newPercepts.add(percept);
 			}
 		}
