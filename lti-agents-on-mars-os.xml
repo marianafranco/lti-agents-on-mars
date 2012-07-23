@@ -44,7 +44,7 @@
             <goal id="win" ds="Win the Multiagent contest">
                 <plan operator="parallel" >
                 	 <goal id="explorer_goal"	ds="Analyse the water well of new vertexs"/>
-                	 <goal id="inspector_goal"	ds="Analyse the water well of new vertexs"/>
+                	 <goal id="inspector_goal"	ds="todo desc"/>
                 	 <goal id="repairer_goal"	ds="Analyse the water well of new vertexs"/>
                 	 <goal id="saboteur_goal"	ds="Analyse the water well of new vertexs"/>
                 	 <goal id="sentinel_goal"	ds="Analyse the water well of new vertexs"/>
