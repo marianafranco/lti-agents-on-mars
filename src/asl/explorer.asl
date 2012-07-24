@@ -7,7 +7,7 @@ is_probe_goal  :- position(MyV) & not jia.is_probed_vertex(MyV) & role(explorer)
 
 /* Initial goals */
 
-+!explorer_goal
++!explorer_goal1
 	<-	.print("Starting explorer_goal");
 			!select_explorer_goal.
 

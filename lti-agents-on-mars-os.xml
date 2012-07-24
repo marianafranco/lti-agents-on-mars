@@ -6,20 +6,30 @@
 
     id="agents_on_mars"
     os-version="0.1"
-  
+
     xmlns='http://moise.sourceforge.net/os'
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:schemaLocation='http://moise.sourceforge.net/os
                         http://moise.sourceforge.net/xml/os.xsd' >
-    
+
     <structural-specification>
         <role-definitions>
             <role id="marcian" />
-            <role id="explorer"> <extends role="marcian"/> </role>
-            <role id="inspector"> <extends role="marcian"/> </role>
-            <role id="repairer"> <extends role="marcian"/> </role>
-            <role id="saboteur"> <extends role="marcian"/> </role>
-            <role id="sentinel"> <extends role="marcian"/> </role>
+            <role id="explorer">
+            	<extends role="marcian"/>
+			</role>
+            <role id="inspector">
+            	<extends role="marcian"/>
+			</role>
+            <role id="repairer">
+            	<extends role="marcian"/>
+			</role>
+            <role id="saboteur">
+            	<extends role="marcian"/>
+			</role>
+            <role id="sentinel">
+            	<extends role="marcian"/>
+			</role>
         </role-definitions>
 
         <group-specification id="team" >
@@ -43,7 +53,8 @@
         <scheme id="marsSch">
             <goal id="win" ds="Win the Multiagent contest">
                 <plan operator="parallel" >
-                	 <goal id="explorer_goal"	ds="Analyse the water well of new vertexs"/>
+                	 <goal id="explorer_goal1"	ds="Explore the graph"/>
+                	 <goal id="explorer_goal2"	ds="Explore the team zone"/>
                 	 <goal id="inspector_goal"	ds="todo desc"/>
                 	 <goal id="repairer_goal"	ds="Analyse the water well of new vertexs"/>
                 	 <goal id="saboteur_goal"	ds="Analyse the water well of new vertexs"/>
@@ -57,8 +68,11 @@
                 </plan>
             </goal>
 
-            <mission id="mExplorer" min="0" max="20">
-                <goal id="explorer_goal"/>               
+            <mission id="mExplorer1" min="2" max="2">
+                <goal id="explorer_goal1"/>               
+            </mission>
+            <mission id="mExplorer2" min="2" max="2">
+                <goal id="explorer_goal2"/>               
             </mission>
 
 			<mission id="mRepairer" min="0" max="20">
@@ -81,16 +95,18 @@
 
 
     <normative-specification>
-        <norm id = "n1"	  type="obligation" 
-                          role="explorer" mission="mExplorer" />
-
-        <norm id = "n2"   type="obligation" 
-                          role="inspector" mission="mInspector" />
+        <norm id = "n1"	  type="permission"
+                          role="explorer" mission="mExplorer1" />
+		<norm id = "n2"	  type="permission" 
+                          role="explorer" mission="mExplorer2" />
 
         <norm id = "n3"   type="obligation" 
-                          role="repairer" mission="mRepairer" />
+                          role="inspector" mission="mInspector" />
 
         <norm id = "n4"   type="obligation" 
+                          role="repairer" mission="mRepairer" />
+
+        <norm id = "n5"   type="obligation" 
                           role="saboteur" mission="mSaboteur" />
 
         <norm id = "n5"   type="obligation"

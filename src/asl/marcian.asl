@@ -3,6 +3,7 @@
 // include role plans for agents
 { include("common.asl") }
 { include("explorer.asl") }
+{ include("new_explorer.asl") }
 { include("inspector.asl") }
 { include("repairer.asl") }
 { include("saboteur.asl") }
@@ -68,6 +69,16 @@
 
 // plan to start to play a role
 +!playRole
+	:	role("Explorer") & .my_name(Ag)
+	<- 	jia.to_lower_case("Explorer",S);
+			-role(R);
+		  +role(S);
+			adoptRole(S)[artifact_id(GrArtId)];
+			!check_play(Ag,S,_);
+			.print("I'll play role ",S);
+			!commit_explorer_mission.
+
++!playRole
 	:	role(R) & .my_name(Ag)
 	<- 	jia.to_lower_case(R,S);
 		  -role(R);
@@ -108,6 +119,22 @@
 
 +!check_commit_mission(M,S)
 	<-	.wait({+commitment(_,_,_)},200,_);
+//			.print("[ERROR] Could not commit to ", M).
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(Mission)[artifact_name(S)];
 			!check_commit_mission(M,S).
+
+
++!commit_explorer_mission
+	:	goalState("sch1",_,_,_,_)
+	<-	.print("I will try to commit to mExplorer1");
+			commitMission(mExplorer1)[artifact_name(Scheme)];
+			!check_commit_mission(mExplorer1,Scheme).
++!commit_explorer_mission
+	<-	.wait({+goalState("sch1",_,_,_,_)},200,_);
+			!commit_explorer_mission.
+-!commit_explorer_mission
+	<-	.print("I could not commit to mExplorer1");
+			.print("I will try to commit to mExplorer2");
+			commitMission(mExplorer2)[artifact_name(Scheme)];
+			!check_commit_mission(mExplorer2,Scheme).
