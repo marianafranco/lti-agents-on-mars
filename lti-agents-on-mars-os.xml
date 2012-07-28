@@ -53,65 +53,77 @@
         <scheme id="marsSch">
             <goal id="win" ds="Win the Multiagent contest">
                 <plan operator="parallel" >
-                	 <goal id="explorer_goal1"	ds="Explore the graph"/>
-                	 <goal id="explorer_goal2"	ds="Explore the team zone"/>
-                	 <goal id="inspector_goal"	ds="todo desc"/>
-                	 <goal id="repairer_goal"	ds="Analyse the water well of new vertexs"/>
-                	 <goal id="saboteur_goal"	ds="Analyse the water well of new vertexs"/>
-                	 <goal id="sentinel_goal"	ds="Analyse the water well of new vertexs"/>
-                	 
-<!--                      <goal id="probe"	ds="Analyse the water well of new vertexs"/> -->
-<!--                      <goal id="repair" 	ds="Repair damaged teammates"/> -->
-<!--                      <goal id="attack"	ds="Attack opponents"/> -->
-<!--                      <goal id="defend"	ds="Defend the conquered vertexs"/> -->
-<!--                      <goal id="inspect"	ds="Inspect opponents"/> -->
+					<goal id="explore_goal"			ds="Explore the graph"/>
+					<goal id="occupy_zone_goal"		ds="Occupy the best zone of Mars"/>
+					<goal id="repair_goal"			ds="Repair damaged teammates"/>
+					<goal id="sabotage_goal"		ds="Sabotage the opponents"/>
+					<goal id="help_sabotage_goal"	ds="Help to sabotage the opponents"/>
+					<goal id="inspect_goal"			ds="Inspect all opponents"/>
+					<goal id="coordinate_goal"		ds="Coordinate the teammates to occupy the best zone of Mars"/>
                 </plan>
             </goal>
 
-            <mission id="mExplorer1" min="2" max="2">
-                <goal id="explorer_goal1"/>               
-            </mission>
-            <mission id="mExplorer2" min="2" max="2">
-                <goal id="explorer_goal2"/>               
+			<mission id="mExplore" min="0" max="2">
+                <goal id="explore_goal"/>
             </mission>
 
-			<mission id="mRepairer" min="0" max="20">
-                <goal id="repairer_goal"/>               
+            <mission id="mOccupyZone" min="8" max="20">
+                <goal id="occupy_zone_goal"/>
             </mission>
 
-            <mission id="mSaboteur" min="0" max="20">
-                <goal id="saboteur_goal"/>               
+			<mission id="mRepair" min="4" max="4">
+                <goal id="repair_goal"/>
             </mission>
 
-			<mission id="mSentinel" min="0" max="20">
-                <goal id="sentinel_goal"/>               
+            <mission id="mSabotage" min="1" max="1">
+                <goal id="sabotage_goal"/>
             </mission>
 
-			<mission id="mInspector" min="0" max="20">
-                <goal id="inspector_goal"/>               
+			<mission id="mSentinelSabotage" min="1" max="1">
+                <goal id="help_sabotage_goal"/>
+            </mission>
+
+			<mission id="mInspect" min="0" max="1">
+                <goal id="inspect_goal"/>
+            </mission>
+
+			<mission id="mCoordinate" min="1" max="1">
+                <goal id="coordinate_goal"/>               
             </mission>
         </scheme>
     </functional-specification>
 
 
     <normative-specification>
-        <norm id = "n1"	  type="permission"
-                          role="explorer" mission="mExplorer1" />
-		<norm id = "n2"	  type="permission" 
-                          role="explorer" mission="mExplorer2" />
+		<norm id = "n1"	  type="permission"
+                          role="explorer" mission="mExplore" />
 
-        <norm id = "n3"   type="obligation" 
-                          role="inspector" mission="mInspector" />
+		<norm id = "n2"	  type="permission"
+                          role="explorer" mission="mOccupyZone" />
 
-        <norm id = "n4"   type="obligation" 
-                          role="repairer" mission="mRepairer" />
+		<norm id = "n3"   type="obligation"
+                          role="repairer" mission="mRepair" />
 
-        <norm id = "n5"   type="obligation" 
-                          role="saboteur" mission="mSaboteur" />
+		<norm id = "n4"   type="permission"
+                          role="saboteur" mission="mSabotage" />
 
-        <norm id = "n5"   type="obligation"
-                          role="sentinel" mission="mSentinel" />
+		<norm id = "n5"   type="permission" 
+                          role="saboteur" mission="mOccupyZone" />
 
+		<norm id = "n6"   type="permission"
+                          role="sentinel" mission="mSentinelSabotage" />
+
+		<norm id = "n7"   type="permission"
+                          role="sentinel" mission="mCoordinate" />
+
+		<norm id = "n8"   type="permission"
+                          role="sentinel" mission="mOccupyZone" />
+
+        <norm id = "n9"   type="permission" 
+                          role="inspector" mission="mInspect" />
+
+		<norm id = "n10"  type="permission" 
+                          role="inspector" mission="mOccupyZone" />
     </normative-specification>
 
 </organisational-specification>

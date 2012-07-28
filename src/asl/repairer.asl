@@ -9,8 +9,8 @@ is_repair_goal						:-	need_help(Ag) & jia.agent_position(Ag,Pos) & position(Pos
 
 /* Initial goals */
 
-+!repairer_goal
-	<-	.print("Starting repairer_goal"); 
++!repair_goal
+	<-	.print("Starting repair goal"); 
 			!select_repairer_goal.
 
 

@@ -9,9 +9,15 @@ is_attack_repairer_goal	:-	jia.found_active_repairer.
 
 /* Initial goals */
 
-+!saboteur_goal
-	<- 	.print("Starting saboteur_goal");
++!sabotage_goal
+	<- 	.print("Starting sabotage goal");
 			!select_saboteur_goal.
+
++!occupy_zone_goal
+	:	role(saboteur)
+	<-	.print("Starting occupy_zone goal");
+			!select_saboteur_goal.
+
 
 +!select_saboteur_goal
 	:	is_call_help_goal

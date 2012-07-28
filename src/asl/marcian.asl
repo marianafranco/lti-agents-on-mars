@@ -69,23 +69,14 @@
 
 // plan to start to play a role
 +!playRole
-	:	role("Explorer") & .my_name(Ag)
-	<- 	jia.to_lower_case("Explorer",S);
-			-role(R);
-		  +role(S);
-			adoptRole(S)[artifact_id(GrArtId)];
-			!check_play(Ag,S,_);
-			.print("I'll play role ",S);
-			!commit_explorer_mission.
-
-+!playRole
 	:	role(R) & .my_name(Ag)
 	<- 	jia.to_lower_case(R,S);
 		  -role(R);
 		  +role(S);
 			adoptRole(S)[artifact_id(GrArtId)];
 			!check_play(Ag,S,_);
-			.print("I'll play role ",S).
+			.print("I'll play role ",S);
+			!commit_to_mission.
 
 -!playRole
 	<- 	.wait(100);
@@ -98,6 +89,79 @@
 	<- 	.wait({+play(_,_,_)},200,_);
 			adoptRole(R)[artifact_id(GrArtId)];
 			!check_play(A,R,_).
+
+
+// plans to commit to missions
+
+// explorer
++!commit_to_mission
+	:	goalState("sch1",_,_,_,_) & role(explorer)
+	<-	.print("I will try to commit to mExplore");
+			commitMission(mExplore)[artifact_name(Scheme)];
+			!check_commit_mission(mExplore,Scheme).
+-!commit_to_mission
+	: role(explorer)
+	<-	.print("I could not commit to mExplorer");
+			.print("I will try to commit to mOccupyZone");
+			commitMission(mOccupyZone)[artifact_name(Scheme)];
+			!check_commit_mission(mOccupyZone,Scheme).
+
+// repairer
++!commit_to_mission
+	:	role(repairer).		// repairers will commit to missions through the obligations handler
+
+// saboteur
++!commit_to_mission
+	:	goalState("sch1",_,_,_,_) & role(saboteur)
+	<-	.print("I will try to commit to mSabotage");
+			commitMission(mSabotage)[artifact_name(Scheme)];
+			!check_commit_mission(mSabotage,Scheme).
+-!commit_to_mission
+	: role(saboteur)
+	<-	.print("I could not commit to mSabotage");
+			.print("I will try to commit to mOccupyZone");
+			commitMission(mOccupyZone)[artifact_name(Scheme)];
+			!check_commit_mission(mOccupyZone,Scheme).
+
+// sentinel
++!commit_to_mission
+	:	goalState("sch1",_,_,_,_) & role(sentinel)
+	<-	.print("I will try to commit to mCoordinate");
+			commitMission(mCoordinate)[artifact_name(Scheme)];
+			!check_commit_mission(mCoordinate,Scheme).
+-!commit_to_mission
+	: role(sentinel)
+	<-	.print("I could not commit to mCoordinate");
+			!commit_to_sabotage_mission.
++!commit_to_sabotage_mission
+	:	role(sentinel)
+	<-	.print("I will try to commit to mSentinelSabotage");
+			commitMission(mSentinelSabotage)[artifact_name(Scheme)];
+			!check_commit_mission(mSentinelSabotage,Scheme).
+-!commit_to_sabotage_mission
+	: role(sentinel)
+	<-	.print("I could not commit to mSentinelSabotage");
+			.print("I will try to commit to mOccupyZone");
+			commitMission(mOccupyZone)[artifact_name(Scheme)];
+			!check_commit_mission(mOccupyZone,Scheme).
+
+// inspector
++!commit_to_mission
+	:	goalState("sch1",_,_,_,_) & role(inspector)
+	<-	.print("I will try to commit to mInspect");
+			commitMission(mInspect)[artifact_name(Scheme)];
+			!check_commit_mission(mInspect,Scheme).
+-!commit_to_mission
+	: role(inspector)
+	<-	.print("I could not commit to mInspect");
+			.print("I will try to commit to mOccupyZone");
+			commitMission(mOccupyZone)[artifact_name(Scheme)];
+			!check_commit_mission(mOccupyZone,Scheme).
+
++!commit_to_mission
+	<-	.wait({+goalState("sch1",_,_,_,_)},200,_);
+			!commit_to_mission.
+
 
 // plans to handle obligations
 +obligation(Ag,Norm,committed(Ag,Mission,Scheme),Deadline)
@@ -113,6 +177,7 @@
       goalAchieved(Goal)[artifact_name(Scheme)].
 
 
+// check commitment to mission 
 +!check_commit_mission(M,S)
 	:	.my_name(A) & commitment(A,M,_)
 	<-	.print("OK!").
@@ -123,18 +188,3 @@
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(Mission)[artifact_name(S)];
 			!check_commit_mission(M,S).
-
-
-+!commit_explorer_mission
-	:	goalState("sch1",_,_,_,_)
-	<-	.print("I will try to commit to mExplorer1");
-			commitMission(mExplorer1)[artifact_name(Scheme)];
-			!check_commit_mission(mExplorer1,Scheme).
-+!commit_explorer_mission
-	<-	.wait({+goalState("sch1",_,_,_,_)},200,_);
-			!commit_explorer_mission.
--!commit_explorer_mission
-	<-	.print("I could not commit to mExplorer1");
-			.print("I will try to commit to mExplorer2");
-			commitMission(mExplorer2)[artifact_name(Scheme)];
-			!check_commit_mission(mExplorer2,Scheme).

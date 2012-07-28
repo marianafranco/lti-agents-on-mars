@@ -8,8 +8,13 @@ is_inspect_goal	:- jia.is_inspect_goal.
 
 /* Initial goals */
 
-+!inspector_goal
-	<-	.print("Starting inspector_goal");
++!inspect_goal
+	<-	.print("Starting inspect goal");
+			!select_inspector_goal.
+
++!occupy_zone_goal
+	:	role(inspector)
+	<-	.print("Starting occupy_zone goal");
 			!select_inspector_goal.
 
 

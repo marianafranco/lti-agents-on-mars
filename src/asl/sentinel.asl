@@ -8,8 +8,17 @@
 
 /* Initial goals */
 
-+!sentinel_goal
-	<-	.print("Starting sentinel_goal"); 
++!coordinate_goal
+	<-	.print("Starting coordinate goal"); 
+			!select_sentinel_goal.
+
++!help_sabotage_goal
+	<- 	.print("Starting sabotage goal");
+			!select_sentinel_goal.
+
++!occupy_zone_goal
+	:	role(sentinel)
+	<-	.print("Starting occupy_zone goal");
 			!select_sentinel_goal.
 
 
