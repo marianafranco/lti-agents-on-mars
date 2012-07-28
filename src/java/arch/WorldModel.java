@@ -104,13 +104,18 @@ public class WorldModel {
 					addCoworker(aName, pos);
 					newPercepts.add(percept);
 				}
-			} else if (functor.equals(Percept.coworkerRole)) {
-				String agName = percept.getTerm(0).toString();
+			} else if (functor.equals(Percept.coworker)) {
+				String aName = percept.getTerm(0).toString();
 				String role = percept.getTerm(1).toString();
-				role = role.replaceAll("\"", "");
-				Entity e = new Entity(agName);
+				String mission = percept.getTerm(2).toString();
+				Entity e = null;
+				if (coworkers.containsKey(aName)) {
+					e = coworkers.get(aName);
+				} else {
+					e = new Entity(aName);
+				}
 				e.setRole(role);
-				coworkers.put(agName, e);
+				e.setMission(mission);
 				newPercepts.add(percept);
 			} else if (functor.equals(Percept.position)) {
 				String myPosition = percept.getTerm(0).toString();
@@ -546,6 +551,15 @@ public class WorldModel {
 		return agents;
 	}
 
+	public List<Entity> getCoworkersToOccupyZone() {
+		List<Entity> agents = new ArrayList<Entity>();
+		for (Entity e : coworkers.values()) {
+			if (e.getMission().equals("mOccupyZone")) {
+				agents.add(e);
+			}
+		}
+		return agents;
+	}
 
 	/* Getters and Setters */
 

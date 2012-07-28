@@ -59,9 +59,9 @@ public class agents_coordination extends DefaultInternalAction {
 				return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 			}
 
-			HashMap<String, Entity> coworkers = model.getCoworkers();	// TODO order by agent type
+			List<Entity> coworkers = model.getCoworkersToOccupyZone();	// TODO order by agent type
 
-			for (Entity coworker : coworkers.values()) {
+			for (Entity coworker : coworkers) {
 				Vertex target = null;
 				Vertex agentPosition = coworker.getVertex();
 				if (bestZone.contains(agentPosition)) {	// the agent is part of the best zone

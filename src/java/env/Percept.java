@@ -31,6 +31,8 @@ public class Percept {
 
 	/* Team Percepts */
 	public final static String coworkerPosition = "coworkerPosition";
-	public final static String coworkerRole = "coworkerRole";
+	public final static String coworker = "coworker";
 	public final static String saboteur = "saboteur";
+
+	public final static String MISSION_UNKNOWN = "unknown";
 }

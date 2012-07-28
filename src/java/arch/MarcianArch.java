@@ -78,14 +78,6 @@ public class MarcianArch extends CAgentArch {
         				// add percept to the base
         				getTS().getAg().addBel(percept);
         			}
-        		} else if (p.equals("role")) {
-        				Message m = new Message("tell", null, null,
-        						Percept.coworkerRole + "(" + getAgName() + "," +
-        								percept.getTerm(0).toString() + ")");
-        				broadcast(m);
-
-        				// add percept to the base
-        				getTS().getAg().addBel(percept);
         		} else {
         			// TODO maybe not all percepts need to be added to the base
             		// add percept to the base

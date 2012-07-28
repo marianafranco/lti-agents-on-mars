@@ -15,6 +15,7 @@ public class Entity {
 	private String team = Percept.TEAM_UNKNOWN;
 	private String status = Percept.STATUS_UNKNOWN;
 	private String role = Percept.ROLE_UNKNOWN;
+	private String mission = Percept.MISSION_UNKNOWN;
 
 	private boolean inspected = false;
 	private int energy;
@@ -101,6 +102,14 @@ public class Entity {
 
 	public void setRole(String role) {
 		this.role = role.toLowerCase();
+	}
+
+	public String getMission() {
+		return mission;
+	}
+
+	public void setMission(String mission) {
+		this.mission = mission;
 	}
 
 	public boolean isInspected() {
