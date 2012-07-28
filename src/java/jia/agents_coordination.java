@@ -10,7 +10,6 @@ import jason.asSyntax.Term;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import model.Entity;

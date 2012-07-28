@@ -26,6 +26,7 @@ public class WorldModel {
 	private HashMap<String, Entity> coworkers;
 
 	public final static String myTeam = "A";
+	public final static int numOfOpponents = 20;
 
 	private Vertex myVertex;
 
@@ -443,6 +444,16 @@ public class WorldModel {
 		return false;
 	}
 
+	public boolean hasOpponentWithoutRoleOnVertex(Vertex v) {
+		for (Entity opponent : opponents.values()) {
+			if (opponent.getVertex().equals(v)
+					&& opponent.getRole().equals(Percept.ROLE_UNKNOWN)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean hasActiveOpponentOnVertex(int v) {
 		for (Entity opponent : opponents.values()) {
 			if (opponent.getVertex().getId() == v
@@ -551,6 +562,16 @@ public class WorldModel {
 		return agents;
 	}
 
+	public List<Entity> getUninspectedOpponents() {
+		List<Entity> agents = new ArrayList<Entity>();
+		for (Entity opponent : opponents.values()) {
+			if (opponent.getRole().equals(Percept.ROLE_UNKNOWN)) {
+				agents.add(opponent);
+			}
+		}
+		return agents;
+	}
+
 	public List<Entity> getCoworkersToOccupyZone() {
 		List<Entity> agents = new ArrayList<Entity>();
 		for (Entity e : coworkers.values()) {
@@ -561,6 +582,66 @@ public class WorldModel {
 		return agents;
 	}
 
+	public boolean hasUninspectedOpponent() {
+		if (opponents.size() < numOfOpponents) {
+			return true;
+		}
+		List<Entity> agents = new ArrayList<Entity>();
+		for (Entity e : opponents.values()) {
+			if (e.getRole().equals(Percept.ROLE_UNKNOWN)) {
+				agents.add(e);
+			}
+		}
+		if (agents.isEmpty()) {
+			return false;
+		}
+		if (agents.size() > 1) {
+			return true;
+		} else if (agents.size() == 1) {
+			// we can infer the agents role
+			inferOpponentsRole(agents.get(0));
+			return false;
+		}
+		return false;
+	}
+
+	private void inferOpponentsRole(Entity agent) {
+		int numOfExplorers = 0;
+		int numOfInspectors = 0;
+		int numOfRepairers = 0;
+		int numOfSentinels = 0;
+		int numOfSaboteurs = 0;
+		for (Entity opponent : opponents.values()) {
+			String role = opponent.getRole();
+			if (role.equals(Percept.ROLE_EXPLORER)) {
+				numOfExplorers++;
+			} else if (role.equals(Percept.ROLE_INSPECTOR)) {
+				numOfInspectors++;
+			} else if (role.equals(Percept.ROLE_REPAIRER)) {
+				numOfRepairers++;
+			} else if (role.equals(Percept.ROLE_SABOTEUR)) {
+				numOfSaboteurs++;
+			} else if (role.equals(Percept.ROLE_SENTINEL)) {
+				numOfSentinels++;
+			}
+		}
+		int numOfAgentsByRole = numOfOpponents/4;
+		if (numOfExplorers < numOfAgentsByRole) {
+			agent.setRole(Percept.ROLE_EXPLORER);
+		} else if (numOfInspectors < numOfAgentsByRole) {
+			agent.setRole(Percept.ROLE_INSPECTOR);
+		} else if (numOfRepairers < numOfAgentsByRole) {
+			agent.setRole(Percept.ROLE_REPAIRER);
+		} else if (numOfSaboteurs < numOfAgentsByRole) {
+			agent.setRole(Percept.ROLE_SABOTEUR);
+		} else if (numOfSentinels < numOfAgentsByRole) {
+			agent.setRole(Percept.ROLE_SENTINEL);
+		} else {
+			// error
+			System.out.println("[ERROR] Could not infer the agents role.");
+		}
+	}
+	
 	/* Getters and Setters */
 
 	public Graph getGraph() {

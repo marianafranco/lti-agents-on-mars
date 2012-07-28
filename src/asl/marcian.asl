@@ -177,10 +177,11 @@
       goalAchieved(Goal)[artifact_name(Scheme)].
 
 
-// check commitment to mission 
+// check commitment to mission
 +!check_commit_mission(M,S)
-	:	.my_name(A) & commitment(A,M,_)
-	<-	.print("OK!").
+	:	.my_name(A) & commitment(A,M,_) & role(R)
+	<-	.print("OK!");
+			.broadcast(tell,coworker(A,R,M)).			// broadcast
 
 +!check_commit_mission(M,S)
 	<-	.wait({+commitment(_,_,_)},200,_);

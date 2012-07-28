@@ -28,6 +28,11 @@ public class Percept {
 	public final static String STATUS_NORMAL = "normal";
 
 	public final static String ROLE_UNKNOWN = "unknown";
+	public final static String ROLE_EXPLORER = "explorer";
+	public final static String ROLE_INSPECTOR = "inspector";
+	public final static String ROLE_REPAIRER = "repairer";
+	public final static String ROLE_SABOTEUR = "saboteur";
+	public final static String ROLE_SENTINEL = "sentinel";
 
 	/* Team Percepts */
 	public final static String coworkerPosition = "coworkerPosition";

@@ -3,15 +3,65 @@
 /* Initial beliefs and rules */
 
 // conditions for goal selection
-is_inspect_goal	:- jia.is_inspect_goal.
-
+is_inspect_goal						:- jia.is_inspect_goal.
+is_inspect_role_goal			:- jia.is_inspect_role_goal.
+has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 /* Initial goals */
 
+/* Inspect goal */
 +!inspect_goal
 	<-	.print("Starting inspect goal");
-			!select_inspector_goal.
+			!select_inspect_goal.
 
+
++!select_inspect_goal
+	:	is_energy_goal
+	<-	!init_goal(be_at_full_charge);
+			!!select_inspect_goal.
+
++!select_inspect_goal
+	:	is_disabled_goal
+	<-	!init_goal(go_to_repairer);
+			!!select_inspect_goal.
+
++!select_inspect_goal
+	: is_parry_goal
+	<- 	!init_goal(random_walk);
+			!!select_inspect_goal.
+
++!select_inspect_goal
+	: is_inspect_role_goal
+	<- 	!init_goal(inspect);
+			!!select_inspect_goal.
+
++!select_inspect_goal
+	: is_survey_goal
+	<- 	!init_goal(survey);
+			!!select_inspect_goal.
+
++!select_inspect_goal
+	:	is_buy_goal
+	<-	!init_goal(inspector_buy);
+			!!select_inspect_goal.
+
++!select_inspect_goal
+	: has_uninspected_opponent
+	<-	!init_goal(go_to_uninspected);
+			!!select_inspect_goal.
+
++!select_inspect_goal
+	: not has_uninspected_opponent
+	<- .print("Mark as archieved and commit to other mission.*************************").	// TODO commit to occupyZone
+
+
+
++!select_inspect_goal
+	<- 	!init_goal(random_walk);
+			!!select_inspect_goal.
+
+
+/* Occupy zone goal */
 +!occupy_zone_goal
 	:	role(inspector)
 	<-	.print("Starting occupy_zone goal");
@@ -72,6 +122,14 @@ is_inspect_goal	:- jia.is_inspect_goal.
 	<- 	!init_goal(random_walk);
 			!!select_inspector_goal.
 
+
+
+/* Go to uninspected opponent */
++!go_to_uninspected
+	:	position(X)
+	<-	jia.closer_uninspected_opponent(Pos);
+			jia.move_to_target(X,Pos,NextPos);
+			!do_and_wait_next_step(goto(NextPos)).
 
 /* Inspect plans */
 +!inspect
