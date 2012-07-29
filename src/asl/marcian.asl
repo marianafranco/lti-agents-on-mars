@@ -189,3 +189,17 @@
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(Mission)[artifact_name(S)];
 			!check_commit_mission(M,S).
+
+
+// start new mission
++!start_new_mission(M)
+	: obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
+	<-	.print("Achived goal ", Goal);
+			goalAchieved(Goal)[artifact_name(Scheme)];
+			.print("I will try to commit to", M);
+			commitMission(M)[artifact_name(Scheme)];
+			!check_commit_mission(M,Scheme).
++!start_new_mission(M)
+	<-	.print("I will try to commit to", M);
+			commitMission(M)[artifact_name(Scheme)];
+			!check_commit_mission(M,Scheme).

@@ -159,3 +159,4 @@ is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is n
 +!wait
 	: step(S)
 	<-	!wait_next_step(S).
+

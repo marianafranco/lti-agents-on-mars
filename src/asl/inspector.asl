@@ -9,11 +9,15 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 /* Initial goals */
 
-/* Inspect goal */
+/******************* Inspect goal ******************/
 +!inspect_goal
 	<-	.print("Starting inspect goal");
 			!select_inspect_goal.
 
+
++!select_inspect_goal
+	: not has_uninspected_opponent
+	<-	!init_goal(start_new_mission(mOccupyZone)).
 
 +!select_inspect_goal
 	:	is_energy_goal
@@ -51,17 +55,12 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 			!!select_inspect_goal.
 
 +!select_inspect_goal
-	: not has_uninspected_opponent
-	<- .print("Mark as archieved and commit to other mission.*************************").	// TODO commit to occupyZone
-
-
-
-+!select_inspect_goal
 	<- 	!init_goal(random_walk);
 			!!select_inspect_goal.
 
 
-/* Occupy zone goal */
+
+/****************** Occupy zone goal *********************/
 +!occupy_zone_goal
 	:	role(inspector)
 	<-	.print("Starting occupy_zone goal");
@@ -123,6 +122,7 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 			!!select_inspector_goal.
 
 
+/****************** Plans ***************************/
 
 /* Go to uninspected opponent */
 +!go_to_uninspected
