@@ -67,7 +67,7 @@ public class MarcianArch extends CAgentArch {
 //        			if (null == getTS().getAg().getBB().contains(percept)) {
            			 	Message m = new Message("tell", null, null, percept);
            			 	broadcast(m);
-//        			}
+//        			
         		} else if (p.equals("position")) {
         			if (null == getTS().getAg().getBB().contains(percept)) {
         				Message m = new Message("tell", null, null,

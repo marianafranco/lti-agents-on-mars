@@ -103,7 +103,6 @@ public class WorldModel {
 				int pos = Integer.parseInt(position);
 				if (!containsCoworker(aName, pos)) {
 					addCoworker(aName, pos);
-					newPercepts.add(percept);
 				}
 			} else if (functor.equals(Percept.coworker)) {
 				String aName = percept.getTerm(0).toString();
@@ -114,10 +113,10 @@ public class WorldModel {
 					e = coworkers.get(aName);
 				} else {
 					e = new Entity(aName);
+					coworkers.put(aName, e);
 				}
 				e.setRole(role);
 				e.setMission(mission);
-				newPercepts.add(percept);
 			} else if (functor.equals(Percept.position)) {
 				String myPosition = percept.getTerm(0).toString();
 				myPosition = myPosition.replace("vertex", "");
@@ -231,6 +230,7 @@ public class WorldModel {
 			v = new Vertex(vertex);
 			graph.addVertex(vertex, myTeam);
 		}
+		v.addVisited();
 		Entity coworker = coworkers.get(name);
 		if (null == coworker) {
 			coworker = new Entity(name);

@@ -100,10 +100,6 @@ is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is n
 	<-	jia.closer_repairer(Pos);
 			!move_closer_to_repairer(Pos).
 
-+!move_closer_to_repairer("neighbor")
-	:	step(S)
-	<-	!wait_next_step(S).
-
 +!move_closer_to_repairer("none")
 	: is_move_goal
 	<- 	!init_goal(move_to_target).

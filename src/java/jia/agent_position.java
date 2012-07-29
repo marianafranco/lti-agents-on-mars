@@ -24,7 +24,7 @@ public class agent_position extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		String agentName = ((StringTerm) terms[0]).getString();
+		String agentName =  ((Atom) terms[0]).getFunctor();
 		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 		Vertex v = model.getCoworkerPosition(agentName);
 		if (null == v) {

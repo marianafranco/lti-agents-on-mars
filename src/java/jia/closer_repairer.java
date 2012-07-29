@@ -45,9 +45,6 @@ public class closer_repairer extends DefaultInternalAction {
 			}
 		}
 
-		if (minDist <= 1) {
-			return un.unifies(terms[0], ASSyntax.createString("neighbor"));
-		}
 		if (closerPosition == -1) {
 			return un.unifies(terms[0], ASSyntax.createString("none"));
 		}
