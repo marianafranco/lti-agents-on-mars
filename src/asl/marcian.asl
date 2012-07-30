@@ -185,7 +185,6 @@
 
 +!check_commit_mission(M,S)
 	<-	.wait({+commitment(_,_,_)},200,_);
-//			.print("[ERROR] Could not commit to ", M).
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(Mission)[artifact_name(S)];
 			!check_commit_mission(M,S).

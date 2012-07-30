@@ -281,7 +281,7 @@ public class WorldModel {
 
 	private void coloringVertices() {
 		// color my vertices
-		if (myVertex.getTeam().equals(myTeam)) {
+		if (myVertex.getTeam().equals(myTeam)) {		// TODO check if disabled
 			myVertex.setColor(Vertex.BLUE);
 		} else if (!myVertex.getTeam().equals(Percept.TEAM_NONE)
 				&& !myVertex.getTeam().equals(Percept.TEAM_UNKNOWN)) {
@@ -289,7 +289,7 @@ public class WorldModel {
 		}
 		for (Entity e : coworkers.values()) {
 			Vertex v = e.getVertex();
-			if (v.getTeam().equals(myTeam)) {
+			if (v.getTeam().equals(myTeam) && !e.getStatus().equals(Percept.STATUS_DISABLED)) {
 				v.setColor(Vertex.BLUE);
 			} else if (!v.getTeam().equals(Percept.TEAM_NONE)
 					&& !v.getTeam().equals(Percept.TEAM_UNKNOWN)) {
@@ -433,6 +433,36 @@ public class WorldModel {
 			}
 		}
 		return false;
+	}
+
+	public List<Vertex> getBestOpponentZone() {
+		graph.removeVerticesColor();
+		// step 1: coloring vertices that have agents standing on them
+		coloringVertices();
+		// step 2: coloring empty neighbors
+		coloringNeighbors();
+		// step 3: frontier
+		coloringOpponentIsolatedVertices();
+		// step 4: get zones
+		List<List<Vertex>> zones = graph.getOpponentZones();
+		// step 5: get best zone
+		return getBestZone(zones);
+	}
+
+	private void coloringOpponentIsolatedVertices() {
+		List<Vertex> notColoredVertices = graph.getNotColoredVertices();
+		for (Vertex v : notColoredVertices) {
+			boolean existsFrontier = true;
+			for (Entity e : coworkers.values()) {
+				if (!e.getStatus().equals(Percept.STATUS_DISABLED)
+						&& !graph.existsOpponentFrontier(v, e.getVertex())) {
+					existsFrontier = false;
+				}
+			}
+			if (existsFrontier) {
+				v.setColor(Vertex.BLUE);
+			}
+		}
 	}
 
 	public boolean hasOpponentOnVertex(Vertex v) {
@@ -641,6 +671,48 @@ public class WorldModel {
 			System.out.println("[ERROR] Could not infer the agents role.");
 		}
 	}
+
+	public Entity getCloserAgent(List<Entity> agents) {
+		int minDist = Integer.MAX_VALUE;
+		Entity agent = null;
+		for (Entity e : agents) {
+			Vertex v = e.getVertex();
+			int dist = graph.getDistance(myVertex, v);
+			if (dist < minDist) {
+				agent = e;
+			}
+		}
+		return agent;
+	}
+
+	public Entity getCloserOpponent() {
+		int minDist = Integer.MAX_VALUE;
+		Entity agent = null;
+		for (Entity e : opponents.values()) {
+			Vertex v = e.getVertex();
+			int dist = graph.getDistance(myVertex, v);
+			if (dist < minDist) {
+				agent = e;
+			}
+		}
+		return agent;
+	}
+
+	public Entity getCloserActiveOpponent() {
+		int minDist = Integer.MAX_VALUE;
+		Entity agent = null;
+		for (Entity e : opponents.values()) {
+			if (!e.getStatus().equals(Percept.STATUS_DISABLED)) {
+				Vertex v = e.getVertex();
+				int dist = graph.getDistance(myVertex, v);
+				if (dist < minDist) {
+					agent = e;
+				}
+			}
+		}
+		return agent;
+	}
+
 	
 	/* Getters and Setters */
 
@@ -658,5 +730,9 @@ public class WorldModel {
 
 	public HashMap<String, Entity> getCoworkers() {
 		return coworkers;
+	}
+
+	public HashMap<String, Entity> getOpponents() {
+		return opponents;
 	}
 }

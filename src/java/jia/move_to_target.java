@@ -49,9 +49,11 @@ public class move_to_target extends DefaultInternalAction {
 			return un.unifies(terms[2], ASSyntax.createString(vertex));
 		} else {
 			System.out.println("Could not find a path from vertex" + v1 + "to vertex" + v2);
-			int nextMove = graph.returnRandomMove(v1);
+
+			// go to the least visited vertex
+			int nextMove = graph.returnLeastVisitedNeighbor(v1);
 			String vertex = "vertex" + nextMove;
-			return un.unifies(terms[2], ASSyntax.createString(vertex));
+			return un.unifies(terms[0], ASSyntax.createString(vertex));
 		}
 	}
 	

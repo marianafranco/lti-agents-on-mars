@@ -4,7 +4,6 @@ import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Atom;
-import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import model.graph.Vertex;
 import arch.MarcianArch;

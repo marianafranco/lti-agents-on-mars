@@ -114,9 +114,34 @@ public class Graph {
 		}
 	}
 
+	public boolean existsOpponentFrontier(Vertex v1, Vertex v2) {
+		// uses breadth-first search
+		Queue<Vertex> frontier = new LinkedList<Vertex>();
+		Set<Vertex> explored = new HashSet<Vertex>();
+		frontier.add(v1);
+		while (true) {
+			if (frontier.isEmpty()) {
+				return true;	// could not find a path
+			}
+			Vertex v = frontier.poll();
+			explored.add(v);
+			Set<Vertex> neighbors = v.getNeighbors();
+			for (Vertex neighbor : neighbors) {
+				if (!explored.contains(neighbor) && !frontier.contains(neighbor)
+					&& neighbor.getColor() != Vertex.RED) {
+					if (neighbor.equals(v2)) {
+						return false;
+					}
+					frontier.add(neighbor);
+				}
+			}
+		}
+	}
+
 	public List<Vertex> getNotColoredVertices() {
 		List<Vertex> notColored = new ArrayList<Vertex>();
-		for (Vertex v : vertices.values()) {
+		List<Vertex> vList = new ArrayList<Vertex>(vertices.values());
+		for (Vertex v : vList) {
 			if (v.getColor() == Vertex.WHITE) {
 				notColored.add(v);
 			}
@@ -134,6 +159,16 @@ public class Graph {
 		return blueVertices;
 	}
 
+	public List<Vertex> getRedVertices() {
+		List<Vertex> redVertices = new ArrayList<Vertex>();
+		for (Vertex v : vertices.values()) {
+			if (v.getColor() == Vertex.RED) {
+				redVertices.add(v);
+			}
+		}
+		return redVertices;
+	}
+
 	public List<List<Vertex>> getZones() {
 		List<List<Vertex>> zones = new ArrayList<List<Vertex>>();
 		List<Vertex> blueVertices = getBlueVertices();
@@ -141,7 +176,6 @@ public class Graph {
 			List<Vertex> zone = getZone(v);
 			zones.add(zone);
 			blueVertices.remove(zone);
-			
 		}
 		return zones;
 	}
@@ -157,6 +191,35 @@ public class Graph {
 			for (Vertex neighbor : neighbors) {
 				if (!zone.contains(neighbor) && !frontier.contains(neighbor)
 					&& neighbor.getColor() == Vertex.BLUE) {
+					frontier.add(neighbor);
+				}
+			}
+		}
+		return zone;
+	}
+
+	public List<List<Vertex>> getOpponentZones() {
+		List<List<Vertex>> zones = new ArrayList<List<Vertex>>();
+		List<Vertex> redVertices = getRedVertices();
+		for (Vertex v : redVertices) {
+			List<Vertex> zone = getOpponentZones(v);
+			zones.add(zone);
+			redVertices.remove(zone);
+		}
+		return zones;
+	}
+
+	public List<Vertex> getOpponentZones(Vertex v) {
+		List<Vertex> zone = new LinkedList<Vertex>();
+		Queue<Vertex> frontier = new LinkedList<Vertex>();
+		frontier.add(v);
+		while (!frontier.isEmpty()) {
+			Vertex vertice = frontier.poll();
+			zone.add(vertice);
+			Set<Vertex> neighbors = vertice.getNeighbors();
+			for (Vertex neighbor : neighbors) {
+				if (!zone.contains(neighbor) && !frontier.contains(neighbor)
+					&& neighbor.getColor() == Vertex.RED) {
 					frontier.add(neighbor);
 				}
 			}
@@ -377,7 +440,8 @@ public class Graph {
 	}
 
 	public void removeVerticesColor() {
-		for (Vertex v : vertices.values()) {
+		List<Vertex> vList = new ArrayList<Vertex>(vertices.values());
+		for (Vertex v : vList) {
 			v.removeColor();
 		}
 	}
