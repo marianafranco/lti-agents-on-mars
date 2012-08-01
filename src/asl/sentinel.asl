@@ -8,13 +8,62 @@
 
 /* Initial goals */
 
+/*************** Coordinate goal *****************/
 +!coordinate_goal
 	<-	.print("Starting coordinate goal"); 
 			!select_sentinel_goal.
 
+
+
+/*************** Help sabotage goal *******************/
+
 +!help_sabotage_goal
 	<- 	.print("Starting sabotage goal");
-			!select_sentinel_goal.
+			!select_help_sabotage_goal.
+
+
++!select_help_sabotage_goal
+	:	is_call_help_goal
+		<-	!init_goal(call_help);
+				!!select_help_sabotage_goal.
+
++!select_help_sabotage_goal
+	:	is_not_need_help_goal
+	<-	!init_goal(not_need_help);
+			!!select_help_sabotage_goal.
+
++!select_help_sabotage_goal
+	:	is_energy_goal
+	<-	!init_goal(be_at_full_charge);
+			!!select_help_sabotage_goal.
+
++!select_help_sabotage_goal
+	:	is_disabled_goal
+	<-	!init_goal(go_to_repairer);
+			!!select_help_sabotage_goal.
+
++!select_help_sabotage_goal
+	:	is_parry_goal
+	<-	!init_goal(parry);
+			!!select_help_sabotage_goal.
+
++!select_help_sabotage_goal
+	: is_survey_goal
+	<- 	!init_goal(survey);
+			!!select_help_sabotage_goal.
+
++!select_help_sabotage_goal
+	:	is_buy_goal
+	<-	!init_goal(sentinel_buy);
+			!!select_help_sabotage_goal.
+
++!select_help_sabotage_goal
+	<- 	!init_goal(help_sabotage);
+			!!select_help_sabotage_goal.
+
+
+
+/*************** Occupy zone goal *****************/
 
 +!occupy_zone_goal
 	:	role(sentinel)
@@ -70,6 +119,17 @@
 +!select_sentinel_goal
 	<- 	!init_goal(random_walk);
 			!!select_sentinel_goal.
+
+
+/**************** Plans *****************/
+
+/* Help sabotage plan */
++!help_sabotage
+	:	position(X)
+	<-	jia.select_opponent_vertex(Pos);
+			jia.move_to_target(X,Pos,NextPos);
+			!do_and_wait_next_step(goto(NextPos)).
+
 
 
 /* Buy plans */

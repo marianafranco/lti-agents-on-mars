@@ -698,6 +698,22 @@ public class WorldModel {
 		return agent;
 	}
 
+	public Entity getCloserActiveOpponentNotSaboteur() {
+		int minDist = Integer.MAX_VALUE;
+		Entity agent = null;
+		for (Entity e : opponents.values()) {
+			if (!e.getRole().equals(Percept.ROLE_SABOTEUR)
+					&& !e.getStatus().equals(Percept.STATUS_DISABLED)) {
+				Vertex v = e.getVertex();
+				int dist = graph.getDistance(myVertex, v);
+				if (dist < minDist) {
+					agent = e;
+				}
+			}
+		}
+		return agent;
+	}
+
 	public Entity getCloserActiveOpponent() {
 		int minDist = Integer.MAX_VALUE;
 		Entity agent = null;
@@ -713,6 +729,15 @@ public class WorldModel {
 		return agent;
 	}
 
+	public boolean containsOpponentSaboteurOnVertex(Vertex v) {
+		for (Entity opponent : opponents.values()) {
+			if (opponent.getVertex().equals(v)
+					&& opponent.getRole().equals(Percept.ROLE_SABOTEUR)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/* Getters and Setters */
 

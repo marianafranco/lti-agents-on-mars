@@ -9,12 +9,12 @@ import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Term;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import model.Entity;
 import model.graph.Graph;
 import model.graph.Vertex;
+import model.graph.VertexComparator;
 import arch.MarcianArch;
 import arch.WorldModel;
 
@@ -150,22 +150,5 @@ public class agents_coordination extends DefaultInternalAction {
 			}
 			return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 		}
-	}
-
-	public class VertexComparator implements Comparator<Vertex>{
-
-		@Override
-		public int compare(Vertex o1, Vertex o2) {
-			int value1 = o1.getValue();
-			int value2 = o2.getValue();
-			if (value1 < value2) {
-				return 1;
-			} else if (value1 > value2) {
-				return -1;
-			} else {
-				return 0;
-			}
-		}
-		
 	}
 }

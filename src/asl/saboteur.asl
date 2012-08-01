@@ -131,7 +131,7 @@ is_attack_repairer_goal	:-	jia.found_active_repairer.
 
 +!go_attack
 	:	position(X)
-	<-	jia.select_opponent_to_go_attack(Pos);
+	<-	jia.select_opponent_to_attack(Pos);
 			jia.move_to_target(X,Pos,NextPos);
 			!do_and_wait_next_step(goto(NextPos)).
 

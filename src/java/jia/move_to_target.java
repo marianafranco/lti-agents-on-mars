@@ -48,12 +48,12 @@ public class move_to_target extends DefaultInternalAction {
 			String vertex = "vertex" + nextMove;
 			return un.unifies(terms[2], ASSyntax.createString(vertex));
 		} else {
-			System.out.println("Could not find a path from vertex" + v1 + "to vertex" + v2);
+			System.out.println("Could not find a path from vertex" + v1 + " to vertex" + v2);
 
 			// go to the least visited vertex
 			int nextMove = graph.returnLeastVisitedNeighbor(v1);
 			String vertex = "vertex" + nextMove;
-			return un.unifies(terms[0], ASSyntax.createString(vertex));
+			return un.unifies(terms[2], ASSyntax.createString(vertex));
 		}
 	}
 	
