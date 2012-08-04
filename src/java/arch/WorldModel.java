@@ -465,6 +465,26 @@ public class WorldModel {
 		}
 	}
 
+	public boolean hasActiveCoworkerOnVertex(int v) {
+		for (Entity coworker : coworkers.values()) {
+			if (coworker.getVertex().getId() == v
+					&& !coworker.getStatus().toLowerCase().equals(Percept.STATUS_DISABLED)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasActiveCoworkerOnVertex(Vertex v) {
+		for (Entity coworker : coworkers.values()) {
+			if (coworker.getVertex().equals(v)
+					&& !coworker.getStatus().toLowerCase().equals(Percept.STATUS_DISABLED)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean hasOpponentOnVertex(Vertex v) {
 		for (Entity opponent : opponents.values()) {
 			if (opponent.getVertex().equals(v)) {

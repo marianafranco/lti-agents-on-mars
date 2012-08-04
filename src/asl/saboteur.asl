@@ -4,8 +4,8 @@
 
 // conditions for goal selection
 is_attack_goal 					:- 	jia.has_opponent_on_vertex.
-is_attack_saboteur_goal	:-	jia.found_active_saboteur.
-is_attack_repairer_goal	:-	jia.found_active_repairer.
+//is_attack_saboteur_goal	:-	jia.found_active_saboteur.
+//is_attack_repairer_goal	:-	jia.found_active_repairer.
 
 /* Initial goals */
 
@@ -89,15 +89,15 @@ is_attack_repairer_goal	:-	jia.found_active_repairer.
 	<-	!init_goal(attack);
 			!!select_saboteur_goal.
 
-+!select_saboteur_goal
-	:	is_attack_saboteur_goal
-	<-	!init_goal(attack_saboteur);
-			!!select_saboteur_goal.
+//+!select_saboteur_goal
+//	:	is_attack_saboteur_goal
+//	<-	!init_goal(attack_saboteur);
+//			!!select_saboteur_goal.
 
-+!select_saboteur_goal
-	:	is_attack_repairer_goal
-	<-	!init_goal(attack_repairer);
-			!!select_saboteur_goal.
+//+!select_saboteur_goal
+//	:	is_attack_repairer_goal
+//	<-	!init_goal(attack_repairer);
+//			!!select_saboteur_goal.
 
 +!select_saboteur_goal
 	:	is_move_goal

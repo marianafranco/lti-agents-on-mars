@@ -19,7 +19,7 @@ public class is_stop_explore_goal extends DefaultInternalAction {
 		int maxNumOfVertices = graph.getMaxNumOfVertices();
 		int numOfVertices = graph.getVertices().size();
 		float percent =  numOfVertices / maxNumOfVertices;
-		if (percent > 0.5) {
+		if (percent > 0.25) {
 			return true;
 		} else {
 			return false;

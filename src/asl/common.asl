@@ -13,7 +13,7 @@ is_wait_goal	 					:- target(X) & jia.is_at_target(X).
 is_call_help_goal 			:- health(0) & not need_help.
 is_disabled_goal				:- health(0) & need_help.
 is_not_need_help_goal		:- health(X) & maxHealth(X) & need_help.
-is_parry_goal 					:- position(X) & jia.has_saboteur_at(X) & not health(0).
+is_parry_goal 					:- position(X) & jia.has_saboteur_at(X) & not health(0) & not jia.has_coworker_at(X).
 is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is not surveyed
 
 
