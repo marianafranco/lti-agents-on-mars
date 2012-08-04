@@ -106,6 +106,8 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 	: need_help(Ag) & jia.agent_position(Ag,Pos) & position(Pos)
 	<-	jia.agent_server_id(Ag,Id);
 			!do_and_wait_next_step(repair(Id)).
++!repair
+	<-	!init_goal(wait).
 
 +!help
 	<-	.findall(X, need_help(X), Agents);

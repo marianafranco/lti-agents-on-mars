@@ -26,12 +26,14 @@
 
 +!select_coordinate_goal
 	:	is_energy_goal
-	<-	!init_goal(be_at_full_charge);
+	<-	!init_goal(agents_coordination);
+			!init_goal(be_at_full_charge);
 			!!select_coordinate_goal.
 
 +!select_coordinate_goal
 	:	is_disabled_goal
-	<-	!init_goal(go_to_repairer);
+	<-	!init_goal(agents_coordination);
+			!init_goal(go_to_repairer);
 			!!select_coordinate_goal.
 
 +!select_coordinate_goal
@@ -41,21 +43,30 @@
 	
 +!select_coordinate_goal
 	:	is_move_goal
-	<-	!init_goal(move_to_target);
+	<-	!init_goal(agents_coordination);
+			!init_goal(move_to_target);
 			!!select_coordinate_goal.
 
 +!select_coordinate_goal
 	: is_survey_goal
-	<- 	!init_goal(survey);
+	<- 	!init_goal(agents_coordination);
+			!init_goal(survey);
 			!!select_coordinate_goal.
 
 +!select_coordinate_goal
 	:	is_buy_goal
-	<-	!init_goal(sentinel_buy);
+	<-	!init_goal(agents_coordination);
+			!init_goal(sentinel_buy);
 			!!select_coordinate_goal.
 
 +!select_coordinate_goal
+	: step(S)
 	<- 	!init_goal(agents_coordination);
+			!wait_next_step(S);
+			!!select_coordinate_goal.
+
++!select_coordinate_goal
+	<- 	!init_goal(random_walk);
 			!!select_coordinate_goal.
 
 
@@ -171,11 +182,9 @@
 /* Agents coordination plans */
 
 +!agents_coordination
-	: step(S)
 	<- 	jia.agents_coordination(A,P);
 			.print("New formation!! ", .length(P));
-			!send_target(A,P);
-			!wait_next_step(S).
+			!send_target(A,P).
 
 +!send_target([X|TAg],[Y|TLoc])
  	<- 	.print("send: ",X, ", " ,Y);
