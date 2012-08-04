@@ -30,7 +30,7 @@ public class is_inspect_goal extends DefaultInternalAction {
 			return true;
 		}
 		for (Vertex neighbor : myPosition.getNeighbors()) {
-			if (model.hasOpponentOnVertex(neighbor)) {
+			if (model.hasActiveOpponentOnVertex(neighbor)) {
 				return true;
 			}
 		}

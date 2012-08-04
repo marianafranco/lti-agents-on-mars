@@ -195,10 +195,10 @@
 	: obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
 	<-	.print("Achived goal ", Goal);
 			goalAchieved(Goal)[artifact_name(Scheme)];
-			.print("I will try to commit to", M);
+			.print("I will try to commit to ", M);
 			commitMission(M)[artifact_name(Scheme)];
 			!check_commit_mission(M,Scheme).
 +!start_new_mission(M)
-	<-	.print("I will try to commit to", M);
+	<-	.print("I will try to commit to ", M);
 			commitMission(M)[artifact_name(Scheme)];
 			!check_commit_mission(M,Scheme).

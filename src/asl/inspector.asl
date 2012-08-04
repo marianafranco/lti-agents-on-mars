@@ -3,7 +3,7 @@
 /* Initial beliefs and rules */
 
 // conditions for goal selection
-is_inspect_goal						:- jia.is_inspect_goal.
+is_inspect_goal						:- jia.is_inspect_goal & not lastAction(inspect).
 is_inspect_role_goal			:- jia.is_inspect_role_goal.
 has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
