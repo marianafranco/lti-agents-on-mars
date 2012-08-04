@@ -124,7 +124,7 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!!select_explorer_goal.
 
 +!select_explorer_goal
-	<- 	!init_goal(agents_coordination);
+	<-	!init_goal(move_to_not_probed);
 			!!select_explorer_goal.
 
 -!select_explorer_goal[error(I),error_msg(M)]
@@ -139,25 +139,6 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 +!probe
    <- .print("Probing my location");
       !do_and_wait_next_step(probe).
-
-
-/* Agents coordination plans */
-
-+!agents_coordination
-	: step(S)
-	<- 	jia.agents_coordination(A,P);
-			.print("New formation!! ", .length(P));
-			!send_target(A,P);
-			!wait_next_step(S).
-
-+!send_target([X|TAg],[Y|TLoc])
- 	<- 	.print("send: ",X, ", " ,Y);
- 	   	.send(X,tell,target(Y));
- 	   	!send_target(TAg,TLoc).
-+!send_target([],[]).
-
--!send_target[error(I),error_msg(M)]
-	<-	.print("failure in send_target! ",I,": ",M).
 
 
 /* Move to not probed */

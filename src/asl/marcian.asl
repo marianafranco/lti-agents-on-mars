@@ -3,7 +3,6 @@
 // include role plans for agents
 { include("common.asl") }
 { include("explorer.asl") }
-{ include("new_explorer.asl") }
 { include("inspector.asl") }
 { include("repairer.asl") }
 { include("saboteur.asl") }
