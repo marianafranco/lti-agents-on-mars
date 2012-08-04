@@ -17,7 +17,8 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 +!select_inspect_goal
 	: not has_uninspected_opponent
-	<-	!init_goal(start_new_mission(mOccupyZone)).
+	<-	!init_goal(start_new_mission(mOccupyZone));
+			!occupy_zone_goal.
 
 +!select_inspect_goal
 	:	is_call_help_goal

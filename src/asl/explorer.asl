@@ -16,7 +16,8 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 
 +!select_explore_goal
 	:	is_stop_explore_goal
-	<-	!init_goal(start_new_mission(mOccupyZone)).
+	<-	!init_goal(start_new_mission(mOccupyZone));
+			!occupy_zone_goal.
 
 +!select_explore_goal
 	:	is_call_help_goal
