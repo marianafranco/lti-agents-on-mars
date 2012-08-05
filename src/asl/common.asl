@@ -7,6 +7,7 @@ buy_battery.
 
 // conditions for goal selection
 is_energy_goal 					:- energy(MyE) & maxEnergy(Max) & MyE < Max/3.
+is_can_recharge_goal 		:- energy(MyE) & maxEnergy(Max) & MyE < Max.
 is_buy_goal    					:- money(M) & M >= 2.
 is_move_goal	 					:- target(X) & not jia.is_at_target(X).
 is_on_target_goal	 			:- target(X) & jia.is_at_target(X).
@@ -52,9 +53,6 @@ is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is n
 /* Common Action Plans */
 
 /* plans for energy */
-+!be_at_full_charge 
-    : energy(MyE) & maxEnergy(M) & MyE > M*0.9 // I am full, nothing to do
-   <- .print("Charged at ",MyE).
 +!be_at_full_charge 
     : energy(MyE)
    <- .print("My energy is ",MyE,", recharging");
@@ -159,6 +157,5 @@ is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is n
 
 /* wait plan */
 +!wait
-	: step(S)
-	<-	!wait_next_step(S).
+	<-	!do_and_wait_next_step(skip).
 

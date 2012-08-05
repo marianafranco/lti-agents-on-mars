@@ -124,6 +124,11 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 			!!select_inspector_goal.
 
 +!select_inspector_goal
+	:	is_can_recharge_goal
+	<-	!init_goal(be_at_full_charge);
+			!!select_inspector_goal.
+
++!select_inspector_goal
 	:	is_on_target_goal
 	<-	!init_goal(wait);
 			!!select_inspector_goal.
