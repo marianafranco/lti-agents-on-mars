@@ -86,7 +86,7 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 			!!select_repairer_goal.
 
 +!select_repairer_goal
-	:	is_can_recharge_goal
+	:	is_recharge_goal
 	<-	!init_goal(be_at_full_charge);
 			!!select_repairer_goal.
 

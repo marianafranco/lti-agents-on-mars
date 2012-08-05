@@ -123,7 +123,7 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!!select_explorer_goal.
 
 +!select_explorer_goal
-	:	is_can_recharge_goal
+	:	is_recharge_goal
 	<-	!init_goal(be_at_full_charge);
 			!!select_explorer_goal.
 

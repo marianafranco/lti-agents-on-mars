@@ -167,7 +167,7 @@
 			!!select_sentinel_goal.
 
 +!select_sentinel_goal
-	:	is_can_recharge_goal
+	:	is_recharge_goal
 	<-	!init_goal(be_at_full_charge);
 			!!select_sentinel_goal.
 
