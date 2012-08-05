@@ -158,13 +158,27 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 /* Buy plans */
 +!inspector_buy
-	: buy_battery
+	: maxEnergy(E) & E >= 29 & maxHealth(X) & X >= 5
+	<- +stop_buy.
+
++!inspector_buy
+	: buy_battery & maxEnergy(E) & E < 29
 	<-	!buy(battery);
 			-buy_battery;
 			+buy_shield.
 
 +!inspector_buy
-	: buy_shield
+	: buy_battery
+	<-	-buy_battery;
+			+buy_shield.
+
++!inspector_buy
+	: buy_shield & maxHealth(X) & X < 5
 	<-	!buy(shield);
 			-buy_shield;
+			+buy_battery.
+
++!inspector_buy
+	: buy_shield
+	<-	-buy_shield;
 			+buy_battery.

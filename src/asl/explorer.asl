@@ -165,13 +165,27 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 
 /* Buy plans */
 +!explorer_buy
-	: buy_battery
+	: maxEnergy(E) & E >= 30 & maxHealth(X) & X >= 5
+	<- +stop_buy.
+
++!explorer_buy
+	: buy_battery & maxEnergy(E) & E < 30
 	<-	!buy(battery);
 			-buy_battery;
 			+buy_shield.
 
 +!explorer_buy
-	: buy_shield
+	: buy_battery
+	<-	-buy_battery;
+			+buy_shield.
+
++!explorer_buy
+	: buy_shield & maxHealth(X) & X < 5
 	<-	!buy(shield);
 			-buy_shield;
+			+buy_battery.
+
++!explorer_buy
+	: buy_shield
+	<-	-buy_shield;
 			+buy_battery.

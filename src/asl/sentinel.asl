@@ -217,19 +217,27 @@
 
 /* Buy plans */
 +!sentinel_buy
-	: buy_battery
+	: maxEnergy(E) & E >= 30 & maxHealth(X) & X >= 4
+	<- +stop_buy.
+
++!sentinel_buy
+	: buy_battery & maxEnergy(E) & E < 30
 	<-	!buy(battery);
 			-buy_battery;
 			+buy_shield.
 
 +!sentinel_buy
-	: buy_shield
-	<-	!buy(shield);
-			-buy_shield;
-			+buy_sensor.
+	: buy_battery
+	<-	-buy_battery;
+			+buy_shield.
 
 +!sentinel_buy
-	: buy_sensor
-	<-	!buy(sensor);
-			-buy_sensor;
+	: buy_shield & maxHealth(X) & X < 4
+	<-	!buy(shield);
+			-buy_shield;
+			+buy_battery.
+
++!sentinel_buy
+	: buy_shield
+	<-	-buy_shield;
 			+buy_battery.

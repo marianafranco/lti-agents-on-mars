@@ -144,13 +144,27 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 
 /* Buy plans */
 +!repairer_buy
-	: buy_battery
+	: maxEnergy(E) & E >= 35 & maxHealth(X) & X >= 5
+	<- +stop_buy.
+
++!repairer_buy
+	: buy_battery & maxEnergy(E) & E < 35
 	<-	!buy(battery);
 			-buy_battery;
 			+buy_shield.
 
 +!repairer_buy
-	: buy_shield
+	: buy_battery
+	<-	-buy_battery;
+			+buy_shield.
+
++!repairer_buy
+	: buy_shield & maxHealth(X) & X < 5
 	<-	!buy(shield);
 			-buy_shield;
+			+buy_battery.
+
++!repairer_buy
+	: buy_shield
+	<-	-buy_shield;
 			+buy_battery.
