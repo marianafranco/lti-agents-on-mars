@@ -129,6 +129,11 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 			!!select_inspector_goal.
 
 +!select_inspector_goal
+	: is_move_to_zone_goal
+	<-	!init_goal(move_to_zone);
+			!!select_inspector_goal.
+
++!select_inspector_goal
 	:	is_on_target_goal
 	<-	!init_goal(wait);
 			!!select_inspector_goal.

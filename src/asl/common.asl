@@ -16,7 +16,7 @@ is_disabled_goal				:- health(0) & need_help.
 is_not_need_help_goal		:- health(X) & maxHealth(X) & need_help.
 is_parry_goal 					:- position(X) & jia.has_saboteur_at(X) & not health(0) & not jia.has_coworker_at(X).
 is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is not surveyed
-
+is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 
 /* General plans */
 
@@ -148,6 +148,14 @@ is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is n
 			!do_and_wait_next_step(goto(NextPos)).
 -!move_to_target[error(I),error_msg(M)]
 	<-	.print("failure in move_to_target! ",I,": ",M).
+
+
+/* move to zone plan */
++!move_to_zone
+	:	position(X)
+	<-	jia.closer_coworker(Y);
+			jia.move_to_target(X,Y,NextPos);
+			!do_and_wait_next_step(goto(NextPos)).
 
 
 /* survey plans */

@@ -128,6 +128,11 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!!select_explorer_goal.
 
 +!select_explorer_goal
+	: is_move_to_zone_goal
+	<-	!init_goal(move_to_zone);
+			!!select_explorer_goal.
+
++!select_explorer_goal
 	<-	!init_goal(move_to_not_probed);
 			!!select_explorer_goal.
 

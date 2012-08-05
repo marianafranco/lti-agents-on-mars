@@ -115,6 +115,11 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 			!!select_saboteur_goal.
 
 +!select_saboteur_goal
+	: is_move_to_zone_goal
+	<-	!init_goal(move_to_zone);
+			!!select_saboteur_goal.
+
++!select_saboteur_goal
 	:	is_on_target_goal
 	<-	!init_goal(wait);
 			!!select_saboteur_goal.
