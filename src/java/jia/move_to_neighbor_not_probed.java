@@ -35,6 +35,7 @@ public class move_to_neighbor_not_probed extends DefaultInternalAction {
 
 		List<Vertex> notProbedNeighbors = graph.returnNotProbedNeighbors(myPosition);
 		if (null == notProbedNeighbors || notProbedNeighbors.isEmpty()) {
+			// TODO go to least visited
 			int nextMove = -1;
 			String vertex = "vertex" + nextMove;
 			return un.unifies(terms[0], ASSyntax.createString(vertex));
@@ -52,6 +53,7 @@ public class move_to_neighbor_not_probed extends DefaultInternalAction {
 					return un.unifies(terms[0], ASSyntax.createString(vertex));
 				}
 			}
+			// TODO go to least visited
 			String vertex = "vertex" + "-1";
 			return un.unifies(terms[0], ASSyntax.createString(vertex));
 		}

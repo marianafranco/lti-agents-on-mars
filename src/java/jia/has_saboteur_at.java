@@ -1,13 +1,13 @@
 package jia;
 
-import arch.MarcianArch;
-import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
+import arch.MarcianArch;
+import arch.WorldModel;
 
 /**
  * Return true or false indicating if exists an opponent saboteur in the given position.

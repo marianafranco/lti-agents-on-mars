@@ -137,6 +137,12 @@ is_survey_goal 					:- jia.is_survey_goal.  // some edge to adjacent vertex is n
 	<-	.print("failure in random_walk! ",I,": ",M).
 
 
+/* escape plan */
++!escape
+	<-	jia.escape(Target);
+			!do_and_wait_next_step(goto(Target)).
+
+
 /* move to taget plans */
 +!move_to_target
 	:	target(Y) & position(X)

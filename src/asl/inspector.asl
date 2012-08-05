@@ -42,7 +42,7 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 +!select_inspect_goal
 	: is_parry_goal
-	<- 	!init_goal(random_walk);
+	<- 	!init_goal(escape);
 			!!select_inspect_goal.
 
 +!select_inspect_goal
@@ -100,7 +100,7 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 +!select_inspector_goal
 	: is_parry_goal
-	<- 	!init_goal(random_walk);
+	<- 	!init_goal(escape);
 			!!select_inspector_goal.
 
 +!select_inspector_goal
