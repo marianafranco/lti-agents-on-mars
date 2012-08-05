@@ -86,7 +86,7 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 			!!select_repairer_goal.
 
 +!select_repairer_goal
-	:	is_wait_goal
+	:	is_on_target_goal
 	<-	!init_goal(wait);
 			!!select_repairer_goal.
 

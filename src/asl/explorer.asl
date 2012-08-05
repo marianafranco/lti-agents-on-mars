@@ -118,9 +118,8 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!!select_explorer_goal.
 
 +!select_explorer_goal
-	:	is_wait_goal
-	<-	-target(_);
-			!init_goal(move_to_not_probed);
+	:	is_on_target_goal
+	<-	!init_goal(move_to_neighbor_not_probed);
 			!!select_explorer_goal.
 
 +!select_explorer_goal
@@ -147,6 +146,12 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 	: position(MyV) // my location
 	<- jia.move_to_not_probed(MyV,Target);
 		 !do_and_wait_next_step(goto(Target)).
+
+
++!move_to_neighbor_not_probed
+	<-	jia.move_to_neighbor_not_probed(Target);
+			!do_and_wait_next_step(goto(Target)).
+
 
 /* Buy plans */
 +!explorer_buy

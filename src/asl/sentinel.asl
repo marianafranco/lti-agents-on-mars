@@ -167,7 +167,7 @@
 			!!select_sentinel_goal.
 
 +!select_sentinel_goal
-	:	is_wait_goal
+	:	is_on_target_goal
 	<-	!init_goal(wait);
 			!!select_sentinel_goal.
 

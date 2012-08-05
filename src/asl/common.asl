@@ -9,7 +9,7 @@ buy_battery.
 is_energy_goal 					:- energy(MyE) & maxEnergy(Max) & MyE < Max/3.
 is_buy_goal    					:- money(M) & M >= 2.
 is_move_goal	 					:- target(X) & not jia.is_at_target(X).
-is_wait_goal	 					:- target(X) & jia.is_at_target(X).
+is_on_target_goal	 			:- target(X) & jia.is_at_target(X).
 is_call_help_goal 			:- health(0) & not need_help.
 is_disabled_goal				:- health(0) & need_help.
 is_not_need_help_goal		:- health(X) & maxHealth(X) & need_help.
