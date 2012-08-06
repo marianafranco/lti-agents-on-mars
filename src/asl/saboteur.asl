@@ -135,27 +135,25 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 /* Plans for attack */
 
 +!go_attack
-	:	position(X)
 	<-	jia.select_opponent_to_attack(Pos);
-			jia.move_to_target(X,Pos,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+			!move_to(Pos).
 
 +!attack
 	<-	jia.get_opponent_name(Enemy);
 			.print("Attacked ", Enemy);
 			!do_and_wait_next_step(attack(Enemy)).
 
-+!attack_saboteur
-	:	position(X)
-	<-	jia.closer_opponent("saboteur",Pos);
-			jia.move_to_target(X,Pos,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+//+!attack_saboteur
+//	:	position(X)
+//	<-	jia.closer_opponent("saboteur",Pos);
+//			jia.move_to_target(X,Pos,NextPos);
+//			!do_and_wait_next_step(goto(NextPos)).
 
-+!attack_repairer
-	:	position(X)
-	<-	jia.closer_opponent("repairer",Pos);
-			jia.move_to_target(X,Pos,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+//+!attack_repairer
+//	:	position(X)
+//	<-	jia.closer_opponent("repairer",Pos);
+//			jia.move_to_target(X,Pos,NextPos);
+//			!do_and_wait_next_step(goto(NextPos)).
 
 
 /* Buy plans */

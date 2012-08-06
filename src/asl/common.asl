@@ -52,6 +52,13 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 
 /* Common Action Plans */
 
+/* go to plan */
++!go_to("none")
+	<-	!do_and_wait_next_step(skip).
++!go_to(Target)
+	<-	!do_and_wait_next_step(goto(Target)).
+
+
 /* plans for energy */
 +!be_at_full_charge 
     : energy(MyE)
@@ -96,21 +103,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 /* go to repairer */
 +!go_to_repairer
 	<-	jia.closer_repairer(Pos);
-			!move_closer_to_repairer(Pos).
-
-+!move_closer_to_repairer("none")
-	: is_move_goal
-	<- 	!init_goal(move_to_target).
-+!move_closer_to_repairer("none")
-	:	is_wait_goal & step(S)
-	<-	!wait_next_step(S).
-+!move_closer_to_repairer("none")
-	<-	!init_goal(random_walk).
-
-+!move_closer_to_repairer(Pos)
-	: position(X)
-	<-	jia.move_to_target(X,Pos,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+			!move_to(Pos).
 
 
 /* parry plan */
@@ -130,7 +123,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
     : position(MyV) // my location
    <- //jia.random_walk(MyV,Target);
    		jia.least_visited_neighbor(MyV,Target);
-   		!do_and_wait_next_step(goto(Target)).
+   		!go_to(Target).
 -!random_walk[error(I),error_msg(M)]
 	<-	.print("failure in random_walk! ",I,": ",M).
 
@@ -138,24 +131,32 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 /* escape plan */
 +!escape
 	<-	jia.escape(Target);
-			!do_and_wait_next_step(goto(Target)).
+		  !go_to(Target).
 
 
 /* move to taget plans */
 +!move_to_target
 	:	target(Y) & position(X)
 	<-	jia.move_to_target(X,Y,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+			!go_to(NextPos).
 -!move_to_target[error(I),error_msg(M)]
 	<-	.print("failure in move_to_target! ",I,": ",M).
 
 
+/* move to plans */
++!move_to("none")
+	<-	!init_goal(random_walk).
+
++!move_to(Pos)
+	: position(X)
+	<-	jia.move_to_target(X,Pos,NextPos);
+			!go_to(NextPos).
+
+
 /* move to zone plan */
 +!move_to_zone
-	:	position(X)
-	<-	jia.closer_coworker(Y);
-			jia.move_to_target(X,Y,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+	<-	jia.closer_coworker(Pos);
+			!move_to(Pos).
 
 
 /* survey plans */

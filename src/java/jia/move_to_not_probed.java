@@ -41,6 +41,9 @@ public class move_to_not_probed extends DefaultInternalAction {
 		List<Vertex> notProbedNeighbors = graph.returnNotProbedNeighbors(v1);
 		if (null == notProbedNeighbors || notProbedNeighbors.isEmpty()) {
 			int nextMove = graph.returnLeastVisitedNeighbor(v1);
+			if (nextMove == -1) {
+				return un.unifies(terms[1], ASSyntax.createString("none"));
+			}
 			String vertex = "vertex" + nextMove;
 			return un.unifies(terms[1], ASSyntax.createString(vertex));
 		} else {

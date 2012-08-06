@@ -154,13 +154,13 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 
 +!move_to_not_probed
 	: position(MyV) // my location
-	<- jia.move_to_not_probed(MyV,Target);
-		 !do_and_wait_next_step(goto(Target)).
+	<- 	jia.move_to_not_probed(MyV,Target);
+			!go_to(Target).
 
 
 +!move_to_neighbor_not_probed
 	<-	jia.move_to_neighbor_not_probed(Target);
-			!do_and_wait_next_step(goto(Target)).
+			!go_to(Target).
 
 
 /* Buy plans */

@@ -45,16 +45,21 @@ public class move_to_target extends DefaultInternalAction {
 
 		if (graph.existsPath(v1, v2)) {
 			int nextMove = graph.returnNextMove(v1, v2);
-			String vertex = "vertex" + nextMove;
-			return un.unifies(terms[2], ASSyntax.createString(vertex));
-		} else {
-			System.out.println("Could not find a path from vertex" + v1 + " to vertex" + v2);
-
-			// go to the least visited vertex
-			int nextMove = graph.returnLeastVisitedNeighbor(v1);
-			String vertex = "vertex" + nextMove;
-			return un.unifies(terms[2], ASSyntax.createString(vertex));
+			if (nextMove != -1) {
+				String vertex = "vertex" + nextMove;
+				return un.unifies(terms[2], ASSyntax.createString(vertex));
+			}
 		}
+		
+		System.out.println("Could not find a path from vertex" + v1 + " to vertex" + v2);
+
+		// go to the least visited vertex
+		int nextMove = graph.returnLeastVisitedNeighbor(v1);
+		if (nextMove == -1) {
+			return un.unifies(terms[2], ASSyntax.createString("none"));
+		}
+		String vertex = "vertex" + nextMove;
+		return un.unifies(terms[2], ASSyntax.createString(vertex));
 	}
 	
 }

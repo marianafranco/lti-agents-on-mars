@@ -58,6 +58,9 @@ public class select_opponent_to_attack extends DefaultInternalAction {
 		} else {
 			// go to the least visited vertex
 			int nextMove = graph.returnLeastVisitedNeighbor(model.getMyVertex().getId());
+			if (nextMove == -1) {
+				return un.unifies(terms[0], ASSyntax.createString("none"));
+			}
 			String vertex = "vertex" + nextMove;
 			return un.unifies(terms[0], ASSyntax.createString(vertex));
 		}

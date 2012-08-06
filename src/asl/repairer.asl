@@ -119,16 +119,16 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 +!repair
 	<-	!init_goal(wait).
 
-+!help
-	<-	.findall(X, need_help(X), Agents);
-			jia.closer_agent(Agents,Ag,Pos);
-			+help_target(Ag).
+//+!help
+//	<-	.findall(X, need_help(X), Agents);
+//			jia.closer_agent(Agents,Ag,Pos);
+//			+help_target(Ag).
 
-+!go_to_help_target
-	:	help_target(Ag) & position(X)
-	<-	jia.agent_position(Ag,Pos);
-			jia.move_to_target(X,Pos,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+//+!go_to_help_target
+//	:	help_target(Ag) & position(X)
+//	<-	jia.agent_position(Ag,Pos);
+//			jia.move_to_target(X,Pos,NextPos);
+//			!do_and_wait_next_step(goto(NextPos)).
 
 +!not_help
 	: need_help(Ag) & not_need_help(Ag)

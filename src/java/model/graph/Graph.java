@@ -273,6 +273,10 @@ public class Graph {
 		Vertex vertex1 = vertices.get(v1);
 		List<Vertex> neighbors = new ArrayList<Vertex>(vertex1.getNeighbors());
 
+		if (neighbors.isEmpty()) {
+			return -1;
+		}
+
 		Vertex leastVisited = neighbors.remove(0);
 		int minValue = leastVisited.getVisited();
 		for (Vertex neighbor : neighbors) {

@@ -208,11 +208,8 @@
 
 /* Help sabotage plan */
 +!help_sabotage
-	:	position(X)
 	<-	jia.select_opponent_vertex(Pos);
-			jia.move_to_target(X,Pos,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
-
+			!move_to(Pos).
 
 
 /* Buy plans */

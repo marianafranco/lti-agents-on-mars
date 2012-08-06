@@ -47,6 +47,9 @@ public class closer_uninspected_opponent extends DefaultInternalAction {
 			}
 			if (closerPosition == -1) {	// random walk
 				int nextMove = graph.returnLeastVisitedNeighbor(myPosition.getId());
+				if (nextMove == -1) {
+					return un.unifies(terms[0], ASSyntax.createString("none"));
+				}
 				String vertex = "vertex" + nextMove;
 				return un.unifies(terms[0], ASSyntax.createString(vertex));
 			}
@@ -54,6 +57,9 @@ public class closer_uninspected_opponent extends DefaultInternalAction {
 			return un.unifies(terms[0], ASSyntax.createString(vertex));
 		} else {	// random walk
 			int nextMove = graph.returnLeastVisitedNeighbor(myPosition.getId());
+			if (nextMove == -1) {
+				return un.unifies(terms[0], ASSyntax.createString("none"));
+			}
 			String vertex = "vertex" + nextMove;
 			return un.unifies(terms[0], ASSyntax.createString(vertex));
 		}

@@ -26,9 +26,7 @@ public class escape  extends DefaultInternalAction {
 
 		List<Vertex> neighbors = new ArrayList<Vertex>(myPosition.getNeighbors());
 		if (neighbors.isEmpty()) {
-			int nextMove = -1;
-			String vertex = "vertex" + nextMove;
-			return un.unifies(terms[0], ASSyntax.createString(vertex));
+			return un.unifies(terms[0], ASSyntax.createString("none"));
 		}
 
 		for (Vertex neighbor : neighbors) {

@@ -147,10 +147,8 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 /* Go to uninspected opponent */
 +!go_to_uninspected
-	:	position(X)
 	<-	jia.closer_uninspected_opponent(Pos);
-			jia.move_to_target(X,Pos,NextPos);
-			!do_and_wait_next_step(goto(NextPos)).
+			!move_to(Pos).
 
 /* Inspect plans */
 +!inspect

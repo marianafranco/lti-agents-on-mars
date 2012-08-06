@@ -32,6 +32,11 @@ public class least_visited_neighbor extends DefaultInternalAction {
 		Graph graph = model.getGraph();
 
 		int nextMove = graph.returnLeastVisitedNeighbor(v1);
+
+		if (nextMove == -1) {
+			return un.unifies(terms[1], ASSyntax.createString("none"));
+		}
+
 		String vertex = "vertex" + nextMove;
 		return un.unifies(terms[1], ASSyntax.createString(vertex));
 	}
