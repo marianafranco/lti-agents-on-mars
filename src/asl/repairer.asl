@@ -1,7 +1,7 @@
 // Agent Repairer
 
 /* Initial beliefs and rules */
-is_not_help_goal					:-	need_help(Ag) & not_need_help(Ag).
+is_not_help_goal					:-	not_need_help(Ag).
 //is_help_goal							:-	need_help(Ag) & not help_target(_).
 //is_help_target_goal				:-	help_target(Ag) & jia.agent_position(Ag,Pos) & not position(Pos) & not has_saboteur_at(Pos).
 //is_repair_target_goal			:-	help_target(Ag) & jia.agent_position(Ag,Pos) & position(Pos).
@@ -133,13 +133,17 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 +!not_help
 	: need_help(Ag) & not_need_help(Ag)
 	<-	.abolish(need_help(Ag));
-			.abolish(not_need_help(Ag));
-			!remove_help_target.
+			.abolish(not_need_help(Ag)).
+//			!remove_help_target.
++!not_help
+	: not_need_help(Ag)
+	<-	.abolish(not_need_help(Ag)).
+//			!remove_help_target.
 
-+!remove_help_target
-	:	help_target(Ag) & not need_help(Ag)
-	<-	.abolish(help_target(Ag)).
-+!remove_help_target.
+//+!remove_help_target
+//	:	help_target(Ag) & not need_help(Ag)
+//	<-	.abolish(help_target(Ag)).
+//+!remove_help_target.
 
 
 /* Buy plans */

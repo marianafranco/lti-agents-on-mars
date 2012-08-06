@@ -103,7 +103,16 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 /* go to repairer */
 +!go_to_repairer
 	<-	jia.closer_repairer(Pos);
-			!move_to(Pos).
+			!move_to_repairer(Pos).
+
++!move_to_repairer(Pos)
+	: position(Pos)
+	<-	!call_help;
+			!do_and_wait_next_step(recharge).
+
++!move_to_repairer(Pos)
+	: position(X)
+	<-	!move_to(Pos).
 
 
 /* parry plan */
