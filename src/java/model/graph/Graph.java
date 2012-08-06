@@ -9,6 +9,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import arch.WorldModel;
+
 import env.Percept;
 
 /**
@@ -302,6 +304,28 @@ public class Graph {
 			}
 		}
 		return notProbedNeighbors;
+	}
+
+	public List<Vertex> returnTeamNotProbedNeighbors(Vertex vertex1) {
+		List<Vertex> notProbedNeighbors = new ArrayList<Vertex>();
+		List<Vertex> neighbors = new ArrayList<Vertex>(vertex1.getNeighbors());
+
+		for (Vertex neighbor : neighbors) {
+			if (!neighbor.isProbed() && neighbor.getTeam().equals(WorldModel.myTeam)) {
+				notProbedNeighbors.add(neighbor);
+			}
+		}
+		return notProbedNeighbors;
+	}
+
+	public List<Vertex> returnTeamNotProbedVertices() {
+		List<Vertex> notProbed = new ArrayList<Vertex>();
+		for (Vertex v : vertices.values()) {
+			if (!v.isProbed() && v.getTeam().equals(WorldModel.myTeam)) {
+				notProbed.add(v);
+			}
+		}
+		return notProbed;
 	}
 
 	public List<Vertex> returnNotProbedNeighbors(List<Vertex> vertices) {

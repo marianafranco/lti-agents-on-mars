@@ -4,12 +4,10 @@ import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.ASSyntax;
-import jason.asSyntax.Atom;
 import jason.asSyntax.Term;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import model.graph.Graph;
 import model.graph.Vertex;
@@ -31,38 +29,63 @@ public class move_to_not_probed extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		String vertex1 = ((Atom) terms[0]).getFunctor();
-		vertex1 = vertex1.replace("vertex", "");
-		int v1 = Integer.parseInt(vertex1);
-
 		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 		Graph graph = model.getGraph();
 
-		List<Vertex> notProbedNeighbors = graph.returnNotProbedNeighbors(v1);
-		if (null == notProbedNeighbors || notProbedNeighbors.isEmpty()) {
-			int nextMove = graph.returnLeastVisitedNeighbor(v1);
-			if (nextMove == -1) {
-				return un.unifies(terms[1], ASSyntax.createString("none"));
-			}
-			String vertex = "vertex" + nextMove;
-			return un.unifies(terms[1], ASSyntax.createString(vertex));
-		} else {
+		Vertex myPosition = model.getMyVertex();
+
+		List<Vertex> notProbedNeighbors = graph.returnTeamNotProbedNeighbors(myPosition);
+		if (null != notProbedNeighbors && !notProbedNeighbors.isEmpty()) {
 			List<Vertex> possibleMoves = new ArrayList<Vertex>();
 			for (Vertex notProbedNeighbor : notProbedNeighbors) {
-				if (!model.hasActiveOpponentOnVertex(notProbedNeighbor)) {
+				if (!model.hasActiveSaboteurOpponentOnVertex(notProbedNeighbor)) {
 					possibleMoves.add(notProbedNeighbor);
 				}
 			}
 			if (!possibleMoves.isEmpty()) {
-				Random randomGenerator = new Random();
-				int randomInt = randomGenerator.nextInt(possibleMoves.size());
-				String vertex = "vertex" + possibleMoves.get(randomInt).getId();
-				return un.unifies(terms[1], ASSyntax.createString(vertex));
-			} else {
-				String vertex = "vertex" + notProbedNeighbors.get(0).getId();
-				return un.unifies(terms[1], ASSyntax.createString(vertex));
+				String vertex = "vertex" + possibleMoves.get(0).getId();
+				return un.unifies(terms[0], ASSyntax.createString(vertex));
 			}
 		}
+
+		List<Vertex> teamNotProbedVertices = graph.returnTeamNotProbedVertices();
+		if (null != teamNotProbedVertices && !teamNotProbedVertices.isEmpty()) {
+			List<Vertex> possibleMoves = new ArrayList<Vertex>();
+			for (Vertex notProbed : teamNotProbedVertices) {
+				if (!model.hasActiveSaboteurOpponentOnVertex(notProbed)) {
+					possibleMoves.add(notProbed);
+				}
+			}
+			if (!possibleMoves.isEmpty()) {
+				// go to more closer vertex
+				int minDist = Integer.MAX_VALUE;
+				int closerPosition = -1;
+				for (Vertex v : possibleMoves) {
+					int dist = graph.getDistance(myPosition, v);
+					if (dist < minDist) {
+						closerPosition = v.getId();
+					}
+				}
+				if (closerPosition != -1) {
+					String vertex = "vertex" + closerPosition;
+					return un.unifies(terms[0], ASSyntax.createString(vertex));
+				}
+			}
+		}
+
+		notProbedNeighbors = graph.returnNotProbedNeighbors(myPosition);
+		if (null != notProbedNeighbors && !notProbedNeighbors.isEmpty()) {
+			String vertex = "vertex" + notProbedNeighbors.get(0).getId();
+			return un.unifies(terms[0], ASSyntax.createString(vertex));
+		}
+
+		// go to the least visited vertex
+		int nextMove = graph.returnLeastVisitedNeighbor(myPosition.getId());
+		if (nextMove == -1) {
+			return un.unifies(terms[0], ASSyntax.createString("none"));
+		}
+		String vertex = "vertex" + nextMove;
+		return un.unifies(terms[0], ASSyntax.createString(vertex));
 	}
 
 }

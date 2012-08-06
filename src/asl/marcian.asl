@@ -93,19 +93,19 @@
 // plans to commit to missions
 
 // explorer
-+!commit_to_mission
-	:	role(explorer).		// explorers will commit to missions through the obligations handler
 //+!commit_to_mission
-//	:	goalState("sch1",_,_,_,_) & role(explorer)
-//	<-	.print("I will try to commit to mExplore");
-//			commitMission(mExplore)[artifact_name(Scheme)];
-//			!check_commit_mission(mExplore,Scheme).
-//-!commit_to_mission
-//	: role(explorer)
-//	<-	.print("I could not commit to mExplorer");
-//			.print("I will try to commit to mOccupyZone");
-//			commitMission(mOccupyZone)[artifact_name(Scheme)];
-//			!check_commit_mission(mOccupyZone,Scheme).
+//	:	role(explorer).		// explorers will commit to missions through the obligations handler
++!commit_to_mission
+	:	goalState("sch1",_,_,_,_) & role(explorer)
+	<-	.print("I will try to commit to mExplore");
+			commitMission(mExplore)[artifact_name(Scheme)];
+			!check_commit_mission(mExplore,Scheme).
+-!commit_to_mission
+	: role(explorer)
+	<-	.print("I could not commit to mExplorer");
+			.print("I will try to commit to mOccupyZone");
+			commitMission(mOccupyZone)[artifact_name(Scheme)];
+			!check_commit_mission(mOccupyZone,Scheme).
 
 // repairer
 +!commit_to_mission

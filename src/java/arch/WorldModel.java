@@ -524,6 +524,17 @@ public class WorldModel {
 		return false;
 	}
 
+	public boolean hasActiveSaboteurOpponentOnVertex(Vertex v) {
+		for (Entity opponent : opponents.values()) {
+			if (opponent.getVertex().equals(v)
+					&& !opponent.getStatus().toLowerCase().equals(Percept.STATUS_DISABLED)
+					&& opponent.getRole().equals(Percept.ROLE_SABOTEUR)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean hasUniqueActiveOpponentOnVertex(int v) {
 		int count = 0;
 		for (Entity opponent : opponents.values()) {

@@ -53,7 +53,7 @@
         <scheme id="marsSch">
             <goal id="win" ds="Win the Multiagent contest">
                 <plan operator="parallel" >
-<!-- 					<goal id="explore_goal"			ds="Explore the graph"/> -->
+					<goal id="explore_goal"			ds="Explore the graph"/>
 					<goal id="occupy_zone_goal"		ds="Occupy the best zone of Mars"/>
 					<goal id="repair_goal"			ds="Repair damaged teammates"/>
 					<goal id="sabotage_goal"		ds="Sabotage the opponents"/>
@@ -63,9 +63,9 @@
                 </plan>
             </goal>
 
-<!-- 			<mission id="mExplore" min="0" max="2"> -->
-<!--                 <goal id="explore_goal"/> -->
-<!--             </mission> -->
+			<mission id="mExplore" min="0" max="1">
+                <goal id="explore_goal"/>
+            </mission>
 
             <mission id="mOccupyZone" min="8" max="20">
                 <goal id="occupy_zone_goal"/>
@@ -95,11 +95,11 @@
 
 
     <normative-specification>
-<!-- 		<norm id = "n1"	  type="permission" -->
-<!--                           role="explorer" mission="mExplore" /> -->
+		<norm id = "n1"	  type="permission"
+                          role="explorer" mission="mExplore" />
 
-<!-- 		<norm id = "n2"	  type="permission" -->
-		<norm id = "n2"	  type="obligation"
+<!-- 		<norm id = "n2"	  type="obligation" -->
+		<norm id = "n2"	  type="permission"
                           role="explorer" mission="mOccupyZone" />
 
 		<norm id = "n3"   type="obligation"

@@ -14,10 +14,10 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!select_explore_goal.
 
 
-+!select_explore_goal
-	:	is_stop_explore_goal
-	<-	!init_goal(start_new_mission(mOccupyZone));
-			!occupy_zone_goal.
+//+!select_explore_goal
+//	:	is_stop_explore_goal
+//	<-	!init_goal(start_new_mission(mOccupyZone));
+//			!occupy_zone_goal.
 
 +!select_explore_goal
 	:	is_call_help_goal
@@ -117,10 +117,10 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 	<-	!init_goal(explorer_buy);
 			!!select_explorer_goal.
 
-+!select_explorer_goal
-	:	is_on_target_goal
-	<-	!init_goal(move_to_neighbor_not_probed);
-			!!select_explorer_goal.
+//+!select_explorer_goal
+//	:	is_on_target_goal
+//	<-	!init_goal(move_to_neighbor_not_probed);
+//			!!select_explorer_goal.
 
 +!select_explorer_goal
 	:	is_recharge_goal
@@ -130,6 +130,11 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 +!select_explorer_goal
 	: is_move_to_zone_goal
 	<-	!init_goal(move_to_zone);
+			!!select_explorer_goal.
+
++!select_explorer_goal
+	:	is_on_target_goal
+	<-	!init_goal(wait);
 			!!select_explorer_goal.
 
 +!select_explorer_goal
@@ -153,14 +158,13 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 /* Move to not probed */
 
 +!move_to_not_probed
-	: position(MyV) // my location
-	<- 	jia.move_to_not_probed(MyV,Target);
-			!go_to(Target).
+	<- 	jia.move_to_not_probed(Target);
+			!move_to(Target).
 
 
-+!move_to_neighbor_not_probed
-	<-	jia.move_to_neighbor_not_probed(Target);
-			!go_to(Target).
+//+!move_to_neighbor_not_probed
+//	<-	jia.move_to_neighbor_not_probed(Target);
+//			!go_to(Target).
 
 
 /* Buy plans */
