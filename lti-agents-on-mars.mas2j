@@ -18,7 +18,7 @@ MAS lti_agents_on_mars {
 					"visibleVertex(key,_)", "zoneScore(_)", "zonesScore(_)", "probedVertex(key,_)",
 					"surveyedEdge(key,key,_)", "energy(_)", "position(_)", "coworkerPosition(key,_)",
 					"coworker(key,_,_)", "target(_)", "health(_)", "need_help(key)", "help_target(key,_)",
-					"maxEnergyDisabled(_)", "maxEnergy(_)", "maxHealth(_)",
+					"maxEnergyDisabled(_)", "maxEnergy(_)", "maxHealth(_)", "coworkerStatus(key,_)",
 					"inspectedEntity(key,_,_,_,_,_,_,_,_,_)");
 
    classpath: "lib/moise.jar";		// moise: where the artifacts are included

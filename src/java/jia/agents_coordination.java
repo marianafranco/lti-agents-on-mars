@@ -63,13 +63,18 @@ public class agents_coordination extends DefaultInternalAction {
 			}
 
 			List<Entity> coworkers = model.getCoworkersToOccupyZone();	// TODO order by agent type
+																		// TODO verify if I am in the coworkers list
 
+			logger.info("COWORKERS: " + coworkers);
 			for (Entity coworker : coworkers) {
 				Vertex target = null;
 				Vertex agentPosition = coworker.getVertex();
 				if (bestZone.contains(agentPosition)) {	// the agent is part of the best zone
 					if (model.isFrontier(agentPosition)) {
 						// TODO verify if the agent can move to a neighbor without break the zone
+						// has another coworker in the same position?
+						// has a coworker in the neighbor vertex
+						
 					} else {
 						if (!bestNeighbors.isEmpty()) {
 							target = model.closerVertex(agentPosition, bestNeighbors);

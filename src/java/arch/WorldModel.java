@@ -104,6 +104,13 @@ public class WorldModel {
 				if (!containsCoworker(aName, pos)) {
 					addCoworker(aName, pos);
 				}
+			} else if (functor.equals(Percept.coworkerStatus)) {
+				String aName = percept.getTerm(0).toString();
+				String status = percept.getTerm(1).toString();
+				if (coworkers.containsKey(aName)) {
+					Entity e = coworkers.get(aName);
+					e.setStatus(status);
+				}
 			} else if (functor.equals(Percept.coworker)) {
 				String aName = percept.getTerm(0).toString();
 				String role = percept.getTerm(1).toString();

@@ -71,6 +71,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 	<-	jia.get_repairers(Agents);
 			!send_help(Agents);
 			+need_help;
+			!send_status(disabled);
 			!alert_saboteur.
 
 +!send_help([X|TAg])
@@ -90,7 +91,8 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 +!not_need_help
 	<-	jia.get_repairers(Agents);
 			!send_not_need_help(Agents);
-			-need_help.
+			-need_help;
+			!send_status(normal).
 
 +!send_not_need_help([X|TAg])
 	: .my_name(Me)
@@ -98,6 +100,12 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
  	   	.send(X,tell,not_need_help(Me));
  	   	!send_not_need_help(TAg).
 +!send_not_need_help([]).
+
+
+/* send status */
++!send_status(S)
+	: .my_name(Me)
+	<-	.broadcast(tell,coworkerStatus(Me,S)).
 
 
 /* go to repairer */
