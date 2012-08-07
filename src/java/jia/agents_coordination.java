@@ -10,6 +10,7 @@ import jason.asSyntax.Term;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import model.Entity;
 import model.graph.Graph;
@@ -31,6 +32,8 @@ public class agents_coordination extends DefaultInternalAction {
 
 	private static final long serialVersionUID = -6858228332440013608L;
 
+	static Logger logger = Logger.getLogger(agents_coordination.class.getName());
+
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		synchronized (this) {
@@ -41,6 +44,7 @@ public class agents_coordination extends DefaultInternalAction {
 			Graph graph = model.getGraph();
 			List<Vertex> bestZone = model.getBestZone();	// zone with the greatest value
 
+//			logger.info("BEST ZONE: " + bestZone);
 			if (null == bestZone || bestZone.isEmpty()) {
 				return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 			}

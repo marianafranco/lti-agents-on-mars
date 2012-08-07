@@ -1,6 +1,5 @@
 package arch;
 
-import env.Percept;
 import jason.asSyntax.Literal;
 import jason.asSyntax.NumberTerm;
 
@@ -12,6 +11,7 @@ import java.util.Set;
 import model.Entity;
 import model.graph.Graph;
 import model.graph.Vertex;
+import env.Percept;
 
 /**
  * Class used to model the scenario (for an agent view).
@@ -308,15 +308,18 @@ public class WorldModel {
 	}
 
 	private void coloringNeighbors() {
+		List<Vertex> blueVertices = graph.getBlueVertices();
+		List<Vertex> redVertices = graph.getRedVertices();
+
 		Set<Vertex> neighbors = myVertex.getNeighbors();
 		for (Vertex v : neighbors) {
 			if (v.getColor() == Vertex.WHITE) {
 				int numOfBlueNeighbors = 0;
 				int numOfRedNeighbors = 0;
 				for (Vertex vv : v.getNeighbors()) {
-					if (vv.getColor() == Vertex.BLUE) {
+					if (blueVertices.contains(vv)) {
 						numOfBlueNeighbors++;
-					} else if (vv.getColor() == Vertex.RED) {
+					} else if (redVertices.contains(vv)) {
 						numOfRedNeighbors++;
 					}
 				}
@@ -336,9 +339,9 @@ public class WorldModel {
 						int numOfBlueNeighbors = 0;
 						int numOfRedNeighbors = 0;
 						for (Vertex vv : v.getNeighbors()) {
-							if (vv.getColor() == Vertex.BLUE) {
+							if (blueVertices.contains(vv)) {
 								numOfBlueNeighbors++;
-							} else if (vv.getColor() == Vertex.RED) {
+							} else if (redVertices.contains(vv)) {
 								numOfRedNeighbors++;
 							}
 						}
