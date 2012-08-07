@@ -40,7 +40,7 @@ public class MarcianArch extends CAgentArch {
 		super();
 		logger = Logger.getLogger("MarcianArch");
 		env = MarsEnv.getInstance();
-		model = new WorldModel();
+		model = new WorldModel(getAgName());
 	}
 
 	/**

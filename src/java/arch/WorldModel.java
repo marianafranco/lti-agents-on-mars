@@ -5,6 +5,7 @@ import jason.asSyntax.NumberTerm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,12 +29,15 @@ public class WorldModel {
 	public final static String myTeam = "A";
 	public final static int numOfOpponents = 20;
 
-	private Vertex myVertex;
+	private Entity agent;
 
-	public WorldModel() {
+	public WorldModel(String agentName) {
 		graph = new Graph();
 		opponents = new HashMap<String, Entity>();
 		coworkers = new HashMap<String, Entity>();
+		agent = new Entity(agentName);
+		agent.setTeam(myTeam);
+		agent.setStatus(Percept.STATUS_NORMAL);
 	}
 
 	public List<Literal> update(List<Literal> percepts) {
@@ -128,14 +132,15 @@ public class WorldModel {
 				String myPosition = percept.getTerm(0).toString();
 				myPosition = myPosition.replace("vertex", "");
 				int myPos = Integer.parseInt(myPosition);
+				Vertex myVertex = agent.getVertex();
 				if (null == myVertex || myVertex.getId() != myPos) {
 					Vertex vtx = graph.getVertices().get(myPos);
 					if (null == vtx) {
 						vtx = new Vertex(myPos, myTeam);
 						graph.addVertex(vtx);
 					}
-					myVertex = vtx;
-					myVertex.addVisited();
+					agent.setVertex(vtx);
+					vtx.addVisited();
 					newPercepts.add(percept);
 				}
 			} else if (functor.equals(Percept.saboteur)) {
@@ -288,13 +293,9 @@ public class WorldModel {
 
 	private void coloringVertices() {
 		// color my vertices
-		if (myVertex.getTeam().equals(myTeam)) {		// TODO check if disabled
-			myVertex.setColor(Vertex.BLUE);
-		} else if (!myVertex.getTeam().equals(Percept.TEAM_NONE)
-				&& !myVertex.getTeam().equals(Percept.TEAM_UNKNOWN)) {
-			myVertex.setColor(Vertex.RED);
-		}
-		for (Entity e : coworkers.values()) {
+		Set<Entity> teamAgents = new HashSet<Entity>(coworkers.values());
+		teamAgents.add(agent);
+		for (Entity e : teamAgents) {
 			Vertex v = e.getVertex();
 			if (v.getTeam().equals(myTeam) && !e.getStatus().equals(Percept.STATUS_DISABLED)) {
 				v.setColor(Vertex.BLUE);
@@ -318,26 +319,11 @@ public class WorldModel {
 		List<Vertex> blueVertices = graph.getBlueVertices();
 		List<Vertex> redVertices = graph.getRedVertices();
 
-		Set<Vertex> neighbors = myVertex.getNeighbors();
-		for (Vertex v : neighbors) {
-			if (v.getColor() == Vertex.WHITE) {
-				int numOfBlueNeighbors = 0;
-				int numOfRedNeighbors = 0;
-				for (Vertex vv : v.getNeighbors()) {
-					if (blueVertices.contains(vv)) {
-						numOfBlueNeighbors++;
-					} else if (redVertices.contains(vv)) {
-						numOfRedNeighbors++;
-					}
-				}
-				if (numOfBlueNeighbors > numOfRedNeighbors && numOfBlueNeighbors > 1) {
-					v.setColor(Vertex.BLUE);
-				} else if (numOfBlueNeighbors < numOfRedNeighbors && numOfRedNeighbors > 1) {
-					v.setColor(Vertex.RED);
-				}
-			}
-		}
-		for (Entity e : coworkers.values()) {
+		Set<Entity> teamAgents = new HashSet<Entity>(coworkers.values());
+		teamAgents.add(agent);
+
+		Set<Vertex> neighbors = null;
+		for (Entity e : teamAgents) {
 			Vertex coworkerV = e.getVertex();
 			if (coworkerV.getColor() == Vertex.BLUE) {
 				neighbors = coworkerV.getNeighbors();
@@ -715,59 +701,63 @@ public class WorldModel {
 
 	public Entity getCloserAgent(List<Entity> agents) {
 		int minDist = Integer.MAX_VALUE;
-		Entity agent = null;
+		Entity ag = null;
+		Vertex myVertex = agent.getVertex();
 		for (Entity e : agents) {
 			Vertex v = e.getVertex();
 			int dist = graph.getDistance(myVertex, v);
 			if (dist < minDist) {
-				agent = e;
+				ag = e;
 			}
 		}
-		return agent;
+		return ag;
 	}
 
 	public Entity getCloserOpponent() {
 		int minDist = Integer.MAX_VALUE;
-		Entity agent = null;
+		Entity ag = null;
+		Vertex myVertex = agent.getVertex();
 		for (Entity e : opponents.values()) {
 			Vertex v = e.getVertex();
 			int dist = graph.getDistance(myVertex, v);
 			if (dist < minDist) {
-				agent = e;
+				ag = e;
 			}
 		}
-		return agent;
+		return ag;
 	}
 
 	public Entity getCloserActiveOpponentNotSaboteur() {
 		int minDist = Integer.MAX_VALUE;
-		Entity agent = null;
+		Entity ag = null;
+		Vertex myVertex = agent.getVertex();
 		for (Entity e : opponents.values()) {
 			if (!e.getRole().equals(Percept.ROLE_SABOTEUR)
 					&& !e.getStatus().equals(Percept.STATUS_DISABLED)) {
 				Vertex v = e.getVertex();
 				int dist = graph.getDistance(myVertex, v);
 				if (dist < minDist) {
-					agent = e;
+					ag = e;
 				}
 			}
 		}
-		return agent;
+		return ag;
 	}
 
 	public Entity getCloserActiveOpponent() {
 		int minDist = Integer.MAX_VALUE;
-		Entity agent = null;
+		Entity ag = null;
+		Vertex myVertex = agent.getVertex();
 		for (Entity e : opponents.values()) {
 			if (!e.getStatus().equals(Percept.STATUS_DISABLED)) {
 				Vertex v = e.getVertex();
 				int dist = graph.getDistance(myVertex, v);
 				if (dist < minDist) {
-					agent = e;
+					ag = e;
 				}
 			}
 		}
-		return agent;
+		return ag;
 	}
 
 	public boolean containsOpponentSaboteurOnVertex(Vertex v) {
@@ -787,11 +777,11 @@ public class WorldModel {
 	}
 
 	public Vertex getMyVertex() {
-		return myVertex;
+		return agent.getVertex();
 	}
 
-	public void setMyVertex(Vertex myVertex) {
-		this.myVertex = myVertex;
+	public void setAgentStatus(String status) {
+		agent.setStatus(status);
 	}
 
 	public HashMap<String, Entity> getCoworkers() {

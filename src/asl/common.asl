@@ -105,7 +105,8 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 /* send status */
 +!send_status(S)
 	: .my_name(Me)
-	<-	.broadcast(tell,coworkerStatus(Me,S)).
+	<-	.broadcast(tell,coworkerStatus(Me,S));
+			jia.set_my_status(S).
 
 
 /* go to repairer */
