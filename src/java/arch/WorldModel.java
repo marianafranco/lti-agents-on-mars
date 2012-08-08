@@ -578,6 +578,16 @@ public class WorldModel {
 		return opponentName;
 	}
 
+	public List<Entity> getOpponentsOnVertex(int v) {
+		List<Entity> opponentsOnVertex = new ArrayList<Entity>();
+		for (Entity opponent : opponents.values()) {
+			if (opponent.getVertex().getId() == v) {
+				opponentsOnVertex.add(opponent);
+			}
+		}
+		return opponentsOnVertex;
+	}
+
 	public String getOpponentName(Vertex v) {
 		String opponentName = null;
 		for (Entity opponent : opponents.values()) {

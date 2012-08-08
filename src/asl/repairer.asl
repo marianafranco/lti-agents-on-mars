@@ -5,7 +5,7 @@ is_not_help_goal					:-	not_need_help(Ag).
 //is_help_goal							:-	need_help(Ag) & not help_target(_).
 //is_help_target_goal				:-	help_target(Ag) & jia.agent_position(Ag,Pos) & not position(Pos) & not has_saboteur_at(Pos).
 //is_repair_target_goal			:-	help_target(Ag) & jia.agent_position(Ag,Pos) & position(Pos).
-is_repair_goal						:-	need_help(Ag) & jia.agent_position(Ag,Pos) & position(Pos).
+is_repair_goal						:-	need_help(Ag) & jia.agent_position(Ag,Pos) & position(Pos) & not jia.has_another_repairer.
 is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_neighbor_vertex(Pos).
 
 /* Initial goals */
@@ -41,6 +41,11 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 //			!!select_repairer_goal.
 
 +!select_repairer_goal
+	:	is_parry_goal
+	<-	!init_goal(parry);
+			!!select_repairer_goal.
+
++!select_repairer_goal
 	:	is_repair_goal
 	<-	!init_goal(repair);
 			!!select_repairer_goal.
@@ -48,11 +53,6 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 +!select_repairer_goal
 	:	is_disabled_goal
 	<-	!init_goal(go_to_repairer);
-			!!select_repairer_goal.
-
-+!select_repairer_goal
-	:	is_parry_goal
-	<-	!init_goal(parry);
 			!!select_repairer_goal.
 
 +!select_repairer_goal

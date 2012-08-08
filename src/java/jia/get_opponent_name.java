@@ -1,13 +1,19 @@
 package jia;
 
-import model.graph.Vertex;
-import arch.MarcianArch;
-import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Term;
+
+import java.util.List;
+
+import env.Percept;
+
+import model.Entity;
+import model.graph.Vertex;
+import arch.MarcianArch;
+import arch.WorldModel;
 
 /**
  * Retrieves the name of the opponent which is in the same position as me.
@@ -25,7 +31,20 @@ public class get_opponent_name extends DefaultInternalAction {
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 		Vertex myPosition = model.getMyVertex();
-		String opponentName = model.getOpponentName(myPosition);
-		return un.unifies(terms[0], ASSyntax.createString(opponentName));
+		List<Entity> opponents = model.getOpponentsOnVertex(myPosition.getId());
+		if (opponents.isEmpty()) {
+			return un.unifies(terms[0], ASSyntax.createString("none"));
+		}
+		for (Entity opponent : opponents) {
+			if (opponent.getRole().equals(Percept.ROLE_REPAIRER)) {
+				return un.unifies(terms[0], ASSyntax.createString(opponent.getName()));
+			}
+		}
+		for (Entity opponent : opponents) {
+			if (opponent.getRole().equals(Percept.ROLE_SABOTEUR)) {
+				return un.unifies(terms[0], ASSyntax.createString(opponent.getName()));
+			}
+		}
+		return un.unifies(terms[0], ASSyntax.createString(opponents.get(0).getName()));
 	}
 }
