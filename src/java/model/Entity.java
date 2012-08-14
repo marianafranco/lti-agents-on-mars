@@ -17,6 +17,8 @@ public class Entity {
 	private String role = Percept.ROLE_UNKNOWN;
 	private String mission = Percept.MISSION_UNKNOWN;
 
+	private int id = -1;
+
 	private boolean inspected = false;
 	private int energy;
 	private int maxEnergy;
@@ -60,6 +62,14 @@ public class Entity {
 		this.maxHealth = entityMaxHealth;
 		this.strenght = entityStrenght;
 		this.visibility = entityVisibility;
+	}
+
+	public int getId() {
+		if (id == -1) {
+			String idString = name.replace("marcian", "");
+			id = Integer.parseInt(idString);
+		}
+		return id;
 	}
 
 	/* Getters and Setters */

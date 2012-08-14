@@ -618,6 +618,20 @@ public class WorldModel {
 		return agents;
 	}
 
+	public List<Entity> getCoworkersOnSameVertex(Entity e) {
+		List<Entity> agents = new ArrayList<Entity>();
+		List<Entity> coworkersList = new ArrayList<Entity>(coworkers.values());
+		coworkersList.add(agent);
+		Vertex v = e.getVertex();
+		for (Entity ag : coworkersList) {
+			if (ag.getVertex().equals(v) && !ag.equals(e)
+					&& !ag.getStatus().equals(Percept.STATUS_DISABLED)) {
+				agents.add(ag);
+			}
+		}
+		return agents;
+	}
+
 	public List<Entity> getActiveOpponentByRole(String role) {
 		List<Entity> agents = new ArrayList<Entity>();
 		for (Entity opponent : opponents.values()) {
@@ -800,5 +814,9 @@ public class WorldModel {
 
 	public HashMap<String, Entity> getOpponents() {
 		return opponents;
+	}
+
+	public Entity getAgentEntity() {
+		return agent;
 	}
 }

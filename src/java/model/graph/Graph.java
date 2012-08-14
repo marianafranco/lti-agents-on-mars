@@ -1,6 +1,7 @@
 package model.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,7 +11,6 @@ import java.util.Random;
 import java.util.Set;
 
 import arch.WorldModel;
-
 import env.Percept;
 
 /**
@@ -263,6 +263,18 @@ public class Graph {
 		}
 	}
 
+	public int closerVertex(Vertex myPosition, List<Vertex> vList) {
+		int minDist = Integer.MAX_VALUE;
+		int closerPosition = -1;
+		for (Vertex v : vList) {
+			int dist = getDistance(myPosition, v);
+			if (dist < minDist) {
+				closerPosition = v.getId();
+			}
+		}
+		return closerPosition;
+	}
+
 	public int returnRandomMove(int v1) {
 		Vertex vertex1 = vertices.get(v1);
 		List<Vertex> neighbors = new ArrayList<Vertex>(vertex1.getNeighbors());
@@ -373,6 +385,46 @@ public class Graph {
 		}
 		return end;
 	}
+
+	public List<Set<Vertex>> getBestPlaces() {
+		List<Set<Vertex>> bestPlaces = new ArrayList<Set<Vertex>>();
+
+		List<Vertex> verticesList = new ArrayList<Vertex>(vertices.values());
+		VertexComparator comparator = new VertexComparator();
+		Collections.sort(verticesList, comparator);
+
+		int maxZoneValue = 0;
+		Set<Vertex> bestPlace = null;
+		for (Vertex v : verticesList) {
+			Set<Vertex> zone = new HashSet<Vertex>();
+			zone.add(v);
+			Set<Vertex> neighbors = v.getNeighbors();
+			zone.addAll(neighbors);
+			Set<Vertex> zoneMoreNeighbors = new HashSet<Vertex>(zone);
+			for (Vertex neighbor : neighbors) {
+				zoneMoreNeighbors.addAll(neighbor.getNeighbors());
+			}
+			int zoneValue = countZoneValue(zoneMoreNeighbors);
+			if (zoneValue > maxZoneValue && zoneValue > 5) {
+				maxZoneValue = zoneValue;
+				bestPlace = zone;
+			}
+		}
+
+		if (bestPlace != null) {
+			bestPlaces.add(bestPlace);
+		}
+		return bestPlaces;
+	}
+
+	private int countZoneValue(Set<Vertex> zone) {
+		int totalValue = 0;
+		for (Vertex v : zone) {
+			totalValue += v.getValue();
+		}
+		return totalValue;
+	}
+	
 	public void addVertex(int id, String team) {
 		Vertex v = vertices.get(id);
 		if (null == v) {

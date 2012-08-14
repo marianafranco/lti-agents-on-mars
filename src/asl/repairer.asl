@@ -6,7 +6,7 @@ is_not_help_goal					:-	not_need_help(Ag).
 //is_help_target_goal				:-	help_target(Ag) & jia.agent_position(Ag,Pos) & not position(Pos) & not has_saboteur_at(Pos).
 //is_repair_target_goal			:-	help_target(Ag) & jia.agent_position(Ag,Pos) & position(Pos).
 is_repair_goal						:-	need_help(Ag) & jia.agent_position(Ag,Pos) & position(Pos) & not jia.has_another_repairer.
-is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_neighbor_vertex(Pos).
+is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_neighbor_vertex(Pos) & not jia.has_another_repairer.
 
 /* Initial goals */
 

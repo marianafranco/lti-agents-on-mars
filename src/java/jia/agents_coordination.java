@@ -8,8 +8,10 @@ import jason.asSyntax.ListTerm;
 import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Term;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import model.Entity;
@@ -49,12 +51,30 @@ public class agents_coordination extends DefaultInternalAction {
 				return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 			}
 
+			List<Set<Vertex>> bestPlaces =  graph.getBestPlaces();
+			List<Vertex> bestPlace = null;
+			if (!bestPlaces.isEmpty()) {
+				bestPlace = new ArrayList<Vertex>(bestPlaces.get(0));
+				bestPlace.removeAll(bestZone);
+				VertexComparator comparator = new VertexComparator();
+				Collections.sort(bestPlace, comparator);
+			}
+
+			List<Entity> coworkers = model.getCoworkersToOccupyZone();	// TODO order by agent type
+
+			Entity me = model.getAgentEntity();
+			if (me.getName().equals("no-named")) {
+			me.setName(ts.getUserAgArch().getAgName());
+			}
+			coworkers.add(0, me);
+
 			List<Vertex> zoneNeighbors = model.getZoneNeighbors(bestZone);
 
 			// order neighbors by vertex value
 			VertexComparator comparator = new VertexComparator();
 			Collections.sort(zoneNeighbors, comparator);
 
+			// bestNeighbors = neighbors with two or more blue neighbors
 			List<Vertex> bestNeighbors = model.getBestZoneNeighbors(zoneNeighbors);
 			zoneNeighbors.removeAll(bestNeighbors);
 
@@ -62,10 +82,9 @@ public class agents_coordination extends DefaultInternalAction {
 				return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 			}
 
-			List<Entity> coworkers = model.getCoworkersToOccupyZone();	// TODO order by agent type
-																		// TODO verify if I am in the coworkers list
+			
 
-			logger.info("COWORKERS: " + coworkers);
+//			logger.info("COWORKERS: " + coworkers);
 			for (Entity coworker : coworkers) {
 				Vertex target = null;
 				Vertex agentPosition = coworker.getVertex();
@@ -74,28 +93,65 @@ public class agents_coordination extends DefaultInternalAction {
 						// TODO verify if the agent can move to a neighbor without break the zone
 						// has another coworker in the same position?
 						// has a coworker in the neighbor vertex
+						List<Entity> agsOnSameVertex = model.getCoworkersOnSameVertex(coworker);
+						if (!agsOnSameVertex.isEmpty()) {
+							boolean canMove = true;
+							for (Entity ag : agsOnSameVertex) {
+								if (ag.getId() > coworker.getId()) {
+									canMove = false;
+								}
+							}
+							if (canMove) {
+								if (null != bestPlace && !bestPlace.isEmpty()) {
+									target = model.closerVertex(agentPosition, bestPlace);
+									if (null != target) {
+										bestPlace.remove(target);
+									}
+								} else if (!bestNeighbors.isEmpty()) {
+									target = model.closerVertex(agentPosition, bestNeighbors);
+									if (null != target) {
+										bestNeighbors.remove(target);
+									}
+								} else if (!zoneNeighbors.isEmpty()) {
+									target = model.closerVertex(agentPosition, zoneNeighbors);
+									if (null != target) {
+										zoneNeighbors.remove(target);
+									}
+								}
+							}
+						}
 						
 					} else {
-						if (!bestNeighbors.isEmpty()) {
+						if (null != bestPlace && !bestPlace.isEmpty()) {
+							target = model.closerVertex(agentPosition, bestPlace);
+							if (null != target) {
+								bestPlace.remove(target);
+							}
+						} else if (!bestNeighbors.isEmpty()) {
 							target = model.closerVertex(agentPosition, bestNeighbors);
 							if (null != target) {
 								bestNeighbors.remove(target);
 							}
 						} else if (!zoneNeighbors.isEmpty()) {
-							target = model.closerVertex(agentPosition, bestNeighbors);
+							target = model.closerVertex(agentPosition, zoneNeighbors);
 							if (null != target) {
 								zoneNeighbors.remove(target);
 							}
 						}
 					}
 				} else {
-					if (!bestNeighbors.isEmpty()) {
+					if (null != bestPlace && !bestPlace.isEmpty()) {
+						target = model.closerVertex(agentPosition, bestPlace);
+						if (null != target) {
+							bestPlace.remove(target);
+						}
+					} else if (!bestNeighbors.isEmpty()) {
 						target = model.closerVertex(agentPosition, bestNeighbors);
 						if (null != target) {
 							bestNeighbors.remove(target);
 						}
 					} else if (!zoneNeighbors.isEmpty()) {
-						target = model.closerVertex(agentPosition, bestNeighbors);
+						target = model.closerVertex(agentPosition, zoneNeighbors);
 						if (null != target) {
 							zoneNeighbors.remove(target);
 						}
@@ -106,56 +162,6 @@ public class agents_coordination extends DefaultInternalAction {
 					agents.add(ASSyntax.createString(coworker.getName()));
 					positions.add(ASSyntax.createString("vertex" + target.getId()));
 				}
-			}
-
-			
-			// my move
-			Vertex myVertex = model.getMyVertex();
-			Vertex myTarget = null;
-			if (bestZone.contains(myVertex)) {
-				if (model.isFrontier(myVertex)) {
-					// TODO verify if the agent can move to a neighbor without break the zone
-				} else {
-					List<Vertex> notProbedNeighbors = graph.returnNotProbedNeighbors(myVertex);
-					if (!notProbedNeighbors.isEmpty()) {
-						for (Vertex notProbedNeighbor : notProbedNeighbors) {
-							if (bestZone.contains(notProbedNeighbor)) {
-								myTarget = notProbedNeighbor;
-							}
-						}
-					}
-
-					if (myTarget != null) {
-						notProbedNeighbors = graph.returnNotProbedNeighbors(bestZone);
-						if (!notProbedNeighbors.isEmpty()) {
-							myTarget = notProbedNeighbors.get(0);	// TODO get the more closer vertex
-						}
-						// TODO else?
-					}
-				}
-			} else {
-				if (!bestNeighbors.isEmpty()) {
-					myTarget = model.closerVertex(myVertex, bestNeighbors);
-					if (null != myTarget) {
-						bestNeighbors.remove(myTarget);
-					}
-				} else if (!zoneNeighbors.isEmpty()) {
-					myTarget = model.closerVertex(myTarget, bestNeighbors);
-					if (null != myTarget) {
-						zoneNeighbors.remove(myTarget);
-					}
-				} else {
-					List<Vertex> notProbedNeighbors = graph.returnNotProbedNeighbors(bestZone);
-					if (!notProbedNeighbors.isEmpty()) {
-						myTarget = notProbedNeighbors.get(0);	// TODO get the more closer vertex
-					}
-					// TODO else?
-				}
-			}
-
-			if (null != myTarget) {
-				agents.add(ASSyntax.createString(ts.getUserAgArch().getAgName()));
-				positions.add(ASSyntax.createString("vertex" + myTarget.getId()));
 			}
 			return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 		}
