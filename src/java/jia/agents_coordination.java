@@ -44,14 +44,14 @@ public class agents_coordination extends DefaultInternalAction {
 
 			WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 			Graph graph = model.getGraph();
-			List<Vertex> bestZone = model.getBestZone();	// zone with the greatest value
+			List<Vertex> bestZone = model.getBestZone();	// team zone with the greatest value
 
 //			logger.info("BEST ZONE: " + bestZone);
 			if (null == bestZone || bestZone.isEmpty()) {
 				return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 			}
 
-			List<Set<Vertex>> bestPlaces =  graph.getBestPlaces();
+			List<Set<Vertex>> bestPlaces =  graph.getBestPlaces();	// the best area in the graph
 			List<Vertex> bestPlace = null;
 			if (!bestPlaces.isEmpty()) {
 				bestPlace = new ArrayList<Vertex>(bestPlaces.get(0));
@@ -59,14 +59,6 @@ public class agents_coordination extends DefaultInternalAction {
 				VertexComparator comparator = new VertexComparator();
 				Collections.sort(bestPlace, comparator);
 			}
-
-			List<Entity> coworkers = model.getCoworkersToOccupyZone();	// TODO order by agent type
-
-			Entity me = model.getAgentEntity();
-			if (me.getName().equals("no-named")) {
-			me.setName(ts.getUserAgArch().getAgName());
-			}
-			coworkers.add(0, me);
 
 			List<Vertex> zoneNeighbors = model.getZoneNeighbors(bestZone);
 
@@ -82,79 +74,51 @@ public class agents_coordination extends DefaultInternalAction {
 				return un.unifies(terms[0], agents) & un.unifies(terms[1], positions);
 			}
 
-			
+			List<Entity> coworkers = model.getCoworkersToOccupyZone();
+			Entity me = model.getAgentEntity();
+			if (me.getName().equals("no-named")) {
+			me.setName(ts.getUserAgArch().getAgName());
+			}
+			coworkers.add(0, me);
 
 //			logger.info("COWORKERS: " + coworkers);
 			for (Entity coworker : coworkers) {
 				Vertex target = null;
 				Vertex agentPosition = coworker.getVertex();
-				if (bestZone.contains(agentPosition)) {	// the agent is part of the best zone
-					if (model.isFrontier(agentPosition)) {
-						// TODO verify if the agent can move to a neighbor without break the zone
-						// has another coworker in the same position?
-						// has a coworker in the neighbor vertex
-						List<Entity> agsOnSameVertex = model.getCoworkersOnSameVertex(coworker);
-						if (!agsOnSameVertex.isEmpty()) {
-							boolean canMove = true;
-							for (Entity ag : agsOnSameVertex) {
-								if (ag.getId() > coworker.getId()) {
-									canMove = false;
-								}
-							}
-							if (canMove) {
-								if (null != bestPlace && !bestPlace.isEmpty()) {
-									target = model.closerVertex(agentPosition, bestPlace);
-									if (null != target) {
-										bestPlace.remove(target);
-									}
-								} else if (!bestNeighbors.isEmpty()) {
-									target = model.closerVertex(agentPosition, bestNeighbors);
-									if (null != target) {
-										bestNeighbors.remove(target);
-									}
-								} else if (!zoneNeighbors.isEmpty()) {
-									target = model.closerVertex(agentPosition, zoneNeighbors);
-									if (null != target) {
-										zoneNeighbors.remove(target);
-									}
-								}
+				if (bestZone.contains(agentPosition) && model.isFrontier(agentPosition)) {	// the agent is part of the best zone's frontier
+					List<Entity> agsOnSameVertex = model.getCoworkersOnSameVertex(coworker);
+					if (!agsOnSameVertex.isEmpty()) {	// if there are other agents on the same vertex
+						boolean canMove = true;
+						for (Entity ag : agsOnSameVertex) {
+							if (ag.getId() > coworker.getId()) {
+								canMove = false;	// only the agent with the lower id can move
+								break;
 							}
 						}
-						
+						if (!canMove) {
+							continue;
+						}
 					} else {
-						if (null != bestPlace && !bestPlace.isEmpty()) {
-							target = model.closerVertex(agentPosition, bestPlace);
-							if (null != target) {
-								bestPlace.remove(target);
-							}
-						} else if (!bestNeighbors.isEmpty()) {
-							target = model.closerVertex(agentPosition, bestNeighbors);
-							if (null != target) {
-								bestNeighbors.remove(target);
-							}
-						} else if (!zoneNeighbors.isEmpty()) {
-							target = model.closerVertex(agentPosition, zoneNeighbors);
-							if (null != target) {
-								zoneNeighbors.remove(target);
-							}
-						}
+						continue;	// the agent must not move if he is in the frontier and has no other agent on the same vertex
 					}
-				} else {
-					if (null != bestPlace && !bestPlace.isEmpty()) {
-						target = model.closerVertex(agentPosition, bestPlace);
-						if (null != target) {
-							bestPlace.remove(target);
-						}
-					} else if (!bestNeighbors.isEmpty()) {
-						target = model.closerVertex(agentPosition, bestNeighbors);
-						if (null != target) {
-							bestNeighbors.remove(target);
-						}
-					} else if (!zoneNeighbors.isEmpty()) {
-						target = model.closerVertex(agentPosition, zoneNeighbors);
-						if (null != target) {
-							zoneNeighbors.remove(target);
-						}
+				}
+
+				if (null != bestPlace && !bestPlace.isEmpty()) {
+					target = model.closerVertex(agentPosition, bestPlace);
+					if (null != target) {
+						bestPlace.remove(target);
+					}
+				}
+				if (null == target && !bestNeighbors.isEmpty()) {
+					target = model.closerVertex(agentPosition, bestNeighbors);
+					if (null != target) {
+						bestNeighbors.remove(target);
+					}
+				}
+				if (null == target && !zoneNeighbors.isEmpty()) {
+					target = model.closerVertex(agentPosition, zoneNeighbors);
+					if (null != target) {
+						zoneNeighbors.remove(target);
 					}
 				}
 
