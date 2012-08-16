@@ -40,7 +40,7 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!!select_explore_goal.
 
 +!select_explore_goal
-	: is_parry_goal
+	: is_escape_goal
 	<-	!init_goal(escape);
 			!!select_explore_goal.
 
@@ -93,7 +93,7 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!!select_explorer_goal.
 
 +!select_explorer_goal
-	: is_parry_goal
+	: is_escape_goal
 	<-	!init_goal(escape);
 			!!select_explorer_goal.
 

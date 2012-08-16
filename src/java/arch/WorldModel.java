@@ -618,6 +618,18 @@ public class WorldModel {
 		return agents;
 	}
 
+	public List<Entity> getDisabledCoworkersAt(Vertex v) {
+		List<Entity> disabledCoworkers = new ArrayList<Entity>();
+		
+		for (Entity coworker : coworkers.values()) {
+			if (coworker.getVertex().equals(v) && coworker.getStatus().equals(Percept.STATUS_DISABLED)) {
+				disabledCoworkers.add(coworker);
+			}
+		}
+		
+		return disabledCoworkers;
+	}
+
 	public List<Entity> getCoworkersOnSameVertex(Entity e) {
 		List<Entity> agents = new ArrayList<Entity>();
 		List<Entity> coworkersList = new ArrayList<Entity>(coworkers.values());
