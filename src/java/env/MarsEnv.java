@@ -112,6 +112,10 @@ public class MarsEnv extends CartagoEnvironment implements AgentListener {
 
     /**
      * Handler for percepts received from the server.
+     * 
+     * This method is called if the environment-interface sends a
+	 * percept as a notification. Note, that sending percepts-via-notifications
+	 * must be explicitely activated for the environment-interface.
      */
 	@Override
 	public void handlePercept(String agent, Percept percept) {
@@ -203,4 +207,5 @@ public class MarsEnv extends CartagoEnvironment implements AgentListener {
 	public static MarsEnv getInstance(){
 		return instance;
 	}
+
 }

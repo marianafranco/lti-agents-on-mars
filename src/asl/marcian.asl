@@ -24,8 +24,8 @@
 			makeArtifact("marsGroupBoard","ora4mas.nopl.GroupBoard",["lti-agents-on-mars-os.xml", team, false, false ],GrArtId);
 	 		setOwner(marcian1);
      	focus(GrArtId);
-  		!run_scheme(sch1);
-  		!playRole.
+  		!run_scheme(sch1).
+//  		!playRole.
 -!start[error(I),error_msg(M)]
 	: .my_name(marcian1)
 	<-	.print("failure in starting! ",I,": ",M).
@@ -34,8 +34,8 @@
 +!start 
 	<- 	!join;
 			lookupArtifact("marsGroupBoard",GrId);
-			focus(GrId);
-			!playRole.
+			focus(GrId).
+//			!playRole.
 -!start
 	<- 	.wait(100);
 			!start.
@@ -45,7 +45,7 @@
 			joinWorkspace("marsWS",_).
 -!join
 	<- 	.wait(200);
-			!join.
+			!!join.
 
 // scheme creation
 +!run_scheme(S)
@@ -66,9 +66,14 @@
 				focus(ArtId)
       }.
 
+
+
++simStart
+	<-	!playRole.
+
 // plan to start to play a role
 +!playRole
-	:	role(R) & .my_name(Ag)
+	:	role(R) & .my_name(Ag) & simStart
 	<- 	jia.to_lower_case(R,S);
 		  -role(R);
 		  +role(S);
@@ -78,7 +83,7 @@
 			!commit_to_mission.
 
 -!playRole
-	<- 	.wait(100);
+	<- 	.wait(500);
 			!playRole.
 
 +!check_play(A,R,_)
@@ -188,7 +193,7 @@
 	<-	.wait({+commitment(_,_,_)},200,_);
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(Mission)[artifact_name(S)];
-			!check_commit_mission(M,S).
+			!!check_commit_mission(M,S).
 
 
 // start new mission
