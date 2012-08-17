@@ -580,10 +580,11 @@ public class WorldModel {
 		return opponentName;
 	}
 
-	public List<Entity> getOpponentsOnVertex(int v) {
+	public List<Entity> getActiveOpponentsOnVertex(int v) {
 		List<Entity> opponentsOnVertex = new ArrayList<Entity>();
 		for (Entity opponent : opponents.values()) {
-			if (opponent.getVertex().getId() == v) {
+			if (opponent.getVertex().getId() == v
+					&& !opponent.getStatus().equals(Percept.STATUS_DISABLED)) {
 				opponentsOnVertex.add(opponent);
 			}
 		}
@@ -798,14 +799,26 @@ public class WorldModel {
 		return ag;
 	}
 
-	public boolean containsOpponentSaboteurOnVertex(Vertex v) {
+	public boolean containsActiveOpponentSaboteurOnVertex(Vertex v) {
 		for (Entity opponent : opponents.values()) {
 			if (opponent.getVertex().equals(v)
-					&& opponent.getRole().equals(Percept.ROLE_SABOTEUR)) {
+					&& opponent.getRole().equals(Percept.ROLE_SABOTEUR)
+					&& !opponent.getStatus().equals(Percept.STATUS_DISABLED)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public int numOfActiveOpponentsAt(Vertex v) {
+		int num = 0;
+		for (Entity opponent : opponents.values()) {
+			if (opponent.getVertex().equals(v) && 
+					!opponent.getStatus().equals(Percept.STATUS_DISABLED)) {
+				num++;
+			}
+		}
+		return num;
 	}
 	
 	/* Getters and Setters */

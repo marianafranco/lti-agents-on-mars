@@ -31,7 +31,8 @@ public class select_opponent_to_attack extends DefaultInternalAction {
 			Map<String, Entity> opponents = model.getOpponents();
 			List<Entity> opponentsOnZone = new ArrayList<Entity>();
 			for (Entity opponent : opponents.values()) {
-				if (!opponent.getStatus().equals(Percept.STATUS_DISABLED)) {
+				if (!opponent.getStatus().equals(Percept.STATUS_DISABLED)
+						&& !opponent.getRole().equals(Percept.ROLE_SABOTEUR)) {
 					Vertex v = opponent.getVertex();
 					if (zone.contains(v)) {
 						opponentsOnZone.add(opponent);

@@ -116,12 +116,11 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 			!move_to_repairer(Pos).
 
 +!move_to_repairer(X)
-	: position(X)
+	: jia.is_at_target(X)
 	<-	!call_help;
 			!do_and_wait_next_step(recharge).
 
 +!move_to_repairer(X)
-	: not position(X)
 	<-	!move_to(X).
 
 

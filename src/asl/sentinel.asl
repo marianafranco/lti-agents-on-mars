@@ -191,15 +191,9 @@
 /* Agents coordination plans */
 
 +!agents_coordination
-//	: jia.is_on_best_place
 	<- 	jia.agents_coordination(A,P);
 			.print("New formation!! ", .length(P));
 			!send_target(A,P).
-
-//+!agents_coordination
-//	<- 	jia.get_best_place(A,P);
-//			.print("New formation!! ", .length(P));
-//			!send_target(A,P).
 
 +!send_target([X|TAg],[Y|TLoc])
  	<- 	.print("send: ",X, ", " ,Y);

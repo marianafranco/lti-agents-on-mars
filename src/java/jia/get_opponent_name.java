@@ -31,17 +31,17 @@ public class get_opponent_name extends DefaultInternalAction {
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 		Vertex myPosition = model.getMyVertex();
-		List<Entity> opponents = model.getOpponentsOnVertex(myPosition.getId());
+		List<Entity> opponents = model.getActiveOpponentsOnVertex(myPosition.getId());
 		if (opponents.isEmpty()) {
 			return un.unifies(terms[0], ASSyntax.createString("none"));
 		}
 		for (Entity opponent : opponents) {
-			if (opponent.getRole().equals(Percept.ROLE_REPAIRER)) {
+			if (opponent.getRole().equals(Percept.ROLE_SABOTEUR)) {
 				return un.unifies(terms[0], ASSyntax.createString(opponent.getName()));
 			}
 		}
 		for (Entity opponent : opponents) {
-			if (opponent.getRole().equals(Percept.ROLE_SABOTEUR)) {
+			if (opponent.getRole().equals(Percept.ROLE_REPAIRER)) {
 				return un.unifies(terms[0], ASSyntax.createString(opponent.getName()));
 			}
 		}

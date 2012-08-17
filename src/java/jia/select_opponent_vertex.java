@@ -26,13 +26,27 @@ public class select_opponent_vertex extends DefaultInternalAction {
 		Graph graph = model.getGraph();
 		List<Vertex> zone = model.getBestOpponentZone();
 		if (null != zone && !zone.isEmpty()) {
-			// order neighbors by vertex value
+			// sort by vertex value
 			VertexComparator comparator = new VertexComparator();
 			Collections.sort(zone, comparator);
 
 			Vertex bestVertex = null;
 			for (Vertex v : zone) {
-				if (!model.containsOpponentSaboteurOnVertex(v)) {
+				if (!model.containsActiveOpponentSaboteurOnVertex(v)
+						&& model.numOfActiveOpponentsAt(v) < 2) {
+					bestVertex = v;
+					break;
+				}
+			}
+			if (null != bestVertex) {
+				String vertex = "vertex" + bestVertex.getId();
+				return un.unifies(terms[0], ASSyntax.createString(vertex));
+			}
+
+			// else
+			bestVertex = null;
+			for (Vertex v : zone) {
+				if (!model.containsActiveOpponentSaboteurOnVertex(v)) {
 					bestVertex = v;
 					break;
 				}

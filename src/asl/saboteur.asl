@@ -4,8 +4,6 @@
 
 // conditions for goal selection
 is_attack_goal 					:- 	jia.has_opponent_on_vertex.
-//is_attack_saboteur_goal	:-	jia.found_active_saboteur.
-//is_attack_repairer_goal	:-	jia.found_active_repairer.
 
 /* Initial goals */
 
@@ -89,16 +87,6 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 	<-	!init_goal(attack);
 			!!select_saboteur_goal.
 
-//+!select_saboteur_goal
-//	:	is_attack_saboteur_goal
-//	<-	!init_goal(attack_saboteur);
-//			!!select_saboteur_goal.
-
-//+!select_saboteur_goal
-//	:	is_attack_repairer_goal
-//	<-	!init_goal(attack_repairer);
-//			!!select_saboteur_goal.
-
 +!select_saboteur_goal
 	:	is_move_goal
 	<-	!init_goal(move_to_target);
@@ -142,18 +130,6 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 	<-	jia.get_opponent_name(Enemy);
 			.print("Attacked ", Enemy);
 			!do_and_wait_next_step(attack(Enemy)).
-
-//+!attack_saboteur
-//	:	position(X)
-//	<-	jia.closer_opponent("saboteur",Pos);
-//			jia.move_to_target(X,Pos,NextPos);
-//			!do_and_wait_next_step(goto(NextPos)).
-
-//+!attack_repairer
-//	:	position(X)
-//	<-	jia.closer_opponent("repairer",Pos);
-//			jia.move_to_target(X,Pos,NextPos);
-//			!do_and_wait_next_step(goto(NextPos)).
 
 
 /* Buy plans */
