@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import arch.WorldModel;
+
 import c4jason.CartagoEnvironment;
 import eis.AgentListener;
 import eis.EILoader;
@@ -49,6 +51,20 @@ public class MarsEnv extends CartagoEnvironment implements AgentListener {
     @Override
     public void init(String[] args) {
     	super.init(args);
+
+    	// sets the team's name and user prefix
+    	String teamName = args[3];
+    	Literal l = Literal.parseLiteral(teamName);
+    	if (l.getFunctor().equals("teamName")){
+			String team = l.getTerm(0).toString();
+			WorldModel.myTeam = team;
+    	}
+    	String usernamePrefix = args[4];
+    	l = Literal.parseLiteral(usernamePrefix);
+    	if (l.getFunctor().equals("usernamePrefix")){
+			String prefix = l.getTerm(0).toString();
+			WorldModel.usernamePrefix = prefix;
+    	}
 
     	try {
     		//instantiate the environment-interface-class via this very class-loader

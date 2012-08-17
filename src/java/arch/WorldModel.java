@@ -26,7 +26,9 @@ public class WorldModel {
 	private HashMap<String, Entity> opponents;
 	private HashMap<String, Entity> coworkers;
 
-	public final static String myTeam = "A";
+	public static String myTeam = "A";
+	public static String usernamePrefix = "a";
+
 	public final static int numOfOpponents = 20;
 
 	private Entity agent;

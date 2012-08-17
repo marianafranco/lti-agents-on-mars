@@ -7,7 +7,7 @@
 MAS lti_agents_on_mars {
    infrastructure: Centralised
 
-   environment: env.MarsEnv("infrastructure","protocol(rmi)","service(rmi,'localhost:21000')")	// the environment is cartago
+   environment: env.MarsEnv("infrastructure","protocol(rmi)","service(rmi,'localhost:21000')","teamName(A)","usernamePrefix(a)")	// the environment is cartago
 
    agents:
 		marcian		#20

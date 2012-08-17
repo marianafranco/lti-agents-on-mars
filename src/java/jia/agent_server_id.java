@@ -28,7 +28,7 @@ public class agent_server_id extends DefaultInternalAction {
 			agentName =  ((Atom) terms[0]).getFunctor();
 		}
 		agentName = agentName.replace("marcian", "");
-		agentName = WorldModel.myTeam.toLowerCase() + agentName;
+		agentName = WorldModel.usernamePrefix + agentName;
 		return un.unifies(terms[1], ASSyntax.createString(agentName));
 	}
 }
