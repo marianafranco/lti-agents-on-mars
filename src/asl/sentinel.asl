@@ -237,3 +237,6 @@
 	: buy_shield
 	<-	-buy_shield;
 			+buy_battery.
+
++!sentinel_buy
+	<-	+buy_battery.

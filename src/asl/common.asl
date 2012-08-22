@@ -45,11 +45,6 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 //+step(S) <- .print("Current step is ", S).	// used for debug purposes
 
 
-+simEnd 
-   <- .abolish(_); // clean all BB
-      .drop_all_desires.
-
-
 
 /* Common Action Plans */
 

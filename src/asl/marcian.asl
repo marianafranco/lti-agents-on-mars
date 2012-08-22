@@ -37,8 +37,8 @@
 			focus(GrId).
 //			!playRole.
 -!start
-	<- 	.wait(100);
-			!start.
+	<- 	.wait(200);
+			!!start.
 
 +!join 
 	<- 	.my_name(Me);
@@ -69,7 +69,12 @@
 
 
 +simStart
-	<-	!playRole.
+	: schemes(L)
+	<-	!!playRole.
+
++simStart
+	<-	.wait({+schemes(_)},200,_);
+			!!playRole.
 
 // plan to start to play a role
 +!playRole
@@ -84,7 +89,7 @@
 
 -!playRole
 	<- 	.wait(500);
-			!playRole.
+			!!playRole.
 
 +!check_play(A,R,_)
 	:	play(A,R,_) & .my_name(A).
@@ -196,9 +201,10 @@
 			!!check_commit_mission(M,S).
 
 
+
 // start new mission
 +!start_new_mission(M)
-	: obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
+	: obligation(Me,Norm,achieved(Scheme,Goal,Ag),DeadLine) & .my_name(Me)
 	<-	.print("Achived goal ", Goal);
 			goalAchieved(Goal)[artifact_name(Scheme)];
 			.print("I will try to commit to ", M);
@@ -208,3 +214,30 @@
 	<-	.print("I will try to commit to ", M);
 			commitMission(M)[artifact_name(Scheme)];
 			!check_commit_mission(M,Scheme).
+
+/* Plans to finish the simulation and start a new one */
++simEnd
+	:	.my_name(marcian1)
+	<-	.drop_all_desires;
+			-simEnd;
+			-simStart;
+			!remove_percepts;
+			jia.restart_world_model;
+   		lookupArtifact("sch1",SchId);
+      destroy[artifact_id(SchId)];
+			disposeArtifact(SchId);
+      !run_scheme(sch1).
+
++simEnd
+   <- .drop_all_desires;
+			-simEnd;
+			-simStart;
+			!remove_percepts;
+			jia.restart_world_model.
+
++!remove_percepts
+	<-	.abolish(achievement(_));
+			.abolish(coworker(_,_,_));
+			.abolish(coworkerPosition(_,_));
+			.abolish(role(_)).
+			

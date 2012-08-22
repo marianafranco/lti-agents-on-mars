@@ -19,7 +19,7 @@ MAS lti_agents_on_mars {
 					"surveyedEdge(key,key,_)", "energy(_)", "position(_)", "coworkerPosition(key,_)",
 					"coworker(key,_,_)", "target(_)", "health(_)", "need_help(key)", "help_target(key,_)",
 					"maxEnergyDisabled(_)", "maxEnergy(_)", "maxHealth(_)", "coworkerStatus(key,_)",
-					"inspectedEntity(key,_,_,_,_,_,_,_,_,_)");
+					"inspectedEntity(key,_,_,_,_,_,_,_,_,_)", "id(_)");
 
    classpath: "lib/moise.jar";		// moise: where the artifacts are included
    			  "lib/c4jason.jar";	// jason-cartago integration

@@ -24,6 +24,10 @@ public class is_at_target extends DefaultInternalAction {
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		String vertex = ((StringTerm) terms[0]).getString();
+		if (vertex.equals("none")) {
+			return false;
+		}
+
 		vertex = vertex.replace("vertex", "");
 		int target = Integer.parseInt(vertex);
 

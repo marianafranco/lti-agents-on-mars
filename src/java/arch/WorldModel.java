@@ -42,6 +42,12 @@ public class WorldModel {
 		agent.setStatus(Percept.STATUS_NORMAL);
 	}
 
+	public void restart() {
+		graph = new Graph();
+		opponents = new HashMap<String, Entity>();
+		coworkers = new HashMap<String, Entity>();
+	}
+
 	public List<Literal> update(List<Literal> percepts) {
 		List<Literal> newPercepts = new ArrayList<Literal>();
 		for (Literal percept : percepts) {
