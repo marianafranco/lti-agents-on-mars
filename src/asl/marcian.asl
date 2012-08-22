@@ -67,6 +67,10 @@
       }.
 
 
++simStart
+	: schemes([])
+	<-	.wait({+schemes(_)},200,_);
+			!!playRole.
 
 +simStart
 	: schemes(L)
