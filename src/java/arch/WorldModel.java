@@ -99,6 +99,7 @@ public class WorldModel {
 				graph.setMaxNumOfEdges(edges);
 			} else if (functor.equals(Percept.visibleEntity)) {
 				String name = percept.getTerm(0).toString();
+				name = name.replaceAll("\"", "");
 				String vertex = percept.getTerm(1).toString();
 				int v = Integer.parseInt(vertex.replace("vertex", ""));
 				String team = percept.getTerm(2).toString();
@@ -171,6 +172,7 @@ public class WorldModel {
 				saboteur.setVertex(saboteurVtx);
 			} else if (functor.equals(Percept.inspectedEntity)) {
 				String entityName = percept.getTerm(0).toString();
+				entityName = entityName.replaceAll("\"", "");
 				String entityTeam = percept.getTerm(1).toString();
 				entityTeam = entityTeam.replaceAll("\"", "");
 				if (entityTeam.equals(myTeam)) {
