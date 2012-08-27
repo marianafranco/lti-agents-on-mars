@@ -151,8 +151,7 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 /* Probe plans */
 
 +!probe
-   <- .print("Probing my location");
-      !do_and_wait_next_step(probe).
+   <- !do_and_wait_next_step(probe).
 
 
 /* Move to not probed */

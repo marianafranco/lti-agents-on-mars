@@ -23,9 +23,10 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 
 // the following plan is used to send only one action each cycle
 +!do_and_wait_next_step(Act)
-    : step(S)
-   <- Act; // perform the action (i.e., send the action to the simulator)
-     !wait_next_step(S). // wait for the next step before going on
+	: step(S)
+	<-	.print("(step: ",S,") Executing action ",Act);
+			Act; // perform the action (i.e., send the action to the simulator)
+     	!wait_next_step(S). // wait for the next step before going on
 
 +!wait_next_step(S)  : step(S+1).
 +!wait_next_step(S) <- .wait( { +step(_) }, 600, _); !wait_next_step(S).
@@ -33,7 +34,8 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
  
 +!init_goal(G)
 	:	step(S) & position(V) & energy(E) & maxEnergy(Max)
-	<-	.print("I am at ",V," (",E,"/",Max,"), the goal for step ",S," is ",G);
+	<-	//.print("I am at ",V," (",E,"/",Max,"), the goal for step ",S," is ",G);
+			.print("(step: ",S,") Executing goal ",G);
       !G.
 
 +!init_goal(G)
@@ -58,7 +60,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 /* plans for energy */
 +!be_at_full_charge 
     : energy(MyE)
-   <- .print("My energy is ",MyE,", recharging");
+   <- //.print("My energy is ",MyE,", recharging");
       !do_and_wait_next_step(recharge). // otherwise, recharge
 
 
@@ -127,7 +129,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 /* buy battery */
 +!buy(X)
     : money(M)
-   <- .print("I am going to buy ",X,"! My money is ",M);
+   <- //.print("I am going to buy ",X,"! My money is ",M);
       !do_and_wait_next_step(buy(X)).
 
 

@@ -128,7 +128,6 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 
 +!attack
 	<-	jia.get_opponent_name(Enemy);
-			.print("Attacked ", Enemy);
 			!do_and_wait_next_step(attack(Enemy)).
 
 

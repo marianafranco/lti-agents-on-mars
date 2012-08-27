@@ -81,7 +81,7 @@
 
 +!coordinate
 	: step(S)
-	<- 	.print("(step: ",S,") Executing action coordination");
+	<- 	.print("(step: ",S,") Executing goal coordination");
 			!agents_coordination;
 			!wait_next_step(S);
 			!!coordinate.
@@ -111,4 +111,4 @@
 +!send_target([],[]).
 
 -!send_target[error(I),error_msg(M)]
-	<-	.print("failure in send_target! ",I,": ",M).
+	<-	.print("[ERROR] Failure in send_target! ",I,": ",M).

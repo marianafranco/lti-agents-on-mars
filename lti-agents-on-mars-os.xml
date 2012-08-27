@@ -51,6 +51,27 @@
                       scope="intra-group" extends-subgroups="true" bi-dir="true"/>
             </links>
 
+			<!-- 
+			<subgroups>
+				<group-specification id="zone_group" min="1" max="1">
+					<roles>
+		                <role id="explorer" min="4" max="4" />
+		                <role id="inspector" min="4" max="4" />
+		                <role id="repairer" min="4" max="4" />
+		                <role id="saboteur" min="3" max="3" />
+		                <role id="sentinel" min="3" max="3" />
+		                <role id="coordinator" min="1" max="1" />
+		            </roles>
+				</group-specification>
+				<group-specification id="sabotage_group" min="1" max="1">
+					<roles>
+                		<role id="saboteur" min="0" max="1" />
+                		<role id="sentinel" min="0" max="1" />
+					</roles>
+				</group-specification>
+			</subgroups>
+			 -->
+
 			<formation-constraints>
                 <cardinality min="1" max="1" object="role" id="coordinator"/>
             </formation-constraints>
