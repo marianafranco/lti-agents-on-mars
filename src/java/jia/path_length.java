@@ -26,8 +26,14 @@ public class path_length extends DefaultInternalAction {
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		String vertex1 = ((Atom) terms[0]).getFunctor();
+		if (null == vertex1) {
+			vertex1 = ((StringTerm) terms[0]).getString();
+		}
 		vertex1 = vertex1.replace("vertex", "");
 		String vertex2 = ((StringTerm) terms[1]).getString();
+		if (null == vertex2) {
+			vertex2 = ((Atom) terms[1]).getFunctor();
+		}
 		vertex2 = vertex1.replace("vertex", "");
 		int v1 = Integer.parseInt(vertex1);
 		int v2 = Integer.parseInt(vertex2);

@@ -4,6 +4,7 @@ import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Atom;
+import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import model.graph.Vertex;
 import arch.MarcianArch;
@@ -24,6 +25,9 @@ public class agent_position extends DefaultInternalAction {
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		String agentName =  ((Atom) terms[0]).getFunctor();
+		if (null == agentName) {
+			agentName = ((StringTerm) terms[0]).getString();
+		}
 		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 		Vertex v = model.getCoworkerPosition(agentName);
 		if (null == v) {

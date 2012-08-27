@@ -4,6 +4,7 @@ import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.ASSyntax;
+import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 
@@ -30,6 +31,10 @@ public class closer_opponent extends DefaultInternalAction {
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		String role = ((StringTerm) terms[0]).getString();
+		if (null == role) {
+			role = ((Atom) terms[0]).getFunctor();
+		}
+
 		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 		Graph graph = model.getGraph();
 

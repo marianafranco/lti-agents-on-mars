@@ -7,6 +7,7 @@ import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Atom;
+import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 
 public class is_neighbor_vertex extends DefaultInternalAction {
@@ -18,6 +19,9 @@ public class is_neighbor_vertex extends DefaultInternalAction {
 		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
 		Vertex myPosition = model.getMyVertex();
 		String vertex = ((Atom) terms[0]).getFunctor();
+		if (null == vertex) {
+			vertex = ((StringTerm) terms[0]).getString();
+		}
 		vertex = vertex.replace("vertex", "");
 		int v = Integer.parseInt(vertex);
 		for (Vertex neighbor1 : myPosition.getNeighbors()) {

@@ -3,6 +3,7 @@ package jia;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
+import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import model.graph.Vertex;
@@ -24,6 +25,10 @@ public class is_at_target extends DefaultInternalAction {
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		String vertex = ((StringTerm) terms[0]).getString();
+		if (null == vertex) {
+			vertex = ((Atom) terms[0]).getFunctor();
+		}
+
 		if (vertex.equals("none")) {
 			return false;
 		}
