@@ -1,5 +1,6 @@
 package jia;
 
+import arch.CoordinatorArch;
 import arch.MarcianArch;
 import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
@@ -13,7 +14,12 @@ public class restart_world_model extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = null;
+		if (ts.getUserAgArch().getAgName().equals("coordinator")) {
+			model = ((CoordinatorArch) ts.getUserAgArch()).getModel();
+		} else {
+			model = ((MarcianArch) ts.getUserAgArch()).getModel(); 
+		}
 		model.restart();
 		return true;
 	}

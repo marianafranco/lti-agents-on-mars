@@ -30,6 +30,7 @@
             <role id="sentinel">
             	<extends role="marcian"/>
 			</role>
+			<role id="coordinator" />
         </role-definitions>
 
         <group-specification id="team" >
@@ -40,11 +41,19 @@
                 <role id="repairer" min="0" max="20" />
                 <role id="saboteur" min="0" max="20" />
                 <role id="sentinel" min="0" max="20" />
+                <role id="coordinator" min="1" max="1" />
             </roles>
+
             <links>
                 <link from="marcian" to="marcian" type="communication"
                       scope="intra-group" extends-subgroups="true" bi-dir="true"/>
+				<link from="coordinator" to="marcian" type="communication"
+                      scope="intra-group" extends-subgroups="true" bi-dir="true"/>
             </links>
+
+			<formation-constraints>
+                <cardinality min="1" max="1" object="role" id="coordinator"/>
+            </formation-constraints>
         </group-specification>
     </structural-specification>
 
@@ -98,7 +107,6 @@
 		<norm id = "n1"	  type="permission"
                           role="explorer" mission="mExplore" />
 
-<!-- 		<norm id = "n2"	  type="obligation" -->
 		<norm id = "n2"	  type="permission"
                           role="explorer" mission="mOccupyZone" />
 
@@ -115,16 +123,16 @@
                           role="sentinel" mission="mSentinelSabotage" />
 
 		<norm id = "n7"   type="permission"
-                          role="sentinel" mission="mCoordinate" />
-
-		<norm id = "n8"   type="permission"
                           role="sentinel" mission="mOccupyZone" />
 
-        <norm id = "n9"   type="permission" 
+        <norm id = "n8"   type="permission" 
                           role="inspector" mission="mInspect" />
 
-		<norm id = "n10"  type="permission" 
+		<norm id = "n9"   type="permission" 
                           role="inspector" mission="mOccupyZone" />
+
+		<norm id = "n10"  type="obligation"
+                          role="coordinator" mission="mCoordinate" />
     </normative-specification>
 
 </organisational-specification>

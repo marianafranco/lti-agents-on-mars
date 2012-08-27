@@ -16,21 +16,7 @@
 
 /* Plans */
 
-// marcian1: create workspace and groupBoard and scheme artifacts
-+!start
-	:	.my_name(marcian1)
-	<- 	createWorkspace("marsWS");
-  		joinWorkspace("marsWS",MarsMWsp);
-			makeArtifact("marsGroupBoard","ora4mas.nopl.GroupBoard",["lti-agents-on-mars-os.xml", team, false, false ],GrArtId);
-	 		setOwner(marcian1);
-     	focus(GrArtId);
-  		!run_scheme(sch1).
-//  		!playRole.
--!start[error(I),error_msg(M)]
-	: .my_name(marcian1)
-	<-	.print("failure in starting! ",I,": ",M).
-
-// if not marcian1: join the created workspace and lookup the org artifacts
+// join the created workspace and lookup the org artifacts
 +!start 
 	<- 	!join;
 			lookupArtifact("marsGroupBoard",GrId);
@@ -46,17 +32,6 @@
 -!join
 	<- 	.wait(200);
 			!!join.
-
-// scheme creation
-+!run_scheme(S)
-	<- //makeArtifact(S,"ora4mas.nopl.MySchemeBoard",["wp-os.xml", writePaperSch, false, true ],SchArtId);
-			makeArtifact(S,"ora4mas.nopl.SchemeBoard",["lti-agents-on-mars-os.xml", marsSch, false, false ],SchArtId);
-			focus(SchArtId);
-			.print("scheme ",S," created");
-			addScheme(S)[artifact_name("marsGroupBoard")]; 
-			.print("scheme is linked to responsible group").
--!run_scheme(S)[error(I),error_msg(M)]
-	<- 	.print("failure creating scheme ",S," -- ",I,": ",M).
 
 
 // keep focused on schemes my groups are responsible for
@@ -141,19 +116,10 @@
 // sentinel
 +!commit_to_mission
 	:	goalState("sch1",_,_,_,_) & role(sentinel)
-	<-	.print("I will try to commit to mCoordinate");
-			commitMission(mCoordinate)[artifact_name(Scheme)];
-			!check_commit_mission(mCoordinate,Scheme).
--!commit_to_mission
-	: role(sentinel)
-	<-	.print("I could not commit to mCoordinate");
-			!commit_to_sabotage_mission.
-+!commit_to_sabotage_mission
-	:	role(sentinel)
 	<-	.print("I will try to commit to mSentinelSabotage");
 			commitMission(mSentinelSabotage)[artifact_name(Scheme)];
 			!check_commit_mission(mSentinelSabotage,Scheme).
--!commit_to_sabotage_mission
+-!commit_to_mission
 	: role(sentinel)
 	<-	.print("I could not commit to mSentinelSabotage");
 			.print("I will try to commit to mOccupyZone");
@@ -195,13 +161,13 @@
 // check commitment to mission
 +!check_commit_mission(M,S)
 	:	.my_name(A) & commitment(A,M,_) & role(R)
-	<-	.print("OK!");
+	<-	.print("I commited to ", M);
 			.broadcast(tell,coworker(A,R,M)).			// broadcast
 
 +!check_commit_mission(M,S)
 	<-	.wait({+commitment(_,_,_)},200,_);
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
-			commitMission(Mission)[artifact_name(S)];
+			commitMission(M)[artifact_name(S)];
 			!!check_commit_mission(M,S).
 
 
@@ -220,20 +186,10 @@
 			!check_commit_mission(M,Scheme).
 
 /* Plans to finish the simulation and start a new one */
-+simEnd
-	:	.my_name(marcian1)
-	<-	.drop_all_desires;
-			-simEnd;
-			-simStart;
-			!remove_percepts;
-			jia.restart_world_model;
-   		lookupArtifact("sch1",SchId);
-      destroy[artifact_id(SchId)];
-			disposeArtifact(SchId);
-      !run_scheme(sch1).
 
 +simEnd
    <- .drop_all_desires;
+   		.send(coordinator,tell,simEnd);
 			-simEnd;
 			-simStart;
 			!remove_percepts;
@@ -244,4 +200,3 @@
 			.abolish(coworker(_,_,_));
 			.abolish(coworkerPosition(_,_));
 			.abolish(role(_)).
-			

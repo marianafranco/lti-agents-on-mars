@@ -23,6 +23,9 @@ public class to_lower_case extends DefaultInternalAction {
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		 String string = ((StringTerm) terms[0]).getString();
+		 if (null == string) {
+			 string = ((Atom) terms[0]).getFunctor();
+		 }
 		 string = string.toLowerCase();
 		 return un.unifies(terms[1], new Atom(string));
 	}

@@ -18,7 +18,7 @@ import model.Entity;
 import model.graph.Graph;
 import model.graph.Vertex;
 import model.graph.VertexComparator;
-import arch.MarcianArch;
+import arch.CoordinatorArch;
 import arch.WorldModel;
 
 /**
@@ -42,7 +42,7 @@ public class agents_coordination extends DefaultInternalAction {
 			ListTerm positions = new ListTermImpl();
 			ListTerm agents = new ListTermImpl();
 
-			WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+			WorldModel model = ((CoordinatorArch) ts.getUserAgArch()).getModel();
 			Graph graph = model.getGraph();
 			List<Vertex> bestZone = model.getBestZone();	// team zone with the greatest value
 

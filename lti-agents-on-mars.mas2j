@@ -20,6 +20,16 @@ MAS lti_agents_on_mars {
 					"coworker(key,_,_)", "target(_)", "health(_)", "need_help(key)", "help_target(key,_)",
 					"maxEnergyDisabled(_)", "maxEnergy(_)", "maxHealth(_)", "coworkerStatus(key,_)",
 					"inspectedEntity(key,_,_,_,_,_,_,_,_,_)", "id(_)");
+		coordinator
+					agentArchClass arch.CoordinatorArch
+					beliefBaseClass jason.bb.IndexedBB("deadline(_)", "lastAction(_)", "lastActionParam(_)",
+					"lastActionResult(_)", "lastStepScore(_)", "money(_)", "role(_)", "score(_)", "step(_)",
+					"timestamp(_)", "visibleEdge(key,key)", "visibleEntity(key,_,_,_)",
+					"visibleVertex(key,_)", "zoneScore(_)", "zonesScore(_)", "probedVertex(key,_)",
+					"surveyedEdge(key,key,_)", "energy(_)", "position(_)", "coworkerPosition(key,_)",
+					"coworker(key,_,_)", "target(_)", "health(_)", "need_help(key)", "help_target(key,_)",
+					"maxEnergyDisabled(_)", "maxEnergy(_)", "maxHealth(_)", "coworkerStatus(key,_)",
+					"inspectedEntity(key,_,_,_,_,_,_,_,_,_)", "id(_)");
 
    classpath: "lib/moise.jar";		// moise: where the artifacts are included
    			  "lib/c4jason.jar";	// jason-cartago integration

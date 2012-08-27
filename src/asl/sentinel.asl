@@ -7,68 +7,6 @@
 
 /* Initial goals */
 
-/*************** Coordinate goal *****************/
-+!coordinate_goal
-	<-	.print("Starting coordinate goal"); 
-			!select_coordinate_goal.
-
-
-+!select_coordinate_goal
-	:	is_call_help_goal
-		<-	!init_goal(call_help);
-				!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	:	is_not_need_help_goal
-	<-	!init_goal(not_need_help);
-			!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	:	is_energy_goal
-	<-	!init_goal(agents_coordination);
-			!init_goal(be_at_full_charge);
-			!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	:	is_disabled_goal
-	<-	!init_goal(agents_coordination);
-			!init_goal(go_to_repairer);
-			!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	:	is_parry_goal
-	<-	!init_goal(parry);
-			!!select_coordinate_goal.
-	
-+!select_coordinate_goal
-	:	is_move_goal
-	<-	!init_goal(agents_coordination);
-			!init_goal(move_to_target);
-			!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	: is_survey_goal
-	<- 	!init_goal(agents_coordination);
-			!init_goal(survey);
-			!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	:	is_buy_goal
-	<-	!init_goal(agents_coordination);
-			!init_goal(sentinel_buy);
-			!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	: step(S)
-	<- 	!init_goal(agents_coordination);
-			!wait_next_step(S);
-			!!select_coordinate_goal.
-
-+!select_coordinate_goal
-	<- 	!init_goal(random_walk);
-			!!select_coordinate_goal.
-
-
 /*************** Help sabotage goal *******************/
 
 +!help_sabotage_goal
@@ -186,23 +124,6 @@
 
 
 /**************** Plans *****************/
-
-
-/* Agents coordination plans */
-
-+!agents_coordination
-	<- 	jia.agents_coordination(A,P);
-			.print("New formation!! ", .length(P));
-			!send_target(A,P).
-
-+!send_target([X|TAg],[Y|TLoc])
- 	<- 	.print("send: ",X, ", " ,Y);
- 	   	.send(X,tell,target(Y));
- 	   	!send_target(TAg,TLoc).
-+!send_target([],[]).
-
--!send_target[error(I),error_msg(M)]
-	<-	.print("failure in send_target! ",I,": ",M).
 
 
 /* Help sabotage plan */
