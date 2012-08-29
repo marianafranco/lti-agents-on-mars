@@ -10,9 +10,13 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 
 /***************** Explore goal ********************/
 +!explore_goal
+	:	role(explorer)
 	<-	.print("Starting explore goal");
 			!select_explore_goal.
 
++!explore_goal
+	<-	.wait({+role(explorer)},200,_);
+			!!explore_goal.
 
 //+!select_explore_goal
 //	:	is_stop_explore_goal
@@ -66,11 +70,16 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 
 
 /****************** Occupy zone goal *********************/
-+!occupy_zone_goal
++!occupy_zone1_goal
 	:	role(explorer)
-	<-	.print("Starting occupy_zone goal");
+	<-	.print("Starting occupy_zone1 goal");
 			!select_explorer_goal.
 
++!occupy_zone2_goal
+	:	role(explorer)
+	<-	.print("Starting occupy_zone2 goal");
+			!select_explorer_goal.
+	
 
 +!select_explorer_goal
 	:	is_call_help_goal

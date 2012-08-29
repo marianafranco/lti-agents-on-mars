@@ -10,8 +10,13 @@
 /*************** Help sabotage goal *******************/
 
 +!help_sabotage_goal
+	:	role(sentinel)
 	<- 	.print("Starting sabotage goal");
 			!select_help_sabotage_goal.
+
++!help_sabotage_goal
+	<-	.wait({+role(sentinel)},200,_);
+			!!help_sabotage_goal.
 
 
 +!select_help_sabotage_goal
@@ -57,9 +62,14 @@
 
 /*************** Occupy zone goal *****************/
 
-+!occupy_zone_goal
++!occupy_zone1_goal
 	:	role(sentinel)
-	<-	.print("Starting occupy_zone goal");
+	<-	.print("Starting occupy_zone1 goal");
+			!select_sentinel_goal.
+
++!occupy_zone2_goal
+	:	role(sentinel)
+	<-	.print("Starting occupy_zone2 goal");
 			!select_sentinel_goal.
 
 

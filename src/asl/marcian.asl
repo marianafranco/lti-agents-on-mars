@@ -41,115 +41,114 @@
 				focus(ArtId)
       }.
 
+// keep focused on subgroups
++subgroups(L)
+	<-	for ( .member(S,L) ) {
+				lookupArtifact(S,ArtId);
+				focus(ArtId)
+      }.
 
-+simStart
-	: schemes([])
-	<-	.wait({+schemes(_)},200,_);
-			!!playRole.
 
+// init
 +simStart
-	: schemes(L)
+	<-	!!init.
+
++!init
+	:	availableRole(R,M,S,G) & environment(ok)
+	<-	!!restart.
+
++!init
+	: schemes(L) & environment(ok)
 	<-	!!playRole.
 
-+simStart
-	<-	.wait({+schemes(_)},200,_);
-			!!playRole.
++!init
+	<-	.wait({+environment(ok)},200,_);
+			!!init.
+
++!restart
+	:	availableRole(R,M,S,G) & role(X) & simStart
+	<-	-role(X);
+		  +role(R);
+			!!commit_to_mission.
+
+-!restart
+	<- 	.wait(200);
+			!!restart.
+
 
 // plan to start to play a role
 +!playRole
-	:	role(R) & .my_name(Ag) & simStart
+	:	role(R) & simStart
 	<- 	jia.to_lower_case(R,S);
 		  -role(R);
 		  +role(S);
-			adoptRole(S)[artifact_id(GrArtId)];
-			!check_play(Ag,S,_);
-			.print("I'll play role ",S);
-			!commit_to_mission.
+			.print("I want to play role ",S);
+			.send(coordinator,tell,want_to_play(S)).
 
 -!playRole
-	<- 	.wait(500);
+	<- 	.wait(200);
 			!!playRole.
 
-+!check_play(A,R,_)
++availableRole(R,M,S,G)
+	<-	lookupArtifact(G,GrId);
+			adoptRole(R)[artifact_id(GrId)];
+			.print("I'm playing ",R, " on ",G);
+			!check_play(Ag,R);
+			!!commit_to_mission.
+
++!check_play(A,R)
 	:	play(A,R,_) & .my_name(A).
 
-+!check_play(A,R,_)
++!check_play(A,R)
 	<- 	.wait({+play(_,_,_)},200,_);
 			adoptRole(R)[artifact_id(GrArtId)];
 			!check_play(A,R,_).
 
 
-// plans to commit to missions
-
-// explorer
-//+!commit_to_mission
-//	:	role(explorer).		// explorers will commit to missions through the obligations handler
+// plans to commit to missions which the agent has permission
 +!commit_to_mission
-	:	goalState("sch1",_,_,_,_) & role(explorer)
+	:	availableRole(R,mExplore,S,G)
 	<-	.print("I will try to commit to mExplore");
-			commitMission(mExplore)[artifact_name(Scheme)];
-			!check_commit_mission(mExplore,Scheme).
--!commit_to_mission
-	: role(explorer)
-	<-	.print("I could not commit to mExplorer");
-			.print("I will try to commit to mOccupyZone");
-			commitMission(mOccupyZone)[artifact_name(Scheme)];
-			!check_commit_mission(mOccupyZone,Scheme).
+			commitMission(mExplore)[artifact_name("zone1Sch")];
+			!!check_commit_mission(mExplore,"zone1Sch").
 
-// repairer
 +!commit_to_mission
-	:	role(repairer).		// repairers will commit to missions through the obligations handler
+	:	availableRole(explorer,mOccupyZone1,S,G)
+	<-	.print("I will try to commit to mOccupyZone1");
+			commitMission(mOccupyZone1)[artifact_name("zone1Sch")];
+			!!check_commit_mission(mOccupyZone1,"zone1Sch").
 
-// saboteur
 +!commit_to_mission
-	:	goalState("sch1",_,_,_,_) & role(saboteur)
-	<-	.print("I will try to commit to mSabotage");
-			commitMission(mSabotage)[artifact_name(Scheme)];
-			!check_commit_mission(mSabotage,Scheme).
--!commit_to_mission
-	: role(saboteur)
-	<-	.print("I could not commit to mSabotage");
-			.print("I will try to commit to mOccupyZone");
-			commitMission(mOccupyZone)[artifact_name(Scheme)];
-			!check_commit_mission(mOccupyZone,Scheme).
-
-// sentinel
-+!commit_to_mission
-	:	goalState("sch1",_,_,_,_) & role(sentinel)
-	<-	.print("I will try to commit to mSentinelSabotage");
-			commitMission(mSentinelSabotage)[artifact_name(Scheme)];
-			!check_commit_mission(mSentinelSabotage,Scheme).
--!commit_to_mission
-	: role(sentinel)
-	<-	.print("I could not commit to mSentinelSabotage");
-			.print("I will try to commit to mOccupyZone");
-			commitMission(mOccupyZone)[artifact_name(Scheme)];
-			!check_commit_mission(mOccupyZone,Scheme).
-
-// inspector
-+!commit_to_mission
-	:	goalState("sch1",_,_,_,_) & role(inspector)
+	:	availableRole(R,mInspect,S,G)
 	<-	.print("I will try to commit to mInspect");
-			commitMission(mInspect)[artifact_name(Scheme)];
-			!check_commit_mission(mInspect,Scheme).
--!commit_to_mission
-	: role(inspector)
-	<-	.print("I could not commit to mInspect");
-			.print("I will try to commit to mOccupyZone");
-			commitMission(mOccupyZone)[artifact_name(Scheme)];
-			!check_commit_mission(mOccupyZone,Scheme).
+			commitMission(mInspect)[artifact_name("zone1Sch")];
+			!!check_commit_mission(mInspect,"zone1Sch").
 
 +!commit_to_mission
-	<-	.wait({+goalState("sch1",_,_,_,_)},200,_);
-			!commit_to_mission.
+	:	availableRole(R,mInspect,S,G)
+	<-	.print("I will try to commit to mInspect");
+			commitMission(mInspect)[artifact_name("zone1Sch")];
+			!!check_commit_mission(mInspect,"zone1Sch").
+
++!commit_to_mission
+	:	availableRole(inspector,mOccupyZone1,S,G)
+	<-	.print("I will try to commit to mOccupyZone1");
+			commitMission(mOccupyZone1)[artifact_name("zone1Sch")];
+			!!check_commit_mission(mOccupyZone1,"zone1Sch").
+
++!commit_to_mission.	// the agent will commit to the mission through the obligations handler 
+
+-!commit_to_mission
+	: availableRole(R,M,S,G)
+	<-	.print("[ERROR] I could not commit to ", M).
 
 
 // plans to handle obligations
 +obligation(Ag,Norm,committed(Ag,Mission,Scheme),Deadline)
-    : .my_name(Ag)
+	: .my_name(Ag)
    <- .print("I am obliged to commit to ",Mission," on ",Scheme);
       commitMission(Mission)[artifact_name(Scheme)];
-      !check_commit_mission(Mission,Scheme).
+      !!check_commit_mission(Mission,Scheme).
 
 +obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
     : .my_name(Ag)
@@ -160,43 +159,55 @@
 
 // check commitment to mission
 +!check_commit_mission(M,S)
-	:	.my_name(A) & commitment(A,M,_) & role(R)
+	:	.my_name(A) & commitment(A,M,_) & play(A,R,_)
 	<-	.print("I commited to ", M);
 			.broadcast(tell,coworker(A,R,M)).			// broadcast
 
 +!check_commit_mission(M,S)
-	<-	.wait({+commitment(_,_,_)},200,_);
+	<-	.wait({+commitment(_,_,_)},300,_);
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(M)[artifact_name(S)];
 			!!check_commit_mission(M,S).
 
 
++!occupy_zone1_goal
+	<-	.wait({+role(_)},200,_);
+			!!occupy_zone1_goal.
+
++!occupy_zone2_goal
+	<-	.wait({+role(_)},200,_);
+			!!occupy_zone2_goal.
+
 
 // start new mission
-+!start_new_mission(M)
++!start_new_mission(M,S)
 	: obligation(Me,Norm,achieved(Scheme,Goal,Ag),DeadLine) & .my_name(Me)
 	<-	.print("Achived goal ", Goal);
 			goalAchieved(Goal)[artifact_name(Scheme)];
 			.print("I will try to commit to ", M);
-			commitMission(M)[artifact_name(Scheme)];
-			!check_commit_mission(M,Scheme).
+			commitMission(M)[artifact_name(S)];
+			!check_commit_mission(M,S).
 +!start_new_mission(M)
 	<-	.print("I will try to commit to ", M);
-			commitMission(M)[artifact_name(Scheme)];
-			!check_commit_mission(M,Scheme).
+			commitMission(M)[artifact_name(S)];
+			!check_commit_mission(M,S).
 
 /* Plans to finish the simulation and start a new one */
 
 +simEnd
    <- .drop_all_desires;
+   		//.drop_all_intentions;
+   		!remove_percepts;
    		.send(coordinator,tell,simEnd);
 			-simEnd;
 			-simStart;
-			!remove_percepts;
 			jia.restart_world_model.
 
 +!remove_percepts
-	<-	.abolish(achievement(_));
+	<-	.abolish(environment(_));
+			.abolish(achievement(_));
 			.abolish(coworker(_,_,_));
 			.abolish(coworkerPosition(_,_));
+			.abolish(target(_));
+			//.abolish(availableRole(_,_,_,_)).
 			.abolish(role(_)).

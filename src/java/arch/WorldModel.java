@@ -679,7 +679,8 @@ public class WorldModel {
 	public List<Entity> getCoworkersToOccupyZone() {
 		List<Entity> agents = new ArrayList<Entity>();
 		for (Entity e : coworkers.values()) {
-			if (e.getMission().equals("mOccupyZone") || e.getMission().equals("mRepair")) {
+			if (e.getMission().equals("mOccupyZone1") || e.getMission().equals("mRepairZone1")
+					|| e.getMission().equals("mOccupyZone2") || e.getMission().equals("mRepairZone2")) {
 				agents.add(e);
 			}
 		}

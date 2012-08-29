@@ -35,12 +35,14 @@
 
         <group-specification id="team" >
             <roles>
+            	<!-- 
             	<role id="marcian" min="0" max="20" />
                 <role id="explorer" min="0" max="20" />
                 <role id="inspector" min="0" max="20" />
                 <role id="repairer" min="0" max="20" />
                 <role id="saboteur" min="0" max="20" />
                 <role id="sentinel" min="0" max="20" />
+                 -->
                 <role id="coordinator" min="1" max="1" />
             </roles>
 
@@ -51,16 +53,23 @@
                       scope="intra-group" extends-subgroups="true" bi-dir="true"/>
             </links>
 
-			<!-- 
 			<subgroups>
-				<group-specification id="zone_group" min="1" max="1">
+				<group-specification id="zone1_group" min="1" max="1">
 					<roles>
-		                <role id="explorer" min="4" max="4" />
-		                <role id="inspector" min="4" max="4" />
-		                <role id="repairer" min="4" max="4" />
-		                <role id="saboteur" min="3" max="3" />
-		                <role id="sentinel" min="3" max="3" />
-		                <role id="coordinator" min="1" max="1" />
+		                <role id="explorer" min="0" max="2" />
+		                <role id="inspector" min="0" max="2" />
+		                <role id="repairer" min="0" max="2" />
+		                <role id="saboteur" min="0" max="2" />
+		                <role id="sentinel" min="0" max="1" />
+		            </roles>
+				</group-specification>
+				<group-specification id="zone2_group" min="1" max="1">
+					<roles>
+		                <role id="explorer" min="0" max="2" />
+		                <role id="inspector" min="0" max="2" />
+		                <role id="repairer" min="0" max="2" />
+		                <role id="saboteur" min="0" max="1" />
+		                <role id="sentinel" min="0" max="2" />
 		            </roles>
 				</group-specification>
 				<group-specification id="sabotage_group" min="1" max="1">
@@ -70,7 +79,6 @@
 					</roles>
 				</group-specification>
 			</subgroups>
-			 -->
 
 			<formation-constraints>
                 <cardinality min="1" max="1" object="role" id="coordinator"/>
@@ -80,30 +88,67 @@
 
 
     <functional-specification>
-        <scheme id="marsSch">
-            <goal id="win" ds="Win the Multiagent contest">
+        <scheme id="coordinationSch">
+            <goal id="coordinate" ds="Coordinate the agents to occupy a zone in the map">
                 <plan operator="parallel" >
-					<goal id="explore_goal"			ds="Explore the graph"/>
-					<goal id="occupy_zone_goal"		ds="Occupy the best zone of Mars"/>
-					<goal id="repair_goal"			ds="Repair damaged teammates"/>
-					<goal id="sabotage_goal"		ds="Sabotage the opponents"/>
-					<goal id="help_sabotage_goal"	ds="Help to sabotage the opponents"/>
-					<goal id="inspect_goal"			ds="Inspect all opponents"/>
 					<goal id="coordinate_goal"		ds="Coordinate the teammates to occupy the best zone of Mars"/>
                 </plan>
             </goal>
 
-			<mission id="mExplore" min="0" max="1">
+			<mission id="mCoordinate" min="1" max="1">
+                <goal id="coordinate_goal"/>               
+            </mission>
+        </scheme>
+        
+        <scheme id="zone1Sch">
+        	<goal id="occupyZone1" ds="Occupy the best zone in the map">
+        		<plan operator="parallel" >
+					<goal id="explore_goal"			ds="Explore the graph"/>
+					<goal id="occupy_zone1_goal"		ds="Occupy the best zone of Mars"/>
+					<goal id="repair_zone1_goal"			ds="Repair damaged teammates"/>
+					<goal id="inspect_goal"			ds="Inspect all opponents"/>
+                </plan>
+        	</goal>
+        	<mission id="mExplore" min="0" max="1">
                 <goal id="explore_goal"/>
             </mission>
 
-            <mission id="mOccupyZone" min="8" max="20">
-                <goal id="occupy_zone_goal"/>
+            <mission id="mOccupyZone1" min="4" max="10">
+                <goal id="occupy_zone1_goal"/>
             </mission>
 
-			<mission id="mRepair" min="4" max="4">
-                <goal id="repair_goal"/>
+			<mission id="mRepairZone1" min="2" max="2">
+                <goal id="repair_zone1_goal"/>
             </mission>
+
+			<mission id="mInspect" min="0" max="1">
+                <goal id="inspect_goal"/>
+            </mission>
+        </scheme>
+        
+        <scheme id="zone2Sch">
+        	<goal id="occupyZone2" ds="Occupy the best zone in the map">
+        		<plan operator="parallel" >
+					<goal id="occupy_zone2_goal"		ds="Occupy the best zone of Mars"/>
+					<goal id="repair_zone2_goal"			ds="Repair damaged teammates"/>
+                </plan>
+        	</goal>
+            <mission id="mOccupyZone2" min="3" max="10">
+                <goal id="occupy_zone2_goal"/>
+            </mission>
+
+			<mission id="mRepairZone2" min="2" max="2">
+                <goal id="repair_zone2_goal"/>
+            </mission>
+        </scheme>
+
+		<scheme id="sabotageSch">
+            <goal id="sabotage" ds="Sabotage the opponents">
+                <plan operator="parallel" >
+					<goal id="sabotage_goal"		ds="Sabotage the opponents"/>
+					<goal id="help_sabotage_goal"	ds="Help to sabotage the opponents"/>
+                </plan>
+            </goal>
 
             <mission id="mSabotage" min="1" max="1">
                 <goal id="sabotage_goal"/>
@@ -111,14 +156,6 @@
 
 			<mission id="mSentinelSabotage" min="1" max="1">
                 <goal id="help_sabotage_goal"/>
-            </mission>
-
-			<mission id="mInspect" min="0" max="1">
-                <goal id="inspect_goal"/>
-            </mission>
-
-			<mission id="mCoordinate" min="1" max="1">
-                <goal id="coordinate_goal"/>               
             </mission>
         </scheme>
     </functional-specification>
@@ -128,29 +165,39 @@
 		<norm id = "n1"	  type="permission"
                           role="explorer" mission="mExplore" />
 
-		<norm id = "n2"	  type="permission"
-                          role="explorer" mission="mOccupyZone" />
+		<norm id = "n2" type="permission"
+                          role="explorer" mission="mOccupyZone1" />
+		<norm id = "n2.1" type="obligation"
+                          role="explorer" mission="mOccupyZone2" />
 
 		<norm id = "n3"   type="obligation"
-                          role="repairer" mission="mRepair" />
+                          role="repairer" mission="mRepairZone1" />
+		<norm id = "n3.1"   type="obligation"
+                          role="repairer" mission="mRepairZone2" />
 
-		<norm id = "n4"   type="permission"
+		<norm id = "n4"   type="obligation"
                           role="saboteur" mission="mSabotage" />
 
-		<norm id = "n5"   type="permission" 
-                          role="saboteur" mission="mOccupyZone" />
+		<norm id = "n5"   type="obligation" 
+                          role="saboteur" mission="mOccupyZone1" />
+		<norm id = "n5.1"   type="obligation" 
+                          role="saboteur" mission="mOccupyZone2" />
 
-		<norm id = "n6"   type="permission"
+		<norm id = "n6"   type="obligation"
                           role="sentinel" mission="mSentinelSabotage" />
 
-		<norm id = "n7"   type="permission"
-                          role="sentinel" mission="mOccupyZone" />
+		<norm id = "n7"   type="obligation"
+                          role="sentinel" mission="mOccupyZone1" />
+		<norm id = "n7.1"   type="obligation"
+                          role="sentinel" mission="mOccupyZone2" />
 
         <norm id = "n8"   type="permission" 
                           role="inspector" mission="mInspect" />
 
 		<norm id = "n9"   type="permission" 
-                          role="inspector" mission="mOccupyZone" />
+                          role="inspector" mission="mOccupyZone1" />
+		<norm id = "n9.1"   type="obligation" 
+                          role="inspector" mission="mOccupyZone2" />
 
 		<norm id = "n10"  type="obligation"
                           role="coordinator" mission="mCoordinate" />

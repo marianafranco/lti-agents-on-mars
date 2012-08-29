@@ -10,9 +10,23 @@ is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_
 
 /* Initial goals */
 
-+!repair_goal
-	<-	.print("Starting repair goal"); 
++!repair_zone1_goal
+	: role(repairer)
+	<-	.print("Starting repair_zone1 goal"); 
 			!select_repairer_goal.
+
++!repair_zone1_goal
+	<-	.wait({+role(repairer)},200,_);
+			!!repair_zone1_goal.
+			
++!repair_zone2_goal
+	: role(repairer)
+	<-	.print("Starting repair_zone2 goal"); 
+			!select_repairer_goal.
+
++!repair_zone2_goal
+	<-	.wait({+role(repairer)},200,_);
+			!!repair_zone2_goal.
 
 
 +!select_repairer_goal
