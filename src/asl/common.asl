@@ -28,8 +28,8 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 			Act; // perform the action (i.e., send the action to the simulator)
      	!wait_next_step(S). // wait for the next step before going on
 
-+!wait_next_step(S)  : step(S+1).
-+!wait_next_step(S) <- .wait( { +step(_) }, 600, _); !wait_next_step(S).
++!wait_next_step(S)  : step(X) & X > S.
++!wait_next_step(S) <- .wait( { +step(_) }, 200, _); !wait_next_step(S).
 
  
 +!init_goal(G)

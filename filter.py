@@ -38,14 +38,12 @@ def classe_certa (agentNum, classe, agentes): # Verifica se o report vem da clas
     return False
 
 def filtrandoAcoes(filtro_acoes, acao, line, arq):
-    if not ("step" in line):
-        return arq
     if (filtro_acoes == 2 and "action" in line):
-        arq = arq+line
+        return arq+line
     elif (filtro_acoes == 3 and "action" in line and acao in line):
-        arq = arq+line
+        return arq+line
     elif (filtro_acoes == 1):
-        arq = arq+line
+        return arq+line
     return arq
 
 ## MAIN ##
@@ -68,7 +66,7 @@ i = 0
 for line in log:
     if (i == 20):
         break
-    if ("I'll play role" in  line):
+    if ("play role" in  line):
         ag = get_agentNum(line)
         if ("explorer" in line):
             agentes[0].append(ag)
