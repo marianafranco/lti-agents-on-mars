@@ -187,7 +187,7 @@
 			.print("I will try to commit to ", M);
 			commitMission(M)[artifact_name(S)];
 			!check_commit_mission(M,S).
-+!start_new_mission(M)
++!start_new_mission(M,S)
 	<-	.print("I will try to commit to ", M);
 			commitMission(M)[artifact_name(S)];
 			!check_commit_mission(M,S).
