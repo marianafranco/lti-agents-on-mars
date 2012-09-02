@@ -25,13 +25,11 @@ public class WorldModel {
 
 	private HashMap<String, Entity> opponents;
 	private HashMap<String, Entity> coworkers;
+	private Entity agent;
 
 	public static String myTeam = "A";
 	public static String usernamePrefix = "a";
-
 	public final static int numOfOpponents = 20;
-
-	private Entity agent;
 
 	public WorldModel(String agentName) {
 		graph = new Graph();

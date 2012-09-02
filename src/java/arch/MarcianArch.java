@@ -2,6 +2,7 @@ package arch;
 
 import jason.RevisionFailedException;
 import jason.asSemantics.ActionExec;
+import jason.asSemantics.Intention;
 import jason.asSemantics.Message;
 import jason.asSyntax.Literal;
 
@@ -55,6 +56,15 @@ public class MarcianArch extends CAgentArch {
 //        if (!eisPercepts.isEmpty()) {
 //        	logger.info("[" + getAgName() + "] Percepts: " + eisPercepts);
 //        }
+
+        boolean fullMap = false;
+        if (eisPercepts.size() > 600) {	// fullMap
+        	fullMap = true;
+        	// perform default action
+        	ActionExec actionFullMap = new ActionExec(Literal.parseLiteral("recharge"), new Intention());
+        	act(actionFullMap, null);
+        }
+
         // updates the world model with the EIS percepts
         eisPercepts = model.update(eisPercepts);
         for (Literal percept : eisPercepts) {
@@ -65,16 +75,18 @@ public class MarcianArch extends CAgentArch {
         				|| p.equals("visibleVertex") || p.equals("probedVertex")
         				|| p.equals("surveyedEdge") || p.equals("inspectedEntity")) {
 //        			if (null == getTS().getAg().getBB().contains(percept)) {
-           			 	Message m = new Message("tell", null, null, percept);
+        			if (!fullMap) {
+        				Message m = new Message("tell", null, null, percept);
            			 	broadcast(m);
-//        			
+        			}
         		} else if (p.equals("position")) {
         			if (null == getTS().getAg().getBB().contains(percept)) {
-        				Message m = new Message("tell", null, null,
-        						Percept.coworkerPosition + "(" + getAgName() + "," +
-        								percept.getTerm(0).toString() + ")");
-        				broadcast(m);
-
+        				if (!fullMap) {
+        					Message m = new Message("tell", null, null,
+            						Percept.coworkerPosition + "(" + getAgName() + "," +
+            								percept.getTerm(0).toString() + ")");
+            				broadcast(m);
+        				}
         				// add percept to the base
         				getTS().getAg().addBel(percept);
         			}
