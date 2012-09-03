@@ -119,7 +119,7 @@ public class Entity {
 	}
 
 	public void setMission(String mission) {
-		this.mission = mission;
+		this.mission = mission.replace("\"", "");
 	}
 
 	public boolean isInspected() {

@@ -126,6 +126,7 @@ public class WorldModel {
 				String aName = percept.getTerm(0).toString();
 				String role = percept.getTerm(1).toString();
 				String mission = percept.getTerm(2).toString();
+				// TODO group?
 				Entity e = null;
 				if (coworkers.containsKey(aName)) {
 					e = coworkers.get(aName);
@@ -297,6 +298,16 @@ public class WorldModel {
 		List<List<Vertex>> zones = graph.getZones();
 		// step 5: get best zone
 		return getBestZone(zones);
+	}
+
+	public void coloringGraph() {
+		graph.removeVerticesColor();
+		// step 1: coloring vertices that have agents standing on them
+		coloringVertices();
+		// step 2: coloring empty neighbors
+		coloringNeighbors();
+		// step 3: frontier
+		coloringIsolatedVertices();
 	}
 
 	private void coloringVertices() {
@@ -679,6 +690,16 @@ public class WorldModel {
 		for (Entity e : coworkers.values()) {
 			if (e.getMission().equals("mOccupyZone1") || e.getMission().equals("mRepairZone1")
 					|| e.getMission().equals("mOccupyZone2") || e.getMission().equals("mRepairZone2")) {
+				agents.add(e);
+			}
+		}
+		return agents;
+	}
+
+	public List<Entity> getCoworkersWithMission(List<String> missions) {
+		List<Entity> agents = new ArrayList<Entity>();
+		for (Entity e : coworkers.values()) {
+			if (missions.contains(e.getMission())) {
 				agents.add(e);
 			}
 		}

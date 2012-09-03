@@ -159,9 +159,9 @@
 
 // check commitment to mission
 +!check_commit_mission(M,S)
-	:	.my_name(A) & commitment(A,M,_) & play(A,R,_)
+	:	.my_name(A) & commitment(A,M,_) & play(A,R,G)
 	<-	.print("I commited to ", M);
-			.broadcast(tell,coworker(A,R,M)).			// broadcast
+			.broadcast(tell,coworker(A,R,M,G)).			// broadcast
 
 +!check_commit_mission(M,S)
 	<-	.wait({+commitment(_,_,_)},300,_);

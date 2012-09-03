@@ -33,9 +33,13 @@ public class Graph {
 	private int maxNumOfVertices = Integer.MAX_VALUE;
 	private int maxNumOfEdges = Integer.MAX_VALUE;
 
+	private List<List<Vertex>> bestZones;
+	private boolean updated = false;
+
 	public Graph() {
 		vertices = new HashMap<Integer, Vertex>();
 		edges = new HashMap<Edge, Integer>();
+		bestZones = new ArrayList<List<Vertex>>();
 	}
 
 	public boolean existsPath(int v1, int v2) {
@@ -417,6 +421,91 @@ public class Graph {
 		return bestPlaces;
 	}
 
+	public List<List<Vertex>> getBestZones() {
+		if (!updated) {
+			return bestZones;
+		}
+
+		List<List<Vertex>> newBestZones = new ArrayList<List<Vertex>>();
+
+		List<Vertex> verticesList = new ArrayList<Vertex>(vertices.values());
+		VertexComparator comparator = new VertexComparator();
+		Collections.sort(verticesList, comparator);
+
+		// best zone
+		int maxZoneValue = 0;
+		List<Vertex> bestZone = null;
+		for (Vertex v : verticesList) {
+			List<Vertex> zone = new ArrayList<Vertex>();
+			zone.add(v);
+			Set<Vertex> neighbors = v.getNeighbors();
+			zone.addAll(neighbors);
+			Set<Vertex> zoneMoreNeighbors = new HashSet<Vertex>(zone);
+			for (Vertex neighbor : neighbors) {
+				zoneMoreNeighbors.addAll(neighbor.getNeighbors());
+			}
+			int zoneValue = countZoneValue(zoneMoreNeighbors);
+			if (zoneValue > maxZoneValue && zoneValue > 5) {
+				maxZoneValue = zoneValue;
+				bestZone = zone;
+			}
+		}
+		if (bestZone != null) {
+			newBestZones.add(bestZone);
+		} else {
+			return bestZones;
+		}
+
+		// second best zone
+		maxZoneValue = 0;
+		List<Vertex> secondBestZone = null;
+		verticesList.removeAll(bestZone);
+		for (Vertex v : verticesList) {
+			List<Vertex> zone = new ArrayList<Vertex>();
+			zone.add(v);
+			Set<Vertex> neighbors = v.getNeighbors();
+			zone.addAll(neighbors);
+			Set<Vertex> zoneMoreNeighbors = new HashSet<Vertex>(zone);
+			for (Vertex neighbor : neighbors) {
+				zoneMoreNeighbors.addAll(neighbor.getNeighbors());
+			}
+			int zoneValue = countZoneValue(zoneMoreNeighbors);
+			if (zoneValue > maxZoneValue && zoneValue > 5
+					&& !hasAtLeastOneVertexOnZone(zone, bestZone)) {
+				maxZoneValue = zoneValue;
+				secondBestZone = zone;
+			}
+		}
+
+		if (secondBestZone != null) {
+			newBestZones.add(secondBestZone);
+		}
+
+		if (bestZones.size() < 2 || newBestZones.size() < 2) {
+			bestZones = newBestZones;
+		} else {
+			if (hasAtLeastOneVertexOnZone(bestZones.get(0), newBestZones.get(0))) {
+				bestZones = newBestZones;
+			} else if (hasAtLeastOneVertexOnZone(bestZones.get(0), newBestZones.get(1))) {
+				bestZones.set(0, newBestZones.get(1));
+				bestZones.set(1, newBestZones.get(0));
+			} else {
+				bestZones = newBestZones;
+			}
+		}
+		updated = false;
+		return bestZones;
+	}
+
+	public boolean hasAtLeastOneVertexOnZone(List<Vertex> zone, List<Vertex> vertices) {
+		for (Vertex v : vertices) {
+			if (zone.contains(v)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private int countZoneValue(Set<Vertex> zone) {
 		int totalValue = 0;
 		for (Vertex v : zone) {
@@ -429,6 +518,7 @@ public class Graph {
 		Vertex v = vertices.get(id);
 		if (null == v) {
 			vertices.put(id, new Vertex(id, team));
+			updated = true;
 		} else {
 			v.setTeam(team);
 		}
@@ -438,6 +528,7 @@ public class Graph {
 		Vertex vertex = vertices.get(v.getId());
 		if (null == vertex) {
 			vertices.put(v.getId(), v);
+			updated = true;
 		} else {
 			vertex.setTeam(v.getTeam());
 		}
@@ -492,6 +583,7 @@ public class Graph {
 			v.setProbed(true);
 			vertices.put(id, v);
 		}
+		updated = true;
 	}
 
 	public int getEdgeValue(int v1, int v2) {
