@@ -126,11 +126,6 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 	<-	!init_goal(explorer_buy);
 			!!select_explorer_goal.
 
-//+!select_explorer_goal
-//	:	is_on_target_goal
-//	<-	!init_goal(move_to_neighbor_not_probed);
-//			!!select_explorer_goal.
-
 +!select_explorer_goal
 	:	is_recharge_goal
 	<-	!init_goal(be_at_full_charge);
@@ -143,7 +138,7 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 
 +!select_explorer_goal
 	:	is_on_target_goal
-	<-	!init_goal(wait);
+	<-	!init_goal(move_to_neighbor_not_probed);
 			!!select_explorer_goal.
 
 +!select_explorer_goal
@@ -170,9 +165,9 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 			!move_to(Target).
 
 
-//+!move_to_neighbor_not_probed
-//	<-	jia.move_to_neighbor_not_probed(Target);
-//			!go_to(Target).
++!move_to_neighbor_not_probed
+	<-	jia.move_to_neighbor_not_probed(Target);
+			!go_to(Target).
 
 
 /* Buy plans */

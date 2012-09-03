@@ -480,6 +480,38 @@ public class WorldModel {
 		}
 	}
 
+	public Vertex getFreeNeighborOutOfZone(Vertex v) {
+		Set<Vertex> neighbors = v.getNeighbors();
+		for (Vertex neighbor : neighbors) {
+			if (neighbor.getColor() != Vertex.BLUE && neighbor.getColor() != Vertex.RED) {
+				return neighbor;
+			}
+		}
+		return null;
+	}
+
+	public boolean hasActiveCoworkersOnNeighbors(Entity ag) {
+		Vertex v = ag.getVertex();
+		if (null == v) {
+			return false;
+		}
+		int count = 0;
+		Set<Vertex> neighbors = v.getNeighbors();
+		for (Vertex neighbor : neighbors) {
+			for (Entity coworker : coworkers.values()) {
+				if (!coworker.equals(ag) && coworker.getVertex().equals(neighbor)
+						&& !coworker.getStatus().toLowerCase().equals(Percept.STATUS_DISABLED)) {
+					count++;
+					if (count >= 2) {
+						return true;
+					}
+					continue;
+				}
+			}
+		}
+		return false;
+	}
+
 	public boolean hasActiveCoworkerOnVertex(int v) {
 		for (Entity coworker : coworkers.values()) {
 			if (coworker.getVertex().getId() == v

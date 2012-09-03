@@ -149,7 +149,16 @@ public class agents_coordination extends DefaultInternalAction {
 						continue;
 					}
 				} else {
-					continue;	// the agent must not move if he is in the frontier and has no other agent on the same vertex
+					if (model.hasActiveCoworkersOnNeighbors(coworker)) {	// go to a free neighbor if has two or more coworkers on neighbors 
+						Vertex neighbor = model.getFreeNeighborOutOfZone(agentPosition);
+						if (null != neighbor) {
+							agents.add(ASSyntax.createString(coworker.getName()));
+							positions.add(ASSyntax.createString("vertex" + neighbor.getId()));
+						}
+						continue;
+					} else {
+						continue;	// the agent must not move if he is in the frontier and has no other agent on the same vertex
+					}
 				}
 			}
 
