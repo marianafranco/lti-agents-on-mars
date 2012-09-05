@@ -12,7 +12,7 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 /******************* Inspect goal ******************/
 +!inspect_goal
 	: role(inspector)
-	<-	.print("Starting inspect goal");
+	<-	//.print("Starting inspect goal");
 			!select_inspect_goal.
 
 +!inspect_goal
@@ -79,12 +79,12 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 /****************** Occupy zone goal *********************/
 +!occupy_zone1_goal
 	:	role(inspector)
-	<-	.print("Starting occupy_zone1 goal");
+	<-	//.print("Starting occupy_zone1 goal");
 			!select_inspector_goal.
 
 +!occupy_zone2_goal
 	:	role(inspector)
-	<-	.print("Starting occupy_zone2 goal");
+	<-	//.print("Starting occupy_zone2 goal");
 			!select_inspector_goal.
 
 

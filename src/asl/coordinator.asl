@@ -61,13 +61,13 @@
 // plans to handle obligations
 +obligation(Ag,Norm,committed(Ag,Mission,Scheme),Deadline)
     : .my_name(Ag)
-   <- .print("I am obliged to commit to ",Mission," on ",Scheme);
+   <- //.print("I am obliged to commit to ",Mission," on ",Scheme);
       commitMission(Mission)[artifact_name(Scheme)];
       !check_commit_mission(Mission,Scheme).
 
 +obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
     : .my_name(Ag)
-   <- .print("I am obliged to achieve goal ",Goal);
+   <- //.print("I am obliged to achieve goal ",Goal);
       !Goal[scheme(Scheme)];
       goalAchieved(Goal)[artifact_name(Scheme)].
 
@@ -126,8 +126,8 @@
 
 // coordination goal
 +!coordinate_goal
-	<-	.print("Starting coordinate goal");
-			!coordinate.
+	<-	//.print("Starting coordinate goal");
+			!!coordinate.
 
 +!coordinate
 	: step(S)
@@ -142,10 +142,10 @@
 	  	!!coordinate.
 
 +!wait_next_step(S)
-	: step(S+1).
+	: step(X) & X > S.
 
 +!wait_next_step(S)
-	<-	.wait( { +step(_) }, 300, _);
+	<-	.wait( { +step(_) }, 200, _);
 			!wait_next_step(S).
 
 
@@ -155,7 +155,7 @@
 			!send_target(A,P).
 
 +!send_target([X|TAg],[Y|TLoc])
- 	<- 	.print("send: ",X, ", " ,Y);
+ 	<- 	//.print("send: ",X, ", " ,Y);
  	   	.send(X,tell,target(Y));
  	   	!send_target(TAg,TLoc).
 +!send_target([],[]).

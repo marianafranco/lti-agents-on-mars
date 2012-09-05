@@ -10,7 +10,7 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 /******************** Sabotage goal ***********************/
 +!sabotage_goal
 	:	role(saboteur)
-	<- 	.print("Starting sabotage goal");
+	<- 	//.print("Starting sabotage goal");
 			!select_sabotage_goal.
 
 +!sabotage_goal
@@ -63,12 +63,12 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 /******************** Occupy zone goal ***********************/
 +!occupy_zone1_goal
 	:	role(saboteur)
-	<-	.print("Starting occupy_zone1 goal");
+	<-	//.print("Starting occupy_zone1 goal");
 			!select_saboteur_goal.
 
 +!occupy_zone2_goal
 	:	role(saboteur)
-	<-	.print("Starting occupy_zone2 goal");
+	<-	//.print("Starting occupy_zone2 goal");
 			!select_saboteur_goal.
 
 

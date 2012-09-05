@@ -161,7 +161,7 @@ public class MarcianArch extends CAgentArch {
 			if (p.equals("visibleEdge") || p.equals("visibleEntity")
     				|| p.equals("visibleVertex") || p.equals("probedVertex")
     				|| p.equals("surveyedEdge") || p.equals("saboteur")
-    				|| p.equals("inspectedEntity")) {
+    				|| p.equals("inspectedEntity") || p.startsWith("coworker")) {
 				im.remove();	// removes the percept from the mailbox
 			}
 		}

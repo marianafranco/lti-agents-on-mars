@@ -40,7 +40,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 
 +!init_goal(G)
 	<-	.print("No step yet... wait a bit");
-      .wait(300);
+      .wait(200);
 	  	!init_goal(G).
 
 
@@ -74,7 +74,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 
 +!send_help([X|TAg])
 	: .my_name(Me)
-	<-	.print("sending need_help to ",X);
+	<-	//.print("sending need_help to ",X);
  	   	.send(X,tell,need_help(Me));
  	   	!send_help(TAg).
 +!send_help([]).
@@ -94,7 +94,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 
 +!send_not_need_help([X|TAg])
 	: .my_name(Me)
-	<-	.print("sending not_need_help to ",X);
+	<-	//.print("sending not_need_help to ",X);
  	   	.send(X,tell,not_need_help(Me));
  	   	!send_not_need_help(TAg).
 +!send_not_need_help([]).

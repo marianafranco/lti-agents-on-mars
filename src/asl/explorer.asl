@@ -11,7 +11,7 @@ is_stop_explore_goal	:- jia.is_stop_explore_goal.
 /***************** Explore goal ********************/
 +!explore_goal
 	:	role(explorer)
-	<-	.print("Starting explore goal");
+	<-	//.print("Starting explore goal");
 			!select_explore_goal.
 
 +!explore_goal

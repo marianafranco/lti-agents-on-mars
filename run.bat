@@ -1,0 +1,1 @@
+java -Xmx2000M -Xss8M -Djava.util.logging.config.file=logging.properties -jar lti-agents-on-mars.jar

@@ -21,7 +21,7 @@
 	<- 	!join;
 			lookupArtifact("marsGroupBoard",GrId);
 			focus(GrId).
-//			!playRole.
+
 -!start
 	<- 	.wait(200);
 			!!start.
@@ -92,7 +92,7 @@
 +availableRole(R,M,S,G)
 	<-	lookupArtifact(G,GrId);
 			adoptRole(R)[artifact_id(GrId)];
-			.print("I'm playing ",R, " on ",G);
+//			.print("I'm playing ",R, " on ",G);
 			!check_play(Ag,R);
 			!!commit_to_mission.
 
@@ -108,31 +108,31 @@
 // plans to commit to missions which the agent has permission
 +!commit_to_mission
 	:	availableRole(R,mExplore,S,G)
-	<-	.print("I will try to commit to mExplore");
+	<-	//.print("I will try to commit to mExplore");
 			commitMission(mExplore)[artifact_name("zone1Sch")];
 			!!check_commit_mission(mExplore,"zone1Sch").
 
 +!commit_to_mission
 	:	availableRole(explorer,mOccupyZone1,S,G)
-	<-	.print("I will try to commit to mOccupyZone1");
+	<-	//.print("I will try to commit to mOccupyZone1");
 			commitMission(mOccupyZone1)[artifact_name("zone1Sch")];
 			!!check_commit_mission(mOccupyZone1,"zone1Sch").
 
 +!commit_to_mission
 	:	availableRole(R,mInspect,S,G)
-	<-	.print("I will try to commit to mInspect");
+	<-	//.print("I will try to commit to mInspect");
 			commitMission(mInspect)[artifact_name("zone1Sch")];
 			!!check_commit_mission(mInspect,"zone1Sch").
 
 +!commit_to_mission
 	:	availableRole(R,mInspect,S,G)
-	<-	.print("I will try to commit to mInspect");
+	<-	//.print("I will try to commit to mInspect");
 			commitMission(mInspect)[artifact_name("zone1Sch")];
 			!!check_commit_mission(mInspect,"zone1Sch").
 
 +!commit_to_mission
 	:	availableRole(inspector,mOccupyZone1,S,G)
-	<-	.print("I will try to commit to mOccupyZone1");
+	<-	//.print("I will try to commit to mOccupyZone1");
 			commitMission(mOccupyZone1)[artifact_name("zone1Sch")];
 			!!check_commit_mission(mOccupyZone1,"zone1Sch").
 
@@ -146,15 +146,15 @@
 // plans to handle obligations
 +obligation(Ag,Norm,committed(Ag,Mission,Scheme),Deadline)
 	: .my_name(Ag)
-   <- .print("I am obliged to commit to ",Mission," on ",Scheme);
+   <- //.print("I am obliged to commit to ",Mission," on ",Scheme);
       commitMission(Mission)[artifact_name(Scheme)];
       !!check_commit_mission(Mission,Scheme).
 
 +obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
     : .my_name(Ag)
    <- .print("I am obliged to achieve goal ",Goal);
-      !Goal[scheme(Scheme)];
-      goalAchieved(Goal)[artifact_name(Scheme)].
+      !Goal[scheme(Scheme)].
+      //goalAchieved(Goal)[artifact_name(Scheme)].
 
 
 // check commitment to mission
@@ -164,17 +164,17 @@
 			.broadcast(tell,coworker(A,R,M,G)).			// broadcast
 
 +!check_commit_mission(M,S)
-	<-	.wait({+commitment(_,_,_)},300,_);
+	<-	.wait({+commitment(_,_,_)},500,_);
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(M)[artifact_name(S)];
 			!!check_commit_mission(M,S).
 
 
-+!occupy_zone1_goal
+-!occupy_zone1_goal
 	<-	.wait({+role(_)},200,_);
 			!!occupy_zone1_goal.
 
-+!occupy_zone2_goal
+-!occupy_zone2_goal
 	<-	.wait({+role(_)},200,_);
 			!!occupy_zone2_goal.
 
@@ -184,11 +184,11 @@
 	: obligation(Me,Norm,achieved(Scheme,Goal,Ag),DeadLine) & .my_name(Me)
 	<-	.print("Achived goal ", Goal);
 			goalAchieved(Goal)[artifact_name(Scheme)];
-			.print("I will try to commit to ", M);
+			//.print("I will try to commit to ", M);
 			commitMission(M)[artifact_name(S)];
 			!check_commit_mission(M,S).
 +!start_new_mission(M,S)
-	<-	.print("I will try to commit to ", M);
+	<-	//.print("I will try to commit to ", M);
 			commitMission(M)[artifact_name(S)];
 			!check_commit_mission(M,S).
 
