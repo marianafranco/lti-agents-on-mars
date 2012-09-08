@@ -8,7 +8,7 @@ buy_battery.
 // conditions for goal selection
 is_energy_goal 					:- energy(MyE) & maxEnergy(Max) & MyE < Max/3.
 is_recharge_goal 				:- energy(MyE) & maxEnergy(Max) & MyE < Max.
-is_buy_goal    					:- money(M) & M >= 2 & not stop_buy.
+is_buy_goal    					:- money(M) & M >= 50 & not stop_buy.
 is_move_goal	 					:- target(X) & not jia.is_at_target(X).
 is_on_target_goal	 			:- target(X) & jia.is_at_target(X).
 is_call_help_goal 			:- health(0) & not need_help.
