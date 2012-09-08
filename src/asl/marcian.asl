@@ -150,24 +150,51 @@
       commitMission(Mission)[artifact_name(Scheme)];
       !!check_commit_mission(Mission,Scheme).
 
-+obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
-    : .my_name(Ag)
-   <- .print("I am obliged to achieve goal ",Goal);
-      !Goal[scheme(Scheme)].
-      //goalAchieved(Goal)[artifact_name(Scheme)].
+// could not use this to not lose steps in the beggining of the simulation
+//+obligation(Ag,Norm,achieved(Scheme,Goal,Ag),DeadLine)
+//    : .my_name(Ag)
+//   <- .print("I am obliged to achieve goal ",Goal);
+//      !Goal[scheme(Scheme)].
+//      //goalAchieved(Goal)[artifact_name(Scheme)].
 
 
 // check commitment to mission
 +!check_commit_mission(M,S)
 	:	.my_name(A) & commitment(A,M,_) & play(A,R,G)
 	<-	.print("I commited to ", M);
-			.broadcast(tell,coworker(A,R,M,G)).			// broadcast
+			.broadcast(tell,coworker(A,R,M,G));		// broadcast
+			!start_goal(M).
 
 +!check_commit_mission(M,S)
 	<-	.wait({+commitment(_,_,_)},500,_);
 			.print("[ERROR] Trying again to commit to ",M," on ",S);
 			commitMission(M)[artifact_name(S)];
 			!!check_commit_mission(M,S).
+
+
++!start_goal(mExplore)
+	<-	!!explore_goal.
+
++!start_goal(mOccupyZone1)
+	<-	!!occupy_zone1_goal.
+
++!start_goal(mRepairZone1)
+	<-	!!repair_zone1_goal.
+
++!start_goal(mInspect)
+	<-	!!inspect_goal.
+
++!start_goal(mOccupyZone2)
+	<-	!!occupy_zone2_goal.
+
++!start_goal(mRepairZone2)
+	<-	!!repair_zone2_goal.
+
++!start_goal(mSabotage)
+	<-	!!sabotage_goal.
+
++!start_goal(mSentinelSabotage)
+	<-	!!help_sabotage_goal.
 
 
 -!occupy_zone1_goal
