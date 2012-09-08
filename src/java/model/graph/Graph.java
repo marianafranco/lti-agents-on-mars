@@ -445,7 +445,7 @@ public class Graph {
 				zoneMoreNeighbors.addAll(neighbor.getNeighbors());
 			}
 			int zoneValue = countZoneValue(zoneMoreNeighbors);
-			if (zoneValue > maxZoneValue && zoneValue > 5) {
+			if (zoneValue > maxZoneValue && zoneValue > 10) {
 				maxZoneValue = zoneValue;
 				bestZone = zone;
 			}
@@ -470,7 +470,7 @@ public class Graph {
 				zoneMoreNeighbors.addAll(neighbor.getNeighbors());
 			}
 			int zoneValue = countZoneValue(zoneMoreNeighbors);
-			if (zoneValue > maxZoneValue && zoneValue > 5
+			if (zoneValue > maxZoneValue && zoneValue > 10
 					&& !hasAtLeastOneVertexOnZone(zone, bestZone)) {
 				maxZoneValue = zoneValue;
 				secondBestZone = zone;

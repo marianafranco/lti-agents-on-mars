@@ -163,7 +163,8 @@ public class agents_coordination extends DefaultInternalAction {
 			}
 
 			if (null != targets && !targets.isEmpty()) {
-				target = model.closerVertex(agentPosition, targets);
+//				target = model.closerVertex(agentPosition, targets);
+				target = targets.get(0);
 				if (null != target) {
 					targets.remove(target);
 				}
