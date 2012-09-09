@@ -10,13 +10,8 @@ stop_attack_goal				:-	lastAction(attack) & lastActionResult(failed_away).
 
 /******************** Sabotage goal ***********************/
 +!sabotage_goal
-	:	role(saboteur)
 	<- 	//.print("Starting sabotage goal");
 			!select_sabotage_goal.
-
-+!sabotage_goal
-	<-	.wait({+role(saboteur)},200,_);
-			!!sabotage_goal.
 
 
 +!select_sabotage_goal

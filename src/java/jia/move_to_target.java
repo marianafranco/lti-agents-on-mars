@@ -42,8 +42,7 @@ public class move_to_target extends DefaultInternalAction {
 		Graph graph = model.getGraph();
 
 		if (v1 == v2) {
-			String vertex = "vertex" + v1;
-			return un.unifies(terms[2], ASSyntax.createString(vertex));
+			return un.unifies(terms[2], ASSyntax.createString("none"));
 		}
 
 		if (graph.existsPath(v1, v2)) {

@@ -141,8 +141,7 @@ is_move_to_zone_goal		:- position(X) & not jia.is_on_team_zone.
 /* random walk plans */
 +!random_walk 
     : position(MyV) // my location
-   <- //jia.random_walk(MyV,Target);
-   		jia.least_visited_neighbor(MyV,Target);
+   <- jia.least_visited_neighbor(MyV,Target);
    		!go_to(Target).
 -!random_walk[error(I),error_msg(M)]
 	<-	.print("failure in random_walk! ",I,": ",M).

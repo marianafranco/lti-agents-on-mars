@@ -67,9 +67,14 @@
 			!!init.
 
 +!restart
-	:	availableRole(R,M,S,G) & role(X) & simStart
+	:	availableRole(R,M,S,G) & role(X)
 	<-	-role(X);
 		  +role(R);
+			!!commit_to_mission.
+
++!restart
+	:	availableRole(R,M,S,G)
+	<-	+role(R);
 			!!commit_to_mission.
 
 -!restart
@@ -165,6 +170,7 @@
 	<-	.print("I commited to ", M);
 			.broadcast(tell,coworker(A,R,M,G));		// broadcast
 			+started_goal;
+			.abolish(environment(_));
 			!start_goal(M).
 
 +!check_commit_mission(M,S)
@@ -200,8 +206,18 @@
 
 
 -!occupy_zone1_goal
+	:	availableRole(R,M,S,G)
+	<-	+role(R);
+			!!occupy_zone1_goal.
+
+-!occupy_zone1_goal
 	<-	.wait({+role(_)},200,_);
 			!!occupy_zone1_goal.
+
+-!occupy_zone2_goal
+	:	availableRole(R,M,S,G)
+	<-	+role(R);
+			!!occupy_zone2_goal.
 
 -!occupy_zone2_goal
 	<-	.wait({+role(_)},200,_);
@@ -227,19 +243,13 @@
    <- .drop_all_desires;
    		//.drop_all_intentions;
    		!remove_percepts;
-   		.send(coordinator,tell,simEnd);
-			-simEnd;
 			jia.restart_world_model;
+			.send(coordinator,tell,simEnd);
+			-simEnd;
 			!!init.
 
 +!remove_percepts
-	<-	//-simStart;
+	<-	.abolish(role(_));
 			-started_goal;
-			.abolish(environment(_));
-			.abolish(achievement(_));
-			//.abolish(coworker(_,_,_));
-			//.abolish(coworkerPosition(_,_));
 			.abolish(target(_));
-			//.abolish(availableRole(_,_,_,_)).
-			.abolish(role(_));
 			.abolish(step(_)).

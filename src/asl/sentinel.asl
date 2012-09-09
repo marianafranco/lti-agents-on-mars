@@ -10,13 +10,8 @@
 /*************** Help sabotage goal *******************/
 
 +!help_sabotage_goal
-	:	role(sentinel)
 	<- 	//.print("Starting sabotage goal");
 			!select_help_sabotage_goal.
-
-+!help_sabotage_goal
-	<-	.wait({+role(sentinel)},200,_);
-			!!help_sabotage_goal.
 
 
 +!select_help_sabotage_goal

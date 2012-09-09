@@ -11,13 +11,8 @@ has_uninspected_opponent	:- jia.has_uninspected_opponent.
 
 /******************* Inspect goal ******************/
 +!inspect_goal
-	: role(inspector)
 	<-	//.print("Starting inspect goal");
 			!select_inspect_goal.
-
-+!inspect_goal
-	<-	.wait({+role(inspector)},200,_);
-			!!inspect_goal.
 
 
 +!select_inspect_goal
