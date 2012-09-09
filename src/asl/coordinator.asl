@@ -116,8 +116,8 @@
 
 +!remove_percepts
 	<-	.abolish(achievement(_));
-			.abolish(coworker(_,_,_));
-			.abolish(coworkerPosition(_,_));
+			//.abolish(coworker(_,_,_));
+			//.abolish(coworkerPosition(_,_));
 			.abolish(simEnd);
 			.abolish(want_to_play(_));
 			.abolish(step(_)).

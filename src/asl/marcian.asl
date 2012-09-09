@@ -51,6 +51,7 @@
 
 // init
 +simStart
+	:	not availableRole(R,M,S,G)
 	<-	!!init.
 
 +!init
@@ -221,22 +222,24 @@
 			!check_commit_mission(M,S).
 
 /* Plans to finish the simulation and start a new one */
-
+@sme[atomic]
 +simEnd
    <- .drop_all_desires;
    		//.drop_all_intentions;
    		!remove_percepts;
    		.send(coordinator,tell,simEnd);
 			-simEnd;
-			jia.restart_world_model.
+			jia.restart_world_model;
+			!!init.
 
 +!remove_percepts
-	<-	-started_goal;
-			-simStart;
+	<-	//-simStart;
+			-started_goal;
 			.abolish(environment(_));
 			.abolish(achievement(_));
-			.abolish(coworker(_,_,_));
-			.abolish(coworkerPosition(_,_));
+			//.abolish(coworker(_,_,_));
+			//.abolish(coworkerPosition(_,_));
 			.abolish(target(_));
 			//.abolish(availableRole(_,_,_,_)).
-			.abolish(role(_)).
+			.abolish(role(_));
+			.abolish(step(_)).
