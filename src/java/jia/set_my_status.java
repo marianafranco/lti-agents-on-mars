@@ -9,7 +9,7 @@ import jason.asSyntax.Term;
 import arch.MarcianArch;
 import arch.WorldModel;
 
-public class set_my_status  extends DefaultInternalAction {
+public class set_my_status extends DefaultInternalAction {
 
 	private static final long serialVersionUID = 1323569319099989862L;
 

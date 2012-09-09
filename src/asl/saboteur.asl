@@ -4,6 +4,7 @@
 
 // conditions for goal selection
 is_attack_goal 					:- 	jia.has_opponent_on_vertex.
+stop_attack_goal				:-	lastAction(attack) & lastActionResult(failed_away).
 
 /* Initial goals */
 
@@ -36,6 +37,11 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 +!select_sabotage_goal
 	:	is_disabled_goal
 	<-	!init_goal(go_to_repairer);
+			!!select_sabotage_goal.
+
++!select_sabotage_goal
+	: stop_attack_goal
+	<-	!init_goal(stop_attack);
 			!!select_sabotage_goal.
 
 +!select_sabotage_goal
@@ -93,6 +99,11 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 			!!select_saboteur_goal.
 
 +!select_saboteur_goal
+	: stop_attack_goal
+	<-	!init_goal(stop_attack);
+			!!select_saboteur_goal.
+
++!select_saboteur_goal
 	: is_attack_goal
 	<-	!init_goal(attack);
 			!!select_saboteur_goal.
@@ -140,6 +151,9 @@ is_attack_goal 					:- 	jia.has_opponent_on_vertex.
 	<-	jia.get_opponent_name(Enemy);
 			!do_and_wait_next_step(attack(Enemy)).
 
++!stop_attack
+	<-	jia.stop_attack;
+			-lastActionResult(failed_away).
 
 /* Buy plans */
 +!saboteur_buy
