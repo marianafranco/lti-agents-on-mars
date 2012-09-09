@@ -163,6 +163,7 @@
 	:	.my_name(A) & commitment(A,M,_) & play(A,R,G)
 	<-	.print("I commited to ", M);
 			.broadcast(tell,coworker(A,R,M,G));		// broadcast
+			+started_goal;
 			!start_goal(M).
 
 +!check_commit_mission(M,S)
@@ -227,11 +228,12 @@
    		!remove_percepts;
    		.send(coordinator,tell,simEnd);
 			-simEnd;
-			-simStart;
 			jia.restart_world_model.
 
 +!remove_percepts
-	<-	.abolish(environment(_));
+	<-	-started_goal;
+			-simStart;
+			.abolish(environment(_));
 			.abolish(achievement(_));
 			.abolish(coworker(_,_,_));
 			.abolish(coworkerPosition(_,_));
