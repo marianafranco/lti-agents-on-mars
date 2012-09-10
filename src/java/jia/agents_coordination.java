@@ -110,7 +110,9 @@ public class agents_coordination extends DefaultInternalAction {
 
 		List<Vertex> targets = new ArrayList<Vertex>();
 		if (groupZone == null || groupZone.isEmpty()) {
-			targets.addAll(bestZone);
+			if (bestZone != null && !bestZone.isEmpty()) {
+				targets.addAll(bestZone);
+			}
 		} else {
 			if (bestZone != null && !bestZone.isEmpty()) {
 				bestZone.removeAll(groupZone);
