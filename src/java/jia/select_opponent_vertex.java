@@ -16,6 +16,14 @@ import model.graph.VertexComparator;
 import arch.MarcianArch;
 import arch.WorldModel;
 
+/**
+ * Returns the best opponent's vertex to occupy.
+ * </p>
+ *  Use: jia.select_opponent_vertex(-Pos); </br>
+ *  Where: Pos is the opponent's position.
+ * 
+ * @author mafranko
+ */
 public class select_opponent_vertex extends DefaultInternalAction {
 
 	private static final long serialVersionUID = 8122474421207101417L;

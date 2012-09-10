@@ -10,6 +10,14 @@ import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 
+/**
+ * Returns true or false indicating if the given position is a neighbor vertex of my position.
+ * </p>
+ * Use: jia.is_neighbor_vertex(+Pos);</br>
+ * Where: Pos is the vertex to be checked.
+ * 
+ * @author mafranko
+ */
 public class is_neighbor_vertex extends DefaultInternalAction {
 
 	private static final long serialVersionUID = -9034696305188899426L;

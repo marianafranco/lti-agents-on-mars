@@ -14,6 +14,14 @@ import arch.MarcianArch;
 import arch.WorldModel;
 import env.Percept;
 
+/**
+ * Returns the best neighbor vertex to escape from the opponents saboteur.
+ * </p>
+ * Use: jia.escape(-T); </br>
+ * Where: T is the target vertex.
+ * 
+ * @author mafranko
+ */
 public class escape  extends DefaultInternalAction {
 
 	private static final long serialVersionUID = -5827900602735423794L;

@@ -33,7 +33,14 @@ public class Graph {
 	private int maxNumOfVertices = Integer.MAX_VALUE;
 	private int maxNumOfEdges = Integer.MAX_VALUE;
 
+	/**
+	 * List that keeps the information about the best zones in the graph.
+	 */
 	private List<List<Vertex>> bestZones;
+
+	/**
+	 * Indicates if the graph was update or not.
+	 */
 	private boolean updated = false;
 
 	public Graph() {

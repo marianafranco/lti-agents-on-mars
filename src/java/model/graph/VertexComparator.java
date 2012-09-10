@@ -2,6 +2,11 @@ package model.graph;
 
 import java.util.Comparator;
 
+/**
+ * Vertex comparator.
+ * 
+ * @author mafranko
+ */
 public class VertexComparator implements Comparator<Vertex>{
 
 	@Override

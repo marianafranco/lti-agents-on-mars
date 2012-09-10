@@ -3,6 +3,11 @@ package model.graph;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Zone comparator.
+ * 
+ * @author mafranko
+ */
 public class ZoneComparator implements Comparator<List<Vertex>>{
 
 	@Override

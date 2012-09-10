@@ -8,6 +8,13 @@ import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Term;
 
+/**
+ * Restarts the agent world model for a new match.
+ * </p>
+ * Use: jia.restart_world_model; </br>
+ * 
+ * @author mafranko
+ */
 public class restart_world_model extends DefaultInternalAction {
 
 	private static final long serialVersionUID = -3578681262463903329L;

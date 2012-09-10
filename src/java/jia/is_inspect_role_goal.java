@@ -11,7 +11,7 @@ import jason.asSyntax.Term;
 /**
  * Returns true or false to indicate if there are opponents to be inspected near my position.
  * </p>
- * Use: jia.is_inspect_goal; </br>
+ * Use: jia.is_inspect_role_goal; </br>
  * 
  * @author mafranko
  */

@@ -13,6 +13,13 @@ import arch.MarcianArch;
 import arch.WorldModel;
 import env.Percept;
 
+/**
+ * Returns true or false indicating if exists another repairer in the same vertex as me.
+ * </p>
+ * Use: jia.has_another_repairer;</br>
+ * 
+ * @author mafranko
+ */
 public class has_another_repairer extends DefaultInternalAction {
 
 	private static final long serialVersionUID = 8243465155921899435L;

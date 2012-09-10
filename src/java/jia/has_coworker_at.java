@@ -9,8 +9,15 @@ import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 
+/**
+ * Returns true or false indicating if exists a coworker in the given position.
+ * </p>
+ * Use: jia.has_coworker_at(+Pos);</br>
+ * Where: Pos is the vertex to be checked.
+ *  
+ * @author mafranko
+ */
 public class has_coworker_at extends DefaultInternalAction {
-
 
 	private static final long serialVersionUID = 2711797878816377722L;
 

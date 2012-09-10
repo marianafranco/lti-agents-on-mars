@@ -14,6 +14,14 @@ import model.graph.Vertex;
 import arch.MarcianArch;
 import arch.WorldModel;
 
+/**
+ * Returns true or false indicating if the agents is probably part of the teams zone.
+ * Checks if the agents has at least one coworker within distance < 3.
+ * </p>
+ * Use: jia.is_on_team_zone;</br>
+ * 
+ * @author mafranko
+ */
 public class is_on_team_zone extends DefaultInternalAction {
 
 	private static final long serialVersionUID = 1168992507523306792L;

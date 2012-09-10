@@ -18,6 +18,14 @@ import model.graph.Vertex;
 import arch.MarcianArch;
 import arch.WorldModel;
 
+/**
+ * Returns the best opponent to attack.
+ * </p>
+ *  Use: jia.select_opponent_to_attack(-Pos); </br>
+ *  Where: Pos is the opponent's position.
+ * 
+ * @author mafranko
+ */
 public class select_opponent_to_attack extends DefaultInternalAction {
 
 	private static final long serialVersionUID = 6306830130922763011L;

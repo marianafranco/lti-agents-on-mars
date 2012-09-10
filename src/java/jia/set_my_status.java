@@ -9,6 +9,14 @@ import jason.asSyntax.Term;
 import arch.MarcianArch;
 import arch.WorldModel;
 
+/**
+ * Changes the agent's status.
+ * </p>
+ * Use: jia.set_my_status(+S); </br>
+ * Where: S is the new agent's status.
+ * 
+ * @author mafranko
+ */
 public class set_my_status extends DefaultInternalAction {
 
 	private static final long serialVersionUID = 1323569319099989862L;
