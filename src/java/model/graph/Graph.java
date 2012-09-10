@@ -74,28 +74,6 @@ public class Graph {
 		}
 	}
 
-	public boolean existsPathDLS(Vertex v1, Vertex v2) {
-		int limit = 20;
-		return recursiveDLS(v1, v2, limit);
-	}
-
-	public boolean recursiveDLS(Vertex v1, Vertex v2, int limit) {
-		if (v1.equals(v2)) {
-			return true;
-		} else if (limit == 0) {
-			return false;
-		} else {
-			Set<Vertex> successors = v1.getNeighbors();
-			for (Vertex child : successors) {
-				boolean result = recursiveDLS(child, v2, limit - 1);
-				if (result) {
-					return result;
-				}
-			}
-			return false;
-		}
-	}
-
 	public boolean existsFrontier(Vertex v1, Vertex v2) {
 		// uses breadth-first search
 		Queue<Vertex> frontier = new LinkedList<Vertex>();
@@ -233,12 +211,6 @@ public class Graph {
 		return zone;
 	}
 
-	public int getDistance(int v1, int v2) {
-		Vertex vertex1 = vertices.get(v1);
-		Vertex vertex2 = vertices.get(v2);
-		return getDistance(vertex1, vertex2);
-	}
-
 	public int getDistance(Vertex vertex1, Vertex vertex2) {
 		if (vertex1.equals(vertex2)) {
 			return 0;
@@ -267,18 +239,6 @@ public class Graph {
 		}
 	}
 
-	public int closerVertex(Vertex myPosition, List<Vertex> vList) {
-		int minDist = Integer.MAX_VALUE;
-		int closerPosition = -1;
-		for (Vertex v : vList) {
-			int dist = getDistance(myPosition, v);
-			if (dist < minDist) {
-				closerPosition = v.getId();
-			}
-		}
-		return closerPosition;
-	}
-
 	public int returnRandomMove(int v1) {
 		Vertex vertex1 = vertices.get(v1);
 		List<Vertex> neighbors = new ArrayList<Vertex>(vertex1.getNeighbors());
@@ -303,11 +263,6 @@ public class Graph {
 			}
 		}
 		return leastVisited.getId();
-	}
-
-	public List<Vertex> returnNotProbedNeighbors(int v1) {
-		Vertex vertex1 = vertices.get(v1);
-		return returnNotProbedNeighbors(vertex1);	
 	}
 
 	public List<Vertex> returnNotProbedNeighbors(Vertex vertex1) {
@@ -342,14 +297,6 @@ public class Graph {
 			}
 		}
 		return notProbed;
-	}
-
-	public List<Vertex> returnNotProbedNeighbors(List<Vertex> vertices) {
-		List<Vertex> notProbedNeighbors = new ArrayList<Vertex>();
-		for (Vertex v : vertices) {
-			notProbedNeighbors.addAll(returnNotProbedNeighbors(v));
-		}
-		return notProbedNeighbors;
 	}
 
 	public int returnNextMove(int v1, int v2) {
@@ -388,37 +335,6 @@ public class Graph {
 			parent = end.getParent();
 		}
 		return end;
-	}
-
-	public List<Set<Vertex>> getBestPlaces() {
-		List<Set<Vertex>> bestPlaces = new ArrayList<Set<Vertex>>();
-
-		List<Vertex> verticesList = new ArrayList<Vertex>(vertices.values());
-		VertexComparator comparator = new VertexComparator();
-		Collections.sort(verticesList, comparator);
-
-		int maxZoneValue = 0;
-		Set<Vertex> bestPlace = null;
-		for (Vertex v : verticesList) {
-			Set<Vertex> zone = new HashSet<Vertex>();
-			zone.add(v);
-			Set<Vertex> neighbors = v.getNeighbors();
-			zone.addAll(neighbors);
-			Set<Vertex> zoneMoreNeighbors = new HashSet<Vertex>(zone);
-			for (Vertex neighbor : neighbors) {
-				zoneMoreNeighbors.addAll(neighbor.getNeighbors());
-			}
-			int zoneValue = countZoneValue(zoneMoreNeighbors);
-			if (zoneValue > maxZoneValue && zoneValue > 5) {
-				maxZoneValue = zoneValue;
-				bestPlace = zone;
-			}
-		}
-
-		if (bestPlace != null) {
-			bestPlaces.add(bestPlace);
-		}
-		return bestPlaces;
 	}
 
 	public List<List<Vertex>> getBestZones() {

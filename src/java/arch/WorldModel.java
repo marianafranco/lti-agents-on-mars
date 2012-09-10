@@ -270,20 +270,6 @@ public class WorldModel {
 		return false;
 	}
 
-	public List<Vertex> getBestZone() {
-		graph.removeVerticesColor();
-		// step 1: coloring vertices that have agents standing on them
-		coloringVertices();
-		// step 2: coloring empty neighbors
-		coloringNeighbors();
-		// step 3: frontier
-		coloringIsolatedVertices();
-		// step 4: get zones
-		List<List<Vertex>> zones = graph.getZones();
-		// step 5: get best zone
-		return getBestZone(zones);
-	}
-
 	public void coloringGraph() {
 		graph.removeVerticesColor();
 		// step 1: coloring vertices that have agents standing on them
@@ -396,35 +382,6 @@ public class WorldModel {
 		
 	}
 
-	public List<Vertex> getBestZoneNeighbors(List<Vertex> neighbors) {
-		List<Vertex> bestNeighbors = new ArrayList<Vertex>();
-		for (Vertex v : neighbors) {
-			Set<Vertex> vNeighbors = v.getNeighbors();
-			int count = 0;
-			for (Vertex vNeighbor : vNeighbors) {
-				if (vNeighbor.getColor() == Vertex.BLUE) {
-					count++;
-				}
-			}
-			if (count >= 2) {
-				bestNeighbors.add(v);
-			}
-		}
-		return bestNeighbors;
-	}
-
-	public Vertex closerVertex(Vertex position, List<Vertex> vertices) {
-		Vertex closerVertex = null;
-		int closerDistance = Integer.MAX_VALUE;
-		for (Vertex v : vertices) {
-			int dist = graph.getDistance(position, v);
-			if (dist < closerDistance) {
-				closerVertex = v;
-			}
-		}
-		return closerVertex;
-	}
-
 	public boolean isFrontier(Vertex v) {
 		for (Vertex neighbor : v.getNeighbors()) {
 			if (neighbor.getColor() != Vertex.BLUE) {
@@ -505,16 +462,6 @@ public class WorldModel {
 		}
 		return false;
 	}
-	
-	public boolean hasActiveCoworkerOnVertex(Vertex v) {
-		for (Entity coworker : coworkers.values()) {
-			if (coworker.getVertex().equals(v)
-					&& !coworker.getStatus().toLowerCase().equals(Percept.STATUS_DISABLED)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public boolean hasOpponentOnVertex(Vertex v) {
 		for (Entity opponent : opponents.values()) {
@@ -529,16 +476,6 @@ public class WorldModel {
 		for (Entity opponent : opponents.values()) {
 			if (opponent.getVertex().equals(v)
 					&& opponent.getRole().equals(Percept.ROLE_UNKNOWN)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean hasActiveOpponentOnVertex(int v) {
-		for (Entity opponent : opponents.values()) {
-			if (opponent.getVertex().getId() == v
-					&& !opponent.getStatus().equals(Percept.STATUS_DISABLED)) {
 				return true;
 			}
 		}
@@ -591,17 +528,6 @@ public class WorldModel {
 		return false;
 	}
 
-	public boolean hasSaboteurOnVertex(Vertex v) {
-		for (Entity opponent : opponents.values()) {
-			if (opponent.getVertex().equals(v)
-					&& !opponent.getStatus().equals(Percept.STATUS_DISABLED)
-					&& opponent.getRole().equals("saboteur")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public String getOpponentName(int v) {
 		String opponentName = null;
 		for (Entity opponent : opponents.values()) {
@@ -622,18 +548,6 @@ public class WorldModel {
 			}
 		}
 		return opponentsOnVertex;
-	}
-
-	public String getOpponentName(Vertex v) {
-		String opponentName = null;
-		for (Entity opponent : opponents.values()) {
-			if (opponent.getVertex().equals(v)
-					&& !opponent.getStatus().equals(Percept.STATUS_DISABLED)) {
-				opponentName = opponent.getName();
-				return opponentName;
-			}
-		}
-		return opponentName;
 	}
 
 	public Vertex getCoworkerPosition(String agentName) {
@@ -680,33 +594,11 @@ public class WorldModel {
 		return agents;
 	}
 
-	public List<Entity> getActiveOpponentByRole(String role) {
-		List<Entity> agents = new ArrayList<Entity>();
-		for (Entity opponent : opponents.values()) {
-			if (opponent.getRole().toLowerCase().equals(role)
-					&& !opponent.getStatus().toLowerCase().equals(Percept.STATUS_DISABLED)) {
-				agents.add(opponent);
-			}
-		}
-		return agents;
-	}
-
 	public List<Entity> getUninspectedOpponents() {
 		List<Entity> agents = new ArrayList<Entity>();
 		for (Entity opponent : opponents.values()) {
 			if (opponent.getRole().equals(Percept.ROLE_UNKNOWN)) {
 				agents.add(opponent);
-			}
-		}
-		return agents;
-	}
-
-	public List<Entity> getCoworkersToOccupyZone() {
-		List<Entity> agents = new ArrayList<Entity>();
-		for (Entity e : coworkers.values()) {
-			if (e.getMission().equals("mOccupyZone1") || e.getMission().equals("mRepairZone1")
-					|| e.getMission().equals("mOccupyZone2") || e.getMission().equals("mRepairZone2")) {
-				agents.add(e);
 			}
 		}
 		return agents;
@@ -787,20 +679,6 @@ public class WorldModel {
 		Entity ag = null;
 		Vertex myVertex = agent.getVertex();
 		for (Entity e : agents) {
-			Vertex v = e.getVertex();
-			int dist = graph.getDistance(myVertex, v);
-			if (dist < minDist) {
-				ag = e;
-			}
-		}
-		return ag;
-	}
-
-	public Entity getCloserOpponent() {
-		int minDist = Integer.MAX_VALUE;
-		Entity ag = null;
-		Vertex myVertex = agent.getVertex();
-		for (Entity e : opponents.values()) {
 			Vertex v = e.getVertex();
 			int dist = graph.getDistance(myVertex, v);
 			if (dist < minDist) {
