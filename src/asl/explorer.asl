@@ -3,7 +3,7 @@
 /* Initial beliefs and rules */
 
 // conditions for goal selection
-is_probe_goal  				:- position(MyV) & not jia.is_probed_vertex(MyV) & role(explorer).
+is_probe_goal  				:- position(MyV) & not jia.is_probed_vertex(MyV).
 is_stop_explore_goal	:- jia.is_stop_explore_goal.
 
 /* Initial goals */

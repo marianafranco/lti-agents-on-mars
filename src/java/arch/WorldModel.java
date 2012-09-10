@@ -270,22 +270,6 @@ public class WorldModel {
 		return false;
 	}
 
-	public List<Vertex> getBestVertices() {
-		List<Vertex> bestVertices = new ArrayList<Vertex>();
-		int bestValue = -1;
-		Set<Vertex> vertices = (Set<Vertex>) graph.getVertices().values();
-		for (Vertex v : vertices) {
-			if (v.getValue() > bestValue) {
-				bestValue = v.getValue();
-				bestVertices.clear();
-				bestVertices.add(v);
-			} else if (v.getValue() == bestValue) {
-				bestVertices.add(v);
-			}
-		}
-		return bestVertices;
-	}
-
 	public List<Vertex> getBestZone() {
 		graph.removeVerticesColor();
 		// step 1: coloring vertices that have agents standing on them
