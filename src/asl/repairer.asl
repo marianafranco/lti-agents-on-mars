@@ -3,7 +3,7 @@
 /* Initial beliefs and rules */
 is_not_help_goal					:-	not_need_help(Ag).
 is_repair_goal						:-	need_help(Ag) & jia.agent_position(Ag,Pos) & position(Pos) & not jia.has_another_repairer.
-is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_neighbor_vertex(Pos) & not jia.has_another_repairer.
+is_wait_to_repair_goal		:- 	need_help(Ag) & jia.agent_position(Ag,Pos) & jia.is_neighbor_vertex(Pos) & not jia.has_another_repairer & not jia.has_repairer_at(Pos).
 
 /* Initial goals */
 

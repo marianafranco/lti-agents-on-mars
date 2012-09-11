@@ -528,6 +528,17 @@ public class WorldModel {
 		return false;
 	}
 
+	public boolean hasRepairerOnVertex(int v) {
+		for (Entity opponent : opponents.values()) {
+			if (opponent.getVertex().getId() == v
+					&& !opponent.getStatus().equals(Percept.STATUS_DISABLED)
+					&& opponent.getRole().equals("repairer")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public String getOpponentName(int v) {
 		String opponentName = null;
 		for (Entity opponent : opponents.values()) {
