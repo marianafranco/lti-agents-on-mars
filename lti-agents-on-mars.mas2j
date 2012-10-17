@@ -7,11 +7,11 @@
 MAS lti_agents_on_mars {
    infrastructure: Centralised
 
-   environment: env.MarsEnv("infrastructure","protocol(rmi)","service(rmi,'localhost:21000')","teamName(A)","usernamePrefix(a)")	// the environment is cartago
+   environment: env.MarsEnv("infrastructure","protocol(rmi)","service(rmi,'localhost:21000')","teamName(USP)","usernamePrefix(USP)")	// the environment is cartago
 
    agents:
-		marcian		#20
-					agentArchClass arch.MarcianArch		// agents have a customised architecture
+		martian		#20
+					agentArchClass arch.MartianArch		// agents have a customised architecture
 					beliefBaseClass jason.bb.IndexedBB("deadline(_)", "lastAction(_)", "lastActionParam(_)",
 					"lastActionResult(_)", "lastStepScore(_)", "money(_)", "role(_)", "score(_)", "step(_)",
 					"timestamp(_)", "visibleEdge(key,key)", "visibleEntity(key,_,_,_)",

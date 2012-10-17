@@ -95,7 +95,7 @@
 
 
 /* Plans to finish the simulation and start a new one */
-+simEnd[source(marcian1)]
++simEnd[source(martian1)]
 	<-	.drop_all_desires;
 			!remove_percepts;
 			//!add_available_roles;

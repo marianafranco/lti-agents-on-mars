@@ -11,7 +11,7 @@ import jason.asSyntax.Term;
 import java.util.List;
 
 import model.Entity;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -29,7 +29,7 @@ public class get_repairers extends DefaultInternalAction {
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
 		ListTerm repairers = new ListTermImpl();
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		List<Entity> agents = model.getCoworkersByRole("repairer");
 		for (Entity agent : agents) {
 			repairers.add(ASSyntax.createString(agent.getName()));

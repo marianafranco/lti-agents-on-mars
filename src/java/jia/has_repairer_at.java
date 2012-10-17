@@ -1,25 +1,25 @@
 package jia;
 
-import arch.MartianArch;
-import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
+import arch.MartianArch;
+import arch.WorldModel;
 
 /**
- * Returns true or false indicating if exists a coworker in the given position.
+ * Returns true or false indicating if exists another repairer in the given position.
  * </p>
- * Use: jia.has_coworker_at(+Pos);</br>
- * Where: Pos is the vertex to be checked.
- *  
+ * Use: jia.has_repairer_at(+P);</br>
+ * Where: P is the position.
+ * 
  * @author mafranko
  */
-public class has_coworker_at extends DefaultInternalAction {
+public class has_repairer_at extends DefaultInternalAction {
 
-	private static final long serialVersionUID = 2711797878816377722L;
+	private static final long serialVersionUID = 1586273788080285500L;
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
@@ -30,6 +30,6 @@ public class has_coworker_at extends DefaultInternalAction {
 		position = position.replace("vertex", "");
 		int pos = Integer.parseInt(position);
 		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
-		return model.hasActiveCoworkerOnVertex(pos);
+		return model.hasRepairerOnVertex(pos);
 	}
 }

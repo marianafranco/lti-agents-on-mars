@@ -1,4 +1,4 @@
-// Agent Marcian
+// Agent Martian
 
 // include role plans for agents
 { include("common.asl") }

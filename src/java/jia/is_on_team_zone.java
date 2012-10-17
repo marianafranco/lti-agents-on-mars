@@ -11,7 +11,7 @@ import java.util.List;
 import model.Entity;
 import model.graph.Graph;
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -28,7 +28,7 @@ public class is_on_team_zone extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Graph graph = model.getGraph();
 
 		Vertex myPosition = model.getMyVertex();

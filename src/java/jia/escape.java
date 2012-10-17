@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 import env.Percept;
 
@@ -28,7 +28,7 @@ public class escape  extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 
 		Vertex myPosition = model.getMyVertex();
 

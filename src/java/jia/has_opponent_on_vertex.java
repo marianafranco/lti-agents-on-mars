@@ -1,7 +1,7 @@
 package jia;
 
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
@@ -21,7 +21,7 @@ public class has_opponent_on_vertex extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Vertex myPosition = model.getMyVertex();
 		return model.hasActiveOpponentOnVertex(myPosition);
 	}

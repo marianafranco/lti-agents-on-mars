@@ -7,7 +7,7 @@ import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -28,7 +28,7 @@ public class agent_position extends DefaultInternalAction {
 		if (null == agentName) {
 			agentName = ((StringTerm) terms[0]).getString();
 		}
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Vertex v = model.getCoworkerPosition(agentName);
 		if (null == v) {
 			return un.unifies(terms[1], new Atom("null"));

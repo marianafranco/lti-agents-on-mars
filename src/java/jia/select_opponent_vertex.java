@@ -13,7 +13,7 @@ import model.Entity;
 import model.graph.Graph;
 import model.graph.Vertex;
 import model.graph.VertexComparator;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -30,7 +30,7 @@ public class select_opponent_vertex extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Graph graph = model.getGraph();
 		List<Vertex> zone = model.getBestOpponentZone();
 		if (null != zone && !zone.isEmpty()) {

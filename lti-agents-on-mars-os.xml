@@ -14,21 +14,21 @@
 
     <structural-specification>
         <role-definitions>
-            <role id="marcian" />
+            <role id="martian" />
             <role id="explorer">
-            	<extends role="marcian"/>
+            	<extends role="martian"/>
 			</role>
             <role id="inspector">
-            	<extends role="marcian"/>
+            	<extends role="martian"/>
 			</role>
             <role id="repairer">
-            	<extends role="marcian"/>
+            	<extends role="martian"/>
 			</role>
             <role id="saboteur">
-            	<extends role="marcian"/>
+            	<extends role="martian"/>
 			</role>
             <role id="sentinel">
-            	<extends role="marcian"/>
+            	<extends role="martian"/>
 			</role>
 			<role id="coordinator" />
         </role-definitions>
@@ -36,7 +36,7 @@
         <group-specification id="team" >
             <roles>
             	<!-- 
-            	<role id="marcian" min="0" max="20" />
+            	<role id="martian" min="0" max="20" />
                 <role id="explorer" min="0" max="20" />
                 <role id="inspector" min="0" max="20" />
                 <role id="repairer" min="0" max="20" />
@@ -47,9 +47,9 @@
             </roles>
 
             <links>
-                <link from="marcian" to="marcian" type="communication"
+                <link from="martian" to="martian" type="communication"
                       scope="intra-group" extends-subgroups="true" bi-dir="true"/>
-				<link from="coordinator" to="marcian" type="communication"
+				<link from="coordinator" to="martian" type="communication"
                       scope="intra-group" extends-subgroups="true" bi-dir="true"/>
             </links>
 

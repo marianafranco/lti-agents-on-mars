@@ -66,7 +66,7 @@ public class Entity {
 
 	public int getId() {
 		if (id == -1) {
-			String idString = name.replace("marcian", "");
+			String idString = name.replace("martian", "");
 			id = Integer.parseInt(idString);
 		}
 		return id;

@@ -23,7 +23,7 @@ import env.Percept;
  * 
  * @author mafranko
  */
-public class MarcianArch extends CAgentArch {
+public class MartianArch extends CAgentArch {
 
 	/**
 	 * The EIS environment.
@@ -37,9 +37,9 @@ public class MarcianArch extends CAgentArch {
 
 	private Logger logger;
 
-	public MarcianArch() {
+	public MartianArch() {
 		super();
-		logger = Logger.getLogger("MarcianArch");
+		logger = Logger.getLogger("MartianArch");
 		env = MarsEnv.getInstance();
 		model = new WorldModel(getAgName());
 	}

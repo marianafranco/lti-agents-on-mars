@@ -12,7 +12,7 @@ import env.Percept;
 
 import model.Entity;
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -29,7 +29,7 @@ public class get_opponent_name extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Vertex myPosition = model.getMyVertex();
 		List<Entity> opponents = model.getActiveOpponentsOnVertex(myPosition.getId());
 		if (opponents.isEmpty()) {

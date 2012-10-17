@@ -7,7 +7,7 @@ import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -36,7 +36,7 @@ public class is_at_target extends DefaultInternalAction {
 		vertex = vertex.replace("vertex", "");
 		int target = Integer.parseInt(vertex);
 
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Vertex myVertex = model.getMyVertex();
 
 		return myVertex.getId() == target;

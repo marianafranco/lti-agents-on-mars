@@ -2,25 +2,25 @@
 <interfaceConfig scenario="mars2012" host="localhost" port="12300" scheduling="no" times="no"
 notifications="no" timeout="5000" queued="yes" statisticsFile="no" statisticsShell="no">
   <entities>
-    <entity name="marcian1" username="a1" password="1" iilang="no" xml="no"/>
-    <entity name="marcian2" username="a2" password="1" iilang="no" xml="no"/>
-    <entity name="marcian3" username="a3" password="1" iilang="no" xml="no"/>
-    <entity name="marcian4" username="a4" password="1" iilang="no" xml="no"/>
-    <entity name="marcian5" username="a5" password="1" iilang="no" xml="no"/>
-    <entity name="marcian6" username="a6" password="1" iilang="no" xml="no"/>
-    <entity name="marcian7" username="a7" password="1" iilang="no" xml="no"/>
-    <entity name="marcian8" username="a8" password="1" iilang="no" xml="no"/>
-    <entity name="marcian9" username="a9" password="1" iilang="no" xml="no"/>
-    <entity name="marcian10" username="a10" password="1" iilang="no" xml="no"/>
-    <entity name="marcian11" username="a11" password="1" iilang="no" xml="no"/>
-    <entity name="marcian12" username="a12" password="1" iilang="no" xml="no"/>
-    <entity name="marcian13" username="a13" password="1" iilang="no" xml="no"/>
-    <entity name="marcian14" username="a14" password="1" iilang="no" xml="no"/>
-    <entity name="marcian15" username="a15" password="1" iilang="no" xml="no"/>
-    <entity name="marcian16" username="a16" password="1" iilang="no" xml="no"/>
-    <entity name="marcian17" username="a17" password="1" iilang="no" xml="no"/>
-    <entity name="marcian18" username="a18" password="1" iilang="no" xml="no"/>
-    <entity name="marcian19" username="a19" password="1" iilang="no" xml="no"/>
-    <entity name="marcian20" username="a20" password="1" iilang="no" xml="no"/>
+    <entity name="martian1" username="a1" password="1" iilang="no" xml="no"/>
+    <entity name="martian2" username="a2" password="1" iilang="no" xml="no"/>
+    <entity name="martian3" username="a3" password="1" iilang="no" xml="no"/>
+    <entity name="martian4" username="a4" password="1" iilang="no" xml="no"/>
+    <entity name="martian5" username="a5" password="1" iilang="no" xml="no"/>
+    <entity name="martian6" username="a6" password="1" iilang="no" xml="no"/>
+    <entity name="martian7" username="a7" password="1" iilang="no" xml="no"/>
+    <entity name="martian8" username="a8" password="1" iilang="no" xml="no"/>
+    <entity name="martian9" username="a9" password="1" iilang="no" xml="no"/>
+    <entity name="martian10" username="a10" password="1" iilang="no" xml="no"/>
+    <entity name="martian11" username="a11" password="1" iilang="no" xml="no"/>
+    <entity name="martian12" username="a12" password="1" iilang="no" xml="no"/>
+    <entity name="martian13" username="a13" password="1" iilang="no" xml="no"/>
+    <entity name="martian14" username="a14" password="1" iilang="no" xml="no"/>
+    <entity name="martian15" username="a15" password="1" iilang="no" xml="no"/>
+    <entity name="martian16" username="a16" password="1" iilang="no" xml="no"/>
+    <entity name="martian17" username="a17" password="1" iilang="no" xml="no"/>
+    <entity name="martian18" username="a18" password="1" iilang="no" xml="no"/>
+    <entity name="martian19" username="a19" password="1" iilang="no" xml="no"/>
+    <entity name="martian20" username="a20" password="1" iilang="no" xml="no"/>
   </entities>
 </interfaceConfig>

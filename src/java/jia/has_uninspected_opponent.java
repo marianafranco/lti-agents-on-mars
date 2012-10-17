@@ -1,6 +1,6 @@
 package jia;
 
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
@@ -20,7 +20,7 @@ public class has_uninspected_opponent extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		return model.hasUninspectedOpponent();
 	}
 

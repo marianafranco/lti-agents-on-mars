@@ -1,7 +1,7 @@
 package jia;
 
 import model.graph.Graph;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
@@ -33,7 +33,7 @@ public class least_visited_neighbor extends DefaultInternalAction {
 		vertex1 = vertex1.replace("vertex", "");
 		int v1 = Integer.parseInt(vertex1);
 
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Graph graph = model.getGraph();
 
 		int nextMove = graph.returnLeastVisitedNeighbor(v1);

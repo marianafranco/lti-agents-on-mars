@@ -15,7 +15,7 @@ import env.Percept;
 import model.Entity;
 import model.graph.Graph;
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -32,7 +32,7 @@ public class select_opponent_to_attack extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Graph graph = model.getGraph();
 		List<Vertex> zone = model.getBestOpponentZone();
 		if (null != zone && !zone.isEmpty()) {

@@ -1,7 +1,7 @@
 package jia;
 
 import model.graph.Graph;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
@@ -22,7 +22,7 @@ public class is_stop_explore_goal extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Graph graph = model.getGraph();
 		int maxNumOfVertices = graph.getMaxNumOfVertices();
 		int numOfVertices = graph.getVertices().size();

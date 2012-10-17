@@ -6,7 +6,7 @@ import jason.asSemantics.Unifier;
 import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -27,7 +27,7 @@ public class set_my_status extends DefaultInternalAction {
 		if (null == status) {
 			status = ((StringTerm) terms[0]).getString();
 		}
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		model.setAgentStatus(status);
 		return true;
 	}

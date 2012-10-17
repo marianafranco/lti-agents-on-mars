@@ -9,7 +9,7 @@ import java.util.List;
 
 import model.Entity;
 import model.graph.Vertex;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 import env.Percept;
 
@@ -26,7 +26,7 @@ public class has_another_repairer extends DefaultInternalAction {
 
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] terms) throws Exception {
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		Vertex myPosition = model.getMyVertex();
 
 		List<Entity> repairers = model.getCoworkersByRole("repairer");
@@ -41,8 +41,8 @@ public class has_another_repairer extends DefaultInternalAction {
 	}
 
 	private boolean compareIDs(String ag1, String ag2) {
-		String name1 = ag1.replace("marcian", "");
-		String name2 = ag2.replace("marcian", "");
+		String name1 = ag1.replace("martian", "");
+		String name2 = ag2.replace("martian", "");
 		int id1 = Integer.parseInt(name1);
 		int id2 = Integer.parseInt(name2);
 		if (id1 > id2) {

@@ -7,7 +7,7 @@ import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Atom;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
-import arch.MarcianArch;
+import arch.MartianArch;
 import arch.WorldModel;
 
 /**
@@ -30,7 +30,7 @@ public class has_unique_opponent_at extends DefaultInternalAction {
 		}
 		position = position.replace("vertex", "");
 		int pos = Integer.parseInt(position);
-		WorldModel model = ((MarcianArch) ts.getUserAgArch()).getModel();
+		WorldModel model = ((MartianArch) ts.getUserAgArch()).getModel();
 		if (model.hasUniqueActiveOpponentOnVertex(pos)) {
 			String opponentName = model.getOpponentName(pos);
 			return un.unifies(terms[1], ASSyntax.createString(opponentName));
