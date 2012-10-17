@@ -7,14 +7,14 @@
 \maketitle
 
 \begin{abstract}
-  Please follow the given template structure for your submission by
-  answering the questions as concisely as possible, not exceeding the
-  total of \textbf{4} pages. It is vital to explain in this submission
-  how are you using a multiagent approach.
 
-%   a \textit{description} of the system, the
-%   methodology/tools/infrastructure used and the (team) strategy that
-%   you plan to use in the contest.
+  This document describes the architecture and strategies adopted by the
+  LTI-USP team to participate in the 2012 edition of the Multi-Agent
+  Programming Contest (MAPC 2012). The team was developed using the
+  JaCaMo multi-agent framework and the main strategy was to divide
+  the agents into two groups: one to occupy the best zone in the map,
+  and other to sabotage the opponents.
+  
 
 \end{abstract}
 
@@ -35,7 +35,7 @@ invested (approximately) 200 hours. The LTI-USP team if formed by:
 \item Team members:
 	\begin{itemize}
 	\item Mariana Ramos Franco \footnote[1]{team's main-contact} - MSc. Student at University of S\~ao Paulo
-	\item Luciano Rosset - Undergraduate Student at University of S\~ao Paulo	
+	\item Luciano Menasce Rosset - Undergraduate Student at University of S\~ao Paulo	
 	\end{itemize}
 \item Supervisor:
 	\begin{itemize}
@@ -47,41 +47,71 @@ invested (approximately) 200 hours. The LTI-USP team if formed by:
 
 \section*{System Analysis and Design}
 
-\begin{enumerate}
-  %\item How is your system  specified and designed?
-  \item Briefly, what is the main strategy of the team?
-  \item Will you use any existing multi-agent system
-  methodology such as Prometheus, O-MaSE, or Tropos?
- \item Do you plan to distribute your agents on several machines?
- \item Is your solution based on the centralisation of
-   coordination/information on a specific agent? Conversely if you
-   plan a decentralised solution, which strategy do you plan to use?
-\item Describe the communication strategy in the agent team. Can you
-   estimate the communication complexity in your approach?
- \item Describe the team coordination strategy (if any)
- \item How are the following agent features implemented:
-   \emph{autonomy}, \emph{proactiveness}, \emph{reactiveness}?
-% Is your system a truly \textbf{multi}-agent system or
-%   rather a centralised system in disguise?
-\end{enumerate}
+The team's main strategy is to divide the agents into two group: one in charge of
+occupying the best zone in the map, and the other one in charge of sabotaging the
+opponents. We're also studying the possibility of subdivide the first group in two,
+so that we can occupy two different zones in the map.
 
+In our team, agents can communicate with each other to:
+\begin{itemize}
+\item tell his position, role and status;
+\item tell about new visible vertices and edges;
+\item inform the opponent's position;
+\item inform the value of new probed vertices;
+\item ask the other agents to go to a determined vertex.
+\end{itemize}
+ 
+There is a strong exchange of information between the agents in the beginning of the
+match due to the broadcast of new percepts - vertices, edges, probed vertices and surveyed edges.
+However, the communication between the agents decreases as the agent's world model starts
+to be more complete.
+
+The adopted solution is based on the centralisation of coordination, that is, one agent
+is responsible for determining which is the best zone in the map, and then conduct the
+other agents to occupy this zone.
+
+The best zone is obtained by calculating for each vertex the sum of its value with the value
+of all direct and second degree neighbours. The vertex with the greatest sum of values is the
+center of the best zone.
+
+The coordination algorithm works as following: all agents, apart those from the sabotage group,
+are asked to go occupy an empty vertex of the known best zone at time. When
+all agents are in the best zone, the algorithm starts to look to the neighbour vertices of the
+team's zone in which a agent can move to increase the zone's value.
+
+Each agent has its own beliefs, desires, intentions and control thread. Each agent is autonomous
+to decides by itself its next action.
+
+In each step, the agent must decide which plan will be executed given the state of the environment
+captured in its world model. The plan's priority is determined by the order in which the plans were
+declared, and the executed plan will be the first one to has its conditions satisfied.
+
+For this year's contest we do not intend to distribute the agents in several machines but
+is our intention to work after the tournament on a distributed team.
+
+We did not use any existing multi-agent system methodology.
 
 
 \section*{Software Architecture}
 
-\begin{enumerate}
-\item Which programming language do you plan to use to implement the
-  multi-agent system? (e.g. 2APL, Jason, Jadex, JIAC, Java, ...)
-% \item How would you map the designed architecture (both multi-agent
-%   and individual agent architectures) to programming codes, i.e., how
-%   would you implement specific agent-oriented concepts and designed
-%   artifacts using the programming language?
-\item Which development platform and tools are you planning to use?
-\item Which runtime platform and tools are you planning to use?
-  (e.g. Jade, AgentScape, simply Java, ....)
-\item Which algorithms will be used?
-\end{enumerate}
-Please explain the reasons for your answers.
+Out team was developed using the JaCaMo\footnote[2]{http://jacamo.sourceforge.net/}
+framework which is a combination of: Jason\footnote[3]{http://jason.sourceforge.net/wp/},
+for programming autonomous agents; Cartago\footnote[4]{http://cartago.sourceforge.net/}, for
+programming environment artifacts; and Moise\footnote[5]{http://moise.sourceforge.net/}, for
+programming multi-agent organisations.
+ 
+The Java programming language was used to handle the communication to the server, the geometric
+problems - as find the best zone in the map - and the world modeling.
+
+The organization structure was defined through Moise; and the core of the system, the agents
+decision mechanism, was programmed using Jason.
+
+The development platform was the Eclipse IDE\footnote[6]{http://www.eclipse.org/}, and the JRE 1.6
+was the runtime platform.
+
+We used the breadth-first search and the Dijkstra's algorithms to find the minimum path - regarding
+respectively the number of edges or the energy cost - between two vertices in the graph.
+
 
 \end{document}
 
